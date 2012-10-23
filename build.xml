@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<project name="StressYourself" default="build">
+    
+    <property name="src.dir.project" value="StressYourself/src" />
+    <property name="src.dir.modules" value="StressYourselfModules/src" />
+    <property name="bin.dir.project" value="StressYourself/target/classes" /> 
+    <property name="bin.dir.modules" value="StressYourselfModules/target/classes" />    
+    <property name="dist.dir.project" value="StressYourself/target" />
+    <property name="dist.dir.modules" value="StressYourselfModules/target" />
+    <property name="jar.name.project" value="stress_yourself.jar" />
+    <property name="jar.name.modules" value="stress_yourself_modules.jar" />
+    
+    
+    <target name="test">
+    </target>
+    
+    <target name="cleanProject">
+        <delete dir="${bin.dir.project}" />
+        <delete dir="${dist.dir.project}" />
+    </target>
+    
+    <target name="cleanModules">
+        <delete dir="${bin.dir.modules}" />
+        <delete dir="${dist.dir.modules}" />
+    </target>
+    
+    <target name="compileProject">
+        <mkdir dir="${bin.dir.project}" />
+        <javac srcdir="${src.dir.project}" destdir="${bin.dir.project}" />
+    </target>
+    
+    <target name="compileModules">
+        <mkdir dir="${bin.dir.modules}" />
+        <javac srcdir="${src.dir.modules}" destdir="${bin.dir.modules}" />
+    </target>
+    
+    <target name="buildProject" depends="compileProject">
+        <mkdir dir="${dist.dir.project}" />
+        
+        <tstamp>
+            <format property="buildDate" pattern="yyyy-MM-dd" />
+            <format property="buildTime" pattern="HH:mm:ss" />
+        </tstamp>
+        
+        <jar destfile="${dist.dir.project}/${jar.name.project}" manifest="MANIFEST.MF">
+            <fileset dir="${bin.dir.project}" />
+            
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+                <attribute name="Built-Date" value="${buildDate}" />
+                <attribute name="Built-Time" value="${buildTime}" />
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="buildModules" depends="compileModules">
+        <mkdir dir="${dist.dir.modules}" />
+        
+        <tstamp>
+            <format property="buildDate" pattern="yyyy-MM-dd" />
+            <format property="buildTime" pattern="HH:mm:ss" />
+        </tstamp>
+        
+        <jar destfile="${dist.dir.modules}/${jar.name.modules}" manifest="MANIFEST.MF">
+            <fileset dir="${bin.dir.modules}" />
+            
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+                <attribute name="Built-Date" value="${buildDate}" />
+                <attribute name="Built-Time" value="${buildTime}" />
+            </manifest>
+        </jar>
+    </target>
+</project>
