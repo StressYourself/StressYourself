@@ -1,1 +1,1 @@
-## StressYourself[![Build Status](https://secure.travis-ci.org/StressYourself/StressYourself.png)](http://travis-ci.org/StressYourself/StressYourself)####Project still in Progress!
+## StressYourself[![Build Status](https://secure.travis-ci.org/StressYourself/StressYourself.png)](http://travis-ci.org/StressYourself/StressYourself)####Project still in Progress!# Branches1. Create branch git branch yourbranchhere2. Checkout branch git checkout yourbranchere3. Push to branch git push origin yourbranchere
