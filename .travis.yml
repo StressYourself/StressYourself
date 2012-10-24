@@ -1,4 +1,7 @@
 language: java
+branches:
+  only:
+   - master
 jdk:
    - oraclejdk7
 script: ant cleanModules; ant compileModules; ant buildModules; ant cleanProject; ant compileProject; ant buildProject

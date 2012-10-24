@@ -1,4 +1,3 @@
-// test
 package de.dhbw.stress_yourself;
 
 import java.util.HashMap;
@@ -43,7 +42,7 @@ public final class Parameter {
     
     // some private functions for the implementation
 
-    // Wichtig: Methoden, die auf instanz-Variablen zugreifen müssen mit entsprechenden Mitteln
+    // Wichtig: Methoden, die auf instanz-Variablen zugreifen mssen mit entsprechenden Mitteln
     // synchronisiert werden, da es das Singleton nur 1x gibt und somit die Variablen automatisch global sind
     // und von mehreren Threads gleichzeitig darauf zugegriffen werden kann.
 
