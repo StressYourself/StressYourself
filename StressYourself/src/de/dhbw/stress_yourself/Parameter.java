@@ -1,6 +1,5 @@
 ﻿package de.dhbw.stress_yourself;
 
-
 import java.util.HashMap;
 
 public final class Parameter {

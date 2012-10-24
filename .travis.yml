@@ -6,11 +6,11 @@ notifications:
    email:
       recipients:
          - tobias.roeding@gmail.com
-         - chr.schollmeyer@web.de
-         - lukas.buchert@gmx.de
-         - marko.motika@gmx.de
-         - moritz.herbert@gmx.de
-         - florian-albert@gmx.de
-         - philipp_willems@web.de
+#         - chr.schollmeyer@web.de
+#         - lukas.buchert@gmx.de
+#         - marko.motika@gmx.de
+#         - moritz.herbert@gmx.de
+#         - florian-albert@gmx.de
+#         - philipp_willems@web.de
       on_success: change # [always|never|change] # default: change
       on_failure: change # [always|never|change] # default: always
