@@ -2,6 +2,8 @@ package de.dhbw.stress_yourself.extend;
 
 import javax.swing.JPanel;
 
+//Test
+
 public abstract class ModuleClass {
 	
 	public abstract void sendResult();
