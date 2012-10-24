@@ -1,0 +1,10 @@
+language: java
+jdk:
+   - oraclejdk7
+script: ant cleanModules; ant compileModules; ant buildModules; ant cleanProject; ant compileProject; ant buildProject
+notifications:
+   email:
+      recipients:
+         - tobias.roeding@gmail.com
+      on_success: change # [always|never|change] # default: change
+      on_failure: change # [always|never|change] # default: always
