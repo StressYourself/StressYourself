@@ -26,12 +26,12 @@
     
     <target name="compileProject">
         <mkdir dir="${bin.dir.project}" />
-        <javac srcdir="${src.dir.project}" destdir="${bin.dir.project}" />
+        <javac srcdir="${src.dir.project}" destdir="${bin.dir.project}" encoding="utf-8" />
     </target>
     
     <target name="compileModules">
         <mkdir dir="${bin.dir.modules}" />
-        <javac srcdir="${src.dir.modules}" destdir="${bin.dir.modules}" />
+        <javac srcdir="${src.dir.modules}" destdir="${bin.dir.modules}" encoding="utf-8" />
     </target>
     
     <target name="buildProject" depends="compileProject">
