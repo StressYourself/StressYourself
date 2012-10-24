@@ -1,4 +1,4 @@
-﻿// test
+// test
 package de.dhbw.stress_yourself;
 
 import java.util.HashMap;
