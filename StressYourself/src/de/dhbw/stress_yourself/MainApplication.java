@@ -47,15 +47,15 @@ public class MainApplication {
 
 		// Parameter params = Parameter.getInstance();
 
-		URL url = loadJar(pathToJar);
+		URL url = getURL(pathToJar);
 		List<String> classes = getModuleNames();
-		Class<?> clazz = loadModule(url, classes.get(0));
+		Class<?> clazz = getModuleClass(url, classes.get(0));
 		int difficulty = 0;
 		String time = "";
 		startModule(clazz, difficulty, time);
 	}
 
-	public URL loadJar(String path) {
+	public URL getURL(String path) {
 		URL url = null;
 		try {
 			url = new File(path).toURI().toURL();
@@ -65,7 +65,7 @@ public class MainApplication {
 		return url;
 	}
 
-	public Class<?> loadModule(URL url, String name) {
+	public Class<?> getModuleClass(URL url, String name) {
 		URLClassLoader urlcl = null;
 		urlcl = URLClassLoader.newInstance(new URL[] { url });
 
@@ -86,9 +86,9 @@ public class MainApplication {
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
 		Method getJPanel = null;
 		try {
-			getJPanel = clazz.getMethod("getModuleJPanel", (Class<?>) null);
+			getJPanel = clazz.getMethod("getModuleJPanel");
 		} catch (NoSuchMethodException | SecurityException e) {
-			System.err.println("Couldn't find the getModuleJPanle Method " + e);
+			System.err.println("Couldn't find the getModuleJPanel Method " + e);
 		}
 
 		Object o = null;
@@ -100,13 +100,14 @@ public class MainApplication {
 
 		JPanel panel = null;
 		try {
-			panel = (JPanel) getJPanel.invoke(o, (Object) null);
+			panel = (JPanel) getJPanel.invoke(o);
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			System.err
-					.println("Couldn't get JPanle from getModuleJPanel method "
+					.println("Couldn't get JPanel from getModuleJPanel method "
 							+ e);
 		}
+		
 		frame.add(panel);
 		return true;
 	}
