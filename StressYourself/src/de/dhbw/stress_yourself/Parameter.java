@@ -1,44 +1,35 @@
 package de.dhbw.stress_yourself;
 
-
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public final class Parameter {
 
-	
-
 	public Parameter() {
-	
+
 	}
-	
-	private static final String filename = "config/userdata.xml";
+
 	private final String pathToJar = "../stress_yourself_modules.jar";
 	private final String packageName = "de.dhbw.stress_yourself.modules";
 	private String parameters[][];
-	//private static LinkedList<User> users = new LinkedList<User>();
-
 	private HashMap<String[], Float> result;
 	private int difficulty;
-	
+
 	private String[][] existingModules;
 	private static boolean started = false;
 
 	/*
-	 * existingModules i[n] modul elementes j[0] modulname j[1]
-	 * URL j[2] area
+	 * existingModules i[n] modul elementes j[0] modulname j[1] URL j[2] area
 	 */
 	// public getter and setter
-	
-	
-	public String getPathToJar(){
+
+	public String getPathToJar() {
 		return pathToJar;
 	}
-	
-	public String getPackageName(){
+
+	public String getPackageName() {
 		return packageName;
 	}
-	
+
 	/**
 	 * 
 	 * @return parameters i[n] sequence of modules, in j[0] module name, in j[1]
@@ -71,8 +62,6 @@ public final class Parameter {
 		return false;
 	}
 
-	
-
 	// methodes for set and get result
 
 	public void saveResult(String moduleName, String area, Float percent) {
@@ -89,5 +78,5 @@ public final class Parameter {
 	}
 
 	// some private functions for the implementation
-	
+
 }

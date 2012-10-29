@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class Reflection {	
-	
+public class Reflection {
+
 	/**
 	 * Converts a string path into an URL
 	 * 
@@ -32,19 +32,18 @@ public class Reflection {
 		}
 		return url;
 	}
-	
-	
+
 	/**
 	 * Returns all class names in a given package as List
 	 * 
 	 * @param pathToJar
-	 * 			Path to the jar
+	 *            Path to the jar
 	 * @param packageName
-	 * 			Package name the searched classes are in
-	 * @return List<String>
-	 * 			List with all class names
+	 *            Package name the searched classes are in
+	 * @return List<String> List with all class names
 	 */
-	public static List<String> getClassNames(String pathToJar, String packageName) {
+	public static List<String> getClassNames(String pathToJar,
+			String packageName) {
 		List<String> classes = null;
 		try {
 			classes = Reflection.getClassesFromJar(pathToJar, packageName);
@@ -59,11 +58,10 @@ public class Reflection {
 	 * Get all methods of a spezified class
 	 * 
 	 * @param clazz
-	 * 			Class to search for methods
-	 * @return HashMap<String,Method>
-	 * 			A HashMap with the name and the function
+	 *            Class to search for methods
+	 * @return HashMap<String,Method> A HashMap with the name and the function
 	 */
-	public static HashMap<String,Method> getClassMethods(Class<?> clazz){
+	public static HashMap<String, Method> getClassMethods(Class<?> clazz) {
 		Method[] methodsArray = clazz.getMethods();
 		HashMap<String, Method> methodsMap = new HashMap<String, Method>();
 
@@ -98,7 +96,7 @@ public class Reflection {
 
 		return clazz;
 	}
-	
+
 	/**
 	 * Runs the specified Method in the context of the specified Object and with
 	 * the parameter which were given.
@@ -124,7 +122,7 @@ public class Reflection {
 
 		return result;
 	}
-	
+
 	/**
 	 * Scans all classes accessible from the jar file which belong to the given
 	 * package.
@@ -135,7 +133,8 @@ public class Reflection {
 	 *            The base package
 	 * @return The names of the classes as LinkedList
 	 */
-	public static List<String> getClassesFromJar(String pathToJar, String packageName) {
+	public static List<String> getClassesFromJar(String pathToJar,
+			String packageName) {
 		List<String> classes = new LinkedList<String>();
 		JarFile jf = null;
 
