@@ -42,6 +42,8 @@ public final class Parameter {
 	
 
 	private static final String filename = "config/userdata.xml";
+	private final String pathToJar = "../stress_yourself_modules.jar";
+	private final String packageName = "de.dhbw.stress_yourself.modules";
 	private String parameters[][];
 	private static LinkedList<User> users = new LinkedList<User>();
 	private HashMap<String[], Float> result;
@@ -55,6 +57,16 @@ public final class Parameter {
 	 * URL j[2] area
 	 */
 	// public getter and setter
+	
+	
+	public String getPathToJar(){
+		return pathToJar;
+	}
+	
+	public String getPackageName(){
+		return packageName;
+	}
+	
 	/**
 	 * 
 	 * @return parameters i[n] sequence of modules, in j[0] module name, in j[1]
@@ -66,7 +78,7 @@ public final class Parameter {
 
 	/**
 	 * 
-	 * @return difficulty 0-"Einsteiger" 1-"Fortgeschrittener" 2-"Experte"
+	 * @return difficulty 0-"Beginner" 1-"Intermediate" 2-"Expert"
 	 */
 	public int getDifficulty() {
 		return difficulty;
@@ -78,7 +90,7 @@ public final class Parameter {
 	 *            i[n] sequence of modules, in j[0] module name, in j[1] time in
 	 *            seconds
 	 * @param difficulty
-	 *            0-"Einsteiger" 1-"Fortgeschrittener" 2-"Experte"
+	 *            0-"Beginner" 1-"Intermediate" 2-"Expert"
 	 * @return
 	 */
 	public boolean setConfig(String[][] parameters, int difficulty) {
@@ -204,7 +216,6 @@ public final class Parameter {
 	// methodes for set and get result
 
 	public void saveResult(String moduleName, String area, Float percent) {
-		// Speichert für jedes ausgeführte Modul einen Prozentwert
 		String[] tmpArray = { moduleName, area };
 		result.put(tmpArray, percent);
 	}

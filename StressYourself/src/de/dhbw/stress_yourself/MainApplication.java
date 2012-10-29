@@ -3,6 +3,7 @@ package de.dhbw.stress_yourself;
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -20,9 +21,8 @@ import javax.swing.JPanel;
 public class MainApplication {
 
 	private JFrame frame;
-
-	public final String pathToJar = "../stress_yourself_modules.jar";
-	public final String packageName = "de.dhbw.stress_yourself.modules";
+	
+	private Parameter params;
 	
 	//private Class<?> rClass = null;
 	//private HashMap<String,Method> rMethodsMap = null;
@@ -49,9 +49,9 @@ public class MainApplication {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// Parameter params = Parameter.getInstance();
+		params = Parameter.getInstance();
 
-		URL url = getURL(pathToJar);
+		URL url = getURL(params.getPathToJar());
 		List<String> classes = getModuleNames();
 		Class<?> clazz = getModuleClass(url, classes.get(0));
 		System.out.println(clazz.getName());
@@ -121,11 +121,19 @@ public class MainApplication {
 
 		sendResult = methodsMap.get("sendResult");
 
+
 		Object o = null;
+		Constructor<?> cons = null;
 		try {
-			o = clazz.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			System.err.println("Couldn't create Object " + e);
+			cons = clazz.getConstructor(new Class[]{Object.class});
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.err.println("Couldn't get the Constructor " +e);
+		}
+		try {
+			o = cons.newInstance(this);
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			System.err.println("Couldn't the object from the module " +e);
 		}
 		runningModuleObject = o;
 
@@ -137,14 +145,6 @@ public class MainApplication {
 			panel = (JPanel) runMethod(methodsMap.get("getModuleJPanel"), o,
 					(Object[]) null);
 			frame.add(panel);
-		}
-		
-		if(methodsMap.containsKey("transferObject")){
-			boolean result = false;
-			result = (boolean) runMethod(methodsMap.get("transferObject"), o, (Object[]) null);
-			if(!result){
-				System.err.println("Couldn't transfer Object to Module");
-			}
 		}
 		
 		System.out.println("Duration in ms: "
@@ -163,9 +163,14 @@ public class MainApplication {
 		}
 		*/
 		
-		runMethod(sendResult, o, (Object[]) null);
+		
 
 		return true;
+	}
+	
+	public void isFinished(){
+		System.out.println("finished");
+		runMethod(sendResult, runningModuleObject, (Object[]) null);
 	}
 
 	/**
@@ -197,7 +202,7 @@ public class MainApplication {
 	public List<String> getModuleNames() {
 		List<String> classes = null;
 		try {
-			classes = getClassesFromJar(pathToJar, packageName);
+			classes = getClassesFromJar(params.getPathToJar(), params.getPackageName());
 		} catch (Exception e) {
 			System.err.println("Couldn't get the classes from the jar File "
 					+ e);
