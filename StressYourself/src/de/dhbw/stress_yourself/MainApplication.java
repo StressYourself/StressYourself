@@ -15,7 +15,7 @@ public class MainApplication {
 	private JFrame frame;
 	
 	private Parameter params;
-	
+
 	private Class<?> runningModuleClass = null;
 	private HashMap<String,Method> runningModuleMethodsMap = null;
 
@@ -41,7 +41,7 @@ public class MainApplication {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		params = Parameter.getInstance();
+		params = new Parameter();
 
 		URL url = Reflection.getURL(params.getPathToJar());
 		List<String> classes = Reflection.getClassNames(params.getPathToJar(),params.getPackageName());
@@ -68,8 +68,9 @@ public class MainApplication {
 
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
 		HashMap<String, Method> methodsMap = Reflection.getClassMethods(clazz);
-
+		
 		sendResult = methodsMap.get("sendResult");
+
 
 		Object o = null;
 		Constructor<?> cons = null;
@@ -93,7 +94,7 @@ public class MainApplication {
 					(Object[]) null);
 			frame.add(panel);
 		}
-		
+
 		return true;
 	}
 	
