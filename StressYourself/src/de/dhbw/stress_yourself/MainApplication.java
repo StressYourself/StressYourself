@@ -23,6 +23,9 @@ public class MainApplication {
 
 	public final String pathToJar = "../stress_yourself_modules.jar";
 	public final String packageName = "de.dhbw.stress_yourself.modules";
+	
+	//private Class<?> rClass = null;
+	//private HashMap<String,Method> rMethodsMap = null;
 
 	public MainApplication() {
 		initialize();
@@ -135,8 +138,32 @@ public class MainApplication {
 					(Object[]) null);
 			frame.add(panel);
 		}
+		
+		if(methodsMap.containsKey("transferObject")){
+			boolean result = false;
+			result = (boolean) runMethod(methodsMap.get("transferObject"), o, (Object[]) null);
+			if(!result){
+				System.err.println("Couldn't transfer Object to Module");
+			}
+		}
+		
 		System.out.println("Duration in ms: "
 				+ (System.currentTimeMillis() - start));
+		
+		Runnable runObject = (Runnable) o;
+		Thread test = new Thread(runObject);
+		test.start();
+		
+		/*
+		try {
+			test.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		
+		runMethod(sendResult, o, (Object[]) null);
 
 		return true;
 	}
