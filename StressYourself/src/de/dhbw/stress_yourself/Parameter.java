@@ -1,4 +1,4 @@
-// test
+
 package de.dhbw.stress_yourself;
 
 import java.io.File;
@@ -40,7 +40,7 @@ public final class Parameter {
 	}
 
 	// variables of the singleton, private and not static
-	// deutsche Kommentare können werden im späteren Verlauf wieder gelöscht
+	
 
 	private static final String filename = "userdata.xml";
 	private String parameters[][];
@@ -52,13 +52,10 @@ public final class Parameter {
 	private static boolean started = false;
 
 	/*
-	 * geplanter Aufbau existingModules i[n] Modulelemente j[0] Modulname j[1]
-	 * URL j[2] Bereich (Area), wenn die Übergabe hier noch nicht möglich, dann
-	 * bei Parametern + Ergebnis Bereich wird für die Ausgabe und Auswertung
-	 * benötigt
+	 * existingModules i[n] modul elementes j[0] modulname j[1]
+	 * URL j[2] area
 	 */
 	// public getter and setter
-	// Methoden für die Parameterein und Ausgabe
 	/**
 	 * 
 	 * @return parameters i[n] sequence of modules, in j[0] module name, in j[1]
@@ -99,7 +96,7 @@ public final class Parameter {
 		this.currentUser = currentUser;
 	}
 
-	// Methoden für die Schnittstelle zur XML Userdaten
+	// methods interface XML userdata
 
 	/**
 	 * 
@@ -162,7 +159,7 @@ public final class Parameter {
 	}
 
 	public boolean deleteUser(String username) {
-		// Enstscheidung: der aktuelle User darf sich nicht selbst loeschen
+		// userer couldn't delete himself
 		boolean back = false;
 		if (username != currentUser) {
 
@@ -205,7 +202,7 @@ public final class Parameter {
 
 	}
 
-	// Methoden für die Ergebnisein - und Ausgabe
+	// methodes for set and get result
 
 	public void saveResult(String moduleName, String area, Float percent) {
 		// Speichert für jedes ausgeführte Modul einen Prozentwert
@@ -262,8 +259,7 @@ public final class Parameter {
 		}
 	}
 
-	// Methoden zur Schnittstelle XML sind modular gehalten, können im späteren
-	// Verlauf durch andere Methode ausgewechselt werden
+	// methods for Interface XML 
 	private synchronized void resetXML() {
 		try {
 			SAXBuilder builder = new SAXBuilder();
@@ -338,10 +334,6 @@ public final class Parameter {
 
 	}
 
-	// Wichtig: Methoden, die auf instanz-Variablen zugreifen mÃ¼ssen mit
-	// entsprechenden Mitteln
-	// synchronisiert werden, da es das Singleton nur 1x gibt und somit die
-	// Variablen automatisch global sind
-	// und von mehreren Threads gleichzeitig darauf zugegriffen werden kann.
+	
 
 }
