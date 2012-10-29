@@ -18,10 +18,19 @@ import javax.swing.JTextPane;
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
 public class TestModule extends ModuleClass implements Runnable {
+	
+	
+	public static final String moduleName = "TestModule";
+	public static final String moduleArea = "Algorithm";
+	public static final String moduleDescription = "Example Description";
 
 	private int result = 0;
 
 	private Object mainClass = null;
+	
+	public TestModule(Object o){
+		mainClass = o;
+	}
 
 	public JPanel getModuleJPanel() {
 		JPanel panel = new JPanel();
@@ -59,6 +68,7 @@ public class TestModule extends ModuleClass implements Runnable {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				result = 5;
+				tellFinished();
 
 			}
 		});
@@ -116,14 +126,5 @@ public class TestModule extends ModuleClass implements Runnable {
 			e.printStackTrace();
 		}
 
-	}
-
-	public boolean transferObject(Object o) {
-		mainClass = o;
-		if (mainClass != null) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }
