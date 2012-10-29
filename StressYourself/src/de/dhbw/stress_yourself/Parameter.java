@@ -1,4 +1,3 @@
-
 package de.dhbw.stress_yourself;
 
 import java.io.File;
