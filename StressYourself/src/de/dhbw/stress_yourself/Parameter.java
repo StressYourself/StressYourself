@@ -41,7 +41,7 @@ public final class Parameter {
 	// variables of the singleton, private and not static
 	
 
-	private static final String filename = "userdata.xml";
+	private static final String filename = "config/userdata.xml";
 	private String parameters[][];
 	private static LinkedList<User> users = new LinkedList<User>();
 	private HashMap<String[], Float> result;
