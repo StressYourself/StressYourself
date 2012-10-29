@@ -3,7 +3,7 @@ package de.dhbw.stress_yourself;
 import java.util.HashMap;
 
 public final class Parameter {
-	 
+	
 	/** private class attribute, only instance of the class is created. */
     private static final Parameter INSTANCE = new Parameter();
 
@@ -15,7 +15,8 @@ public final class Parameter {
         return INSTANCE;
     }
     
-    // variables of the singleton, private and not static    
+    // variables of the singleton, private and not static   
+    // test comment
     
 	private String parameters[][];
     private String users[][];
