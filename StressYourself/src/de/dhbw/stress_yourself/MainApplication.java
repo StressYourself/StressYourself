@@ -16,8 +16,8 @@ public class MainApplication {
 	
 	private Parameter params;
 	
-	//private Class<?> rClass = null;
-	//private HashMap<String,Method> rMethodsMap = null;
+	private Class<?> runningModuleClass = null;
+	private HashMap<String,Method> runningModuleMethodsMap = null;
 
 	public MainApplication() {
 		initialize();
@@ -61,11 +61,15 @@ public class MainApplication {
 
 	Object runningModuleObject = null;
 	Method sendResult = null;
+	
+	public boolean loadModule(){
+		return true;
+	}
 
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
 		HashMap<String, Method> methodsMap = Reflection.getClassMethods(clazz);
-		sendResult = methodsMap.get("sendResult");
 
+		sendResult = methodsMap.get("sendResult");
 
 		Object o = null;
 		Constructor<?> cons = null;
@@ -80,9 +84,7 @@ public class MainApplication {
 				| IllegalArgumentException | InvocationTargetException e) {
 			System.err.println("Couldn't the object from the module " +e);
 		}
-		runningModuleObject = o;
-
-		long start = System.currentTimeMillis();
+		runningModuleObject = o;	
 
 		if (methodsMap.containsKey("getModuleJPanel")) {
 			JPanel panel = null;
@@ -92,23 +94,6 @@ public class MainApplication {
 			frame.add(panel);
 		}
 		
-		System.out.println("Duration in ms: "
-				+ (System.currentTimeMillis() - start));
-		
-		Runnable runObject = (Runnable) o;
-		Thread test = new Thread(runObject);
-		test.start();
-		
-		/*
-		try {
-			test.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		*/
-		
-		
-
 		return true;
 	}
 	
