@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.event.*;
 
 public class MainApplication {
 
@@ -22,10 +24,21 @@ public class MainApplication {
 	private URL url = null;
 	private LinkedList<String> classes = null;
 	private JPanel panel = null;
-
+	
+	////////////////      vom Flo
+	private JButton knopf = new JButton("lala");
+	private ActionListener a = new ActionListener(){public void actionPerformed(ActionEvent e){
+		Admin admin = new Admin();
+		JPanel aPanel = admin.loadAdminGUI();
+		aPanel.setVisible(true);
+	};};
+	//////////////       bis hier
+	
+	
 	int index = 0;
 
 	public MainApplication() {
+		
 		initialize();
 	}
 
@@ -62,6 +75,12 @@ public class MainApplication {
 					runningModuleMethodsMap.get("getModuleJPanel"), runningModuleObject,
 					(Object[]) null);
 			frame.add(panel);
+			////////////    vom Flo
+			knopf.setSize(10, 10);
+			knopf.setLocation(5, 5);
+			knopf.addActionListener(a);
+			panel.add(knopf);
+			///////////    bis hier
 		}
 
 		return true;
