@@ -39,6 +39,10 @@ public class Admin {
 	 */
 	public boolean createUser(String username, String password, String type) {
 		//rufe saveUser() aus UserData auf
+		
+		
+		// fragen ob linkedlist von usern static sein kann
+		// damit ich ein objekt erzeugen kann und in selbe liste schreibe
 		return false;
 	}
 	
@@ -51,6 +55,9 @@ public class Admin {
 	 */
 	public boolean deleteUser(String username) {
 		// rufe deleteUser() aus UserData auf
+		
+		
+		//siehe createUser()
 		return false;
 	}
 	
@@ -64,6 +71,8 @@ public class Admin {
 	 */
 	public boolean changePassword(String username, String newpassword) {
 		// changePassword(username, password) aus UserData
+		
+		// siehe createUser()
 		return false;
 	}
 	
