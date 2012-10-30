@@ -1,31 +1,39 @@
 package de.dhbw.stress_yourself;
 
-import java.io.File;
-import javax.xml.parsers.*;
-import org.w3c.dom.Document;
+
+import javax.swing.*;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
+//Beschreibung bei Modulen anzeigen?? Tooltip?
+//bekomme 2 LinkedLists von Userdata mit 
+
+
 
 public class Admin {
+	
+	public static JPanel aPanel = new JPanel();
 
-	public boolean loadAdminGUI() {
-		int TEST = 2;
-		return false;
+	public JPanel loadAdminGUI() {
+		aPanel.setBounds(10, 25, 500, 350);
+		return aPanel;
 	}
 
-	public boolean createUser(String username, String password) {
+	public boolean createUser(String username, String password, String type) {
+		//rufe saveUser() aus UserData auf
 		return false;
 	}
 
 	public boolean deleteUser(String username) {
+		// rufe deleteUser() aus UserData auf
 		return false;
 	}
 
 	public boolean changePassword(String username, String newpassword) {
+		// changePassword(username, password) aus UserData
 		return false;
 	}
 	
