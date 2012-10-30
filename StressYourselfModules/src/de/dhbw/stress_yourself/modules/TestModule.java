@@ -6,8 +6,9 @@ import javax.swing.JTextPane;
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
 public class TestModule extends ModuleClass implements Runnable{
-
-
+	
+	private String time;
+	private int difficulty;
 
 	public JPanel getModuleJPanel() {
 		JPanel panel = new JPanel();
@@ -24,6 +25,7 @@ public class TestModule extends ModuleClass implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		System.out.println(this.time + "   " + this.difficulty);
 		
 	}
 
@@ -35,13 +37,13 @@ public class TestModule extends ModuleClass implements Runnable{
 
 	@Override
 	public void setDifficulty(int diff) {
-		// TODO Auto-generated method stub
+		this.difficulty = diff;
 		
 	}
 
 	@Override
 	public void setTime(String time) {
-		// TODO Auto-generated method stub
+		this.time = time;
 		
 	}
 }
