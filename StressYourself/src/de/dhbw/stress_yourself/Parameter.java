@@ -3,47 +3,80 @@ package de.dhbw.stress_yourself;
 import java.util.HashMap;
 
 public final class Parameter {
-	 
-	/** private class attribute, only instance of the class is created. */
-    private static final Parameter INSTANCE = new Parameter();
 
-    /** constructor is private, should not be instanced form the outside. */
-    private Parameter() {}
+	public Parameter() {
 
-    /** static method, delivers the only instance of the class. */
-    public static Parameter getInstance() {
-        return INSTANCE;
-    }
-    
-    // variables of the singleton, private and not static    
-    
+	}
+
+	private final String pathToJar = "../stress_yourself_modules.jar";
+	private final String packageName = "de.dhbw.stress_yourself.modules";
 	private String parameters[][];
-    private String users[][];
-    private HashMap<String, Integer> result;
-    private int difficulty;
-    private int currentUser;
-    
-    // public getter and setter
-    public boolean loadConfig(){
-    	return false;
-    }
-    
-    public boolean setConfig(){
-    	return false;
-    }
-    
-    public int getCurrentUser(){
-    	return this.currentUser;
-    }
-    
-    public void setCurrentUser(int currentUser){
-    	this.currentUser = currentUser;
-    }
-    
-    // some private functions for the implementation
+	private HashMap<String[], Float> result;
+	private int difficulty;
 
-    // Wichtig: Methoden, die auf instanz-Variablen zugreifen mssen mit entsprechenden Mitteln
-    // synchronisiert werden, da es das Singleton nur 1x gibt und somit die Variablen automatisch global sind
-    // und von mehreren Threads gleichzeitig darauf zugegriffen werden kann.
+	private String[][] existingModules;
+	private static boolean started = false;
+
+	/*
+	 * existingModules i[n] modul elementes j[0] modulname j[1] URL j[2] area
+	 */
+	// public getter and setter
+
+	public String getPathToJar() {
+		return pathToJar;
+	}
+
+	public String getPackageName() {
+		return packageName;
+	}
+
+	/**
+	 * 
+	 * @return parameters i[n] sequence of modules, in j[0] module name, in j[1]
+	 *         time in seconds
+	 */
+	public String[][] getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * 
+	 * @return difficulty 0-"Beginner" 1-"Intermediate" 2-"Expert"
+	 */
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	/**
+	 * 
+	 * @param parameters
+	 *            i[n] sequence of modules, in j[0] module name, in j[1] time in
+	 *            seconds
+	 * @param difficulty
+	 *            0-"Beginner" 1-"Intermediate" 2-"Expert"
+	 * @return
+	 */
+	public boolean setConfig(String[][] parameters, int difficulty) {
+		this.parameters = parameters;
+		this.difficulty = difficulty;
+		return false;
+	}
+
+	// methodes for set and get result
+
+	public void saveResult(String moduleName, String area, Float percent) {
+		String[] tmpArray = { moduleName, area };
+		result.put(tmpArray, percent);
+	}
+
+	/**
+	 * 
+	 * @return [module name][area], percentage
+	 */
+	public HashMap<String[], Float> getResult() {
+		return result;
+	}
+
+	// some private functions for the implementation
 
 }

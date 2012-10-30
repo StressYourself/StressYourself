@@ -11,20 +11,21 @@ import java.security.NoSuchAlgorithmException;
 
 
 public class Admin {
-	
-	public boolean loadAdminGUI(){
+
+	public boolean loadAdminGUI() {
+		int TEST = 2;
 		return false;
 	}
-	
-	public boolean createUser(String username, String password){
+
+	public boolean createUser(String username, String password) {
 		return false;
 	}
-	
-	public boolean deleteUser(String username){
+
+	public boolean deleteUser(String username) {
 		return false;
 	}
-	
-	public boolean changePassword(String username, String newpassword){
+
+	public boolean changePassword(String username, String newpassword) {
 		return false;
 	}
 	
