@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -17,7 +17,13 @@ public class MainApplication {
 	private Parameter params;
 
 	private Class<?> runningModuleClass = null;
+	private Object runningModuleObject = null;
 	private HashMap<String, Method> runningModuleMethodsMap = null;
+	private URL url = null;
+	private LinkedList<String> classes = null;
+	private JPanel panel = null;
+
+	int index = 0;
 
 	public MainApplication() {
 		initialize();
@@ -41,36 +47,28 @@ public class MainApplication {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		params = new Parameter();
+		initModules();
+		nextModule();
 
-		URL url = Reflection.getURL(params.getPathToJar());
-		List<String> classes = Reflection.getClassNames(params.getPathToJar(),
-				params.getPackageName());
-		Class<?> clazz = Reflection.getClass(url, classes.get(0));
-		System.out.println(clazz.getName());
-
-		int difficulty = 0;
-		String time = "";
-		startModule(clazz, difficulty, time);
-	}
-
-	public boolean startTest() {
-		return true;
-	}
-
-	Object runningModuleObject = null;
-	Method sendResult = null;
-
-	public boolean loadModule() {
-		return true;
 	}
 
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
-		HashMap<String, Method> methodsMap = Reflection.getClassMethods(clazz);
+		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
-		sendResult = methodsMap.get("sendResult");
+		runningModuleObject = createModuleInstance(clazz);
 
-		Object o = null;
+		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
+			panel = (JPanel) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleJPanel"), runningModuleObject,
+					(Object[]) null);
+			frame.add(panel);
+		}
+
+		return true;
+	}
+	
+	public Object createModuleInstance(Class<?> clazz){
+		Object moduleObject = null;
 		Constructor<?> cons = null;
 		try {
 			cons = clazz.getConstructor(new Class[] { Object.class });
@@ -78,26 +76,36 @@ public class MainApplication {
 			System.err.println("Couldn't get the Constructor " + e);
 		}
 		try {
-			o = cons.newInstance(this);
+			moduleObject = cons.newInstance(this);
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
 			System.err.println("Couldn't the object from the module " + e);
 		}
-		runningModuleObject = o;
-
-		if (methodsMap.containsKey("getModuleJPanel")) {
-			JPanel panel = null;
-
-			panel = (JPanel) Reflection.runMethod(
-					methodsMap.get("getModuleJPanel"), o, (Object[]) null);
-			frame.add(panel);
-		}
-
-		return true;
+		return moduleObject;
 	}
 
-	public void isFinished() {
-		System.out.println("finished");
-		Reflection.runMethod(sendResult, runningModuleObject, (Object[]) null);
+	public void initModules() {
+		params = new Parameter();
+		url = Reflection.getURL(params.getPathToJar());
+		classes = Reflection.getClassNames(params.getPathToJar(),
+				params.getPackageName());
+	}
+
+	public void nextModule() {
+		if (panel != null) {
+			frame.remove(panel);
+		}
+
+		if (index < classes.size()) {
+			runningModuleClass = Reflection.getClass(url, classes.get(index));
+			index++;
+			System.out.println(runningModuleClass.getName());
+
+			int difficulty = 0;
+			String time = "";
+			startModule(runningModuleClass, difficulty, time);
+		} else {
+			// test finished
+		}
 	}
 }

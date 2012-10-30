@@ -10,7 +10,6 @@ import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -42,9 +41,9 @@ public class Reflection {
 	 *            Package name the searched classes are in
 	 * @return List<String> List with all class names
 	 */
-	public static List<String> getClassNames(String pathToJar,
+	public static LinkedList<String> getClassNames(String pathToJar,
 			String packageName) {
-		List<String> classes = null;
+		LinkedList<String> classes = null;
 		try {
 			classes = Reflection.getClassesFromJar(pathToJar, packageName);
 		} catch (Exception e) {
@@ -87,9 +86,6 @@ public class Reflection {
 		Class<?> clazz = null;
 		try {
 			clazz = urlcl.loadClass(name);
-			while (clazz.getName().contains("$")) {
-				clazz = clazz.getEnclosingClass();
-			}
 		} catch (ClassNotFoundException e) {
 			System.err.println("Class not found " + e);
 		}
@@ -133,9 +129,9 @@ public class Reflection {
 	 *            The base package
 	 * @return The names of the classes as LinkedList
 	 */
-	public static List<String> getClassesFromJar(String pathToJar,
+	public static LinkedList<String> getClassesFromJar(String pathToJar,
 			String packageName) {
-		List<String> classes = new LinkedList<String>();
+		LinkedList<String> classes = new LinkedList<String>();
 		JarFile jf = null;
 
 		if (packageName.contains(".")) {
@@ -149,11 +145,13 @@ public class Reflection {
 				JarEntry nextEntry = je.nextElement();
 				String nextEntryName = nextEntry.getName();
 				if (nextEntryName.startsWith(packageName)
-						&& nextEntryName.endsWith(".class")) {
+						&& nextEntryName.endsWith(".class") && !nextEntryName.contains("$")) {
 					String className = nextEntryName.replace("/", ".");
 					className = className.substring(0,
 							className.indexOf(".class"));
-					classes.add(className);
+					
+					//classes.add(className);
+					classes.addLast(className);
 				}
 			} while (je.hasMoreElements());
 			jf.close();

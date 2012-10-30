@@ -2,14 +2,7 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,113 +10,56 @@ import javax.swing.JTextPane;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
-public class TestModule extends ModuleClass implements Runnable {
-	
-	
+public class TestModule extends ModuleClass {
+
 	public static final String moduleName = "TestModule";
 	public static final String moduleArea = "Algorithm";
 	public static final String moduleDescription = "Example Description";
 
-	private int result = 0;
-
 	private Object mainClass = null;
-	
-	public TestModule(Object o){
+
+	public TestModule(Object o) {
 		mainClass = o;
+
 	}
 
 	public JPanel getModuleJPanel() {
-		JPanel panel = new JPanel();
-		JTextPane pane = new JTextPane();
-		pane.setText("Beispiel TextPane");
-		pane.setBounds(50, 50, 100, 100);
-		panel.add(pane);
+		return new moduleGUI();
+	}
 
-		JButton button = new JButton();
-		button.addMouseListener(new MouseListener() {
+	class moduleGUI extends JPanel implements ActionListener {
+		private static final long serialVersionUID = 1L;
+		private ArrayList<JButton> buttons = null;
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
+		public moduleGUI() {
+			buttons = new ArrayList<JButton>();
+			init();
+		}
 
-			}
+		public void registerButton(JButton button) {
+			buttons.add(button);
+		}
 
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
+		public void init() {
+			JTextPane pane = new JTextPane();
+			pane.setText("Beispiel TextPane");
+			pane.setBounds(50, 50, 100, 100);
+			this.add(pane);
 
-			}
+			JButton button = new JButton();
+			registerButton(button);
+			button.addActionListener(this);
+			this.add(button);
+		}
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				result = 5;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			switch (buttons.indexOf(e.getSource())) {
+			case 0:
+				sendResult();
 				tellFinished();
-
+				break;
 			}
-		});
-
-		panel.add(button);
-		return panel;
-	}
-
-	@Override
-	public void run() {
-		while (result != 5) {
-
-		}
-
-	}
-
-	@Override
-	public void sendResult() {
-		System.out.println("sending Result " + result);
-
-	}
-
-	@Override
-	public void setDifficulty(int diff) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setTime(String time) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void tellFinished() {
-		Class<?> clazz = null;
-		try {
-			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		Method isFinished = null;
-		try {
-			isFinished = clazz.getMethod("isFinished");
-		} catch (NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			isFinished.invoke(mainClass);
-		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			e.printStackTrace();
 		}
 
 	}
