@@ -8,3 +8,6 @@ notifications:
          - tobias.roeding@gmail.com
       on_success: change # [always|never|change] # default: change
       on_failure: change # [always|never|change] # default: always
+branches:  
+  only:  
+   - master

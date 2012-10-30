@@ -1,49 +1,64 @@
 package de.dhbw.stress_yourself.modules;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
-public class TestModule extends ModuleClass implements Runnable{
-	
-	private String time;
-	private int difficulty;
+public class TestModule extends ModuleClass {
+
+	public static final String moduleName = "TestModule";
+	public static final String moduleArea = "Algorithm";
+	public static final String moduleDescription = "Example Description";
+
+	private Object mainClass = null;
+
+	public TestModule(Object o) {
+		mainClass = o;
+	}
 
 	public JPanel getModuleJPanel() {
-		JPanel panel = new JPanel();
-		JTextPane pane = new JTextPane();
-		pane.setText("Beispiel TextPane");
-		pane.setBounds(50, 50, 100, 100);
-		panel.add(pane);
-		
-		JTextPane textPane = new JTextPane();
-		panel.add(textPane);
-		return panel;
+		return new moduleGUI();
 	}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		System.out.println(this.time + "   " + this.difficulty);
-		
-	}
+	class moduleGUI extends JPanel implements ActionListener {
+		private static final long serialVersionUID = 1L;
+		private ArrayList<JButton> buttons = null;
 
-	@Override
-	public void sendResult() {
-		// TODO Auto-generated method stub
-		
-	}
+		public moduleGUI() {
+			buttons = new ArrayList<JButton>();
+			init();
+		}
 
-	@Override
-	public void setDifficulty(int diff) {
-		this.difficulty = diff;
-		
-	}
+		public void registerButton(JButton button) {
+			buttons.add(button);
+		}
 
-	@Override
-	public void setTime(String time) {
-		this.time = time;
-		
+		public void init() {
+			JTextPane pane = new JTextPane();
+			pane.setText("Beispiel TextPane");
+			pane.setBounds(50, 50, 100, 100);
+			this.add(pane);
+
+			JButton button = new JButton();
+			registerButton(button);
+			button.addActionListener(this);
+			this.add(button);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			switch (buttons.indexOf(e.getSource())) {
+			case 0:
+				sendResult();
+				tellFinished();
+				break;
+			}
+		}
 	}
 }

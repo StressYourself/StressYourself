@@ -1,20 +1,29 @@
 package de.dhbw.stress_yourself;
 
-import java.awt.Component;
 import java.awt.EventQueue;
-import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
-
+import java.util.HashMap;
+import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MainApplication {
 
 	private JFrame frame;
+
+	private Parameter params;
+
+	private Class<?> runningModuleClass = null;
+	private Object runningModuleObject = null;
+	private HashMap<String, Method> runningModuleMethodsMap = null;
+	private URL url = null;
+	private LinkedList<String> classes = null;
+	private JPanel panel = null;
+
+	int index = 0;
 
 	public MainApplication() {
 		initialize();
@@ -38,74 +47,65 @@ public class MainApplication {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		String path = "../stress_yourself_modules.jar";
-		URL url = null;
-		try {
-			url = new File(path).toURI().toURL();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+		initModules();
+		nextModule();
 
-		URLClassLoader urlcl = null;
-		urlcl = URLClassLoader.newInstance(new URL[] { url });
-
-		Class<?> clazz = null;
-		try {
-			clazz = urlcl.loadClass("de.dhbw.stress_yourself.modules.TestModule");
-		} catch (ClassNotFoundException e) {
-			System.err.println("Class not found " + e);
-		}
-
-		Object o = null;
-		try {
-			o = clazz.newInstance();
-		} catch (InstantiationException | IllegalAccessException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-
-		Method getJPanel = null;
-		try {
-			getJPanel = clazz.getMethod("getModuleJPanel", null);
-		} catch (NoSuchMethodException | SecurityException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		JPanel panel = null;
-		try {
-			panel = (JPanel) getJPanel.invoke(o, null);
-		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			e.printStackTrace();
-		}
-
-		frame.add(panel);
 	}
 
-	
-	public Class loadModule(String filePath) {
-		Class c = null;
-		try {
-			c = Class.forName(filePath);
-		} catch (ClassNotFoundException e) {
-			System.err.println("Could not find the Class: " + e);
-		}
-		return c;
-	}
+	public boolean startModule(Class<?> clazz, int difficulty, String time) {
+		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
-	public String[] loadModules() {
-		String[] test = { "de.dhbw.stress_yourself.modules.TestModule" };
-		return test;
+		runningModuleObject = createModuleInstance(clazz);
+
+		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
+			panel = (JPanel) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleJPanel"), runningModuleObject,
+					(Object[]) null);
+			frame.add(panel);
+		}
+
+		return true;
 	}
 	
-	
-
-	public boolean startTest() {
-		return false;
+	public Object createModuleInstance(Class<?> clazz){
+		Object moduleObject = null;
+		Constructor<?> cons = null;
+		try {
+			cons = clazz.getConstructor(new Class[] { Object.class });
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.err.println("Couldn't get the Constructor " + e);
+		}
+		try {
+			moduleObject = cons.newInstance(this);
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			System.err.println("Couldn't the object from the module " + e);
+		}
+		return moduleObject;
 	}
 
-	public boolean startModule(String moduleName, int difficulty, String time) {
-		return false;
+	public void initModules() {
+		params = new Parameter();
+		url = Reflection.getURL(params.getPathToJar());
+		classes = Reflection.getClassNames(params.getPathToJar(),
+				params.getPackageName());
+	}
+
+	public void nextModule() {
+		if (panel != null) {
+			frame.remove(panel);
+		}
+
+		if (index < classes.size()) {
+			runningModuleClass = Reflection.getClass(url, classes.get(index));
+			index++;
+			System.out.println(runningModuleClass.getName());
+
+			int difficulty = 0;
+			String time = "";
+			startModule(runningModuleClass, difficulty, time);
+		} else {
+			// test finished
+		}
 	}
 }

@@ -1,16 +1,64 @@
 package de.dhbw.stress_yourself.extend;
 
+import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javax.swing.JPanel;
 
 public abstract class ModuleClass {
-	
-	public abstract void sendResult();
+	private int diff = 0;
+	private String time = "";
 
-	public abstract void setDifficulty(int diff);
-	
-	public abstract void setTime(String time);
-	
+	private int result = 0;
+
+	private Object mainClass = null;
+
+	/*
+	 * public ModuleClass(Object o) { mainClass = o; }
+	 */
+
+	public void setDifficulty(int diff) {
+		this.diff = diff;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
 	public abstract JPanel getModuleJPanel();
-	
-}
 
+	public void sendResult() {
+		System.out.println("sending Result " + result);
+
+	}
+
+	public void tellFinished() {
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Method nextModule = null;
+		try {
+			nextModule = clazz.getMethod("nextModule");
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			nextModule.invoke(mainClass);
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("serial")
+	abstract class moduleGUI extends JPanel implements ActionListener {
+	}
+
+}
