@@ -10,6 +10,11 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * The MainApplication Class is used to manage and load all gui classes containing the modules.
+ * 
+ * @author Tobias Ršding <tobias@roeding.eu>
+ */
 public class MainApplication {
 
 	private JFrame frame;
@@ -52,6 +57,18 @@ public class MainApplication {
 
 	}
 
+	/**
+	 * Loads the specified module into the JFrame and starts the test
+	 * 
+	 * @param clazz
+	 *            The module class
+	 * @param difficulty
+	 *            The difficulty for the Test
+	 * @param time
+	 *            The time for the Test
+	 * @return boolean Bool if the module was sucessfully loaded
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
@@ -59,15 +76,23 @@ public class MainApplication {
 
 		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
 			panel = (JPanel) Reflection.runMethod(
-					runningModuleMethodsMap.get("getModuleJPanel"), runningModuleObject,
-					(Object[]) null);
+					runningModuleMethodsMap.get("getModuleJPanel"),
+					runningModuleObject, (Object[]) null);
 			frame.add(panel);
 		}
 
 		return true;
 	}
-	
-	public Object createModuleInstance(Class<?> clazz){
+
+	/**
+	 * Create and return an instance of the module class
+	 * 
+	 * @param clazz
+	 *            The module class
+	 * @return Object The instance of the module
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
+	public Object createModuleInstance(Class<?> clazz) {
 		Object moduleObject = null;
 		Constructor<?> cons = null;
 		try {
@@ -84,6 +109,11 @@ public class MainApplication {
 		return moduleObject;
 	}
 
+	/**
+	 * Inits the Modules by getting the url and the names of the modules
+	 * 
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
 	public void initModules() {
 		params = new Parameter();
 		url = Reflection.getURL(params.getPathToJar());
@@ -91,9 +121,15 @@ public class MainApplication {
 				params.getPackageName());
 	}
 
+	/**
+	 * Changes the current module with the next module in the classes list
+	 * 
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
 	public void nextModule() {
 		if (panel != null) {
 			frame.remove(panel);
+			panel = null;
 		}
 
 		if (index < classes.size()) {
