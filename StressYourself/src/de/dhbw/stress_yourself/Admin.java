@@ -3,6 +3,9 @@ package de.dhbw.stress_yourself;
 
 import javax.swing.*;
 
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
 /**
  * need this imports for createMD5()
  */
@@ -18,16 +21,50 @@ import java.security.NoSuchAlgorithmException;
 
 public class Admin {
 	
-	public static JPanel aPanel = new JPanel();
+	private Container userManagementContainer;
+	private JButton createUser;
+	private JButton deleteUser;
+	private JButton changePassword;
 	
+
+	
+	public static JPanel aPanel;
+
+
 	/**
 	 * creates a JPanel
 	 * the content is: Usermanagement / Testmanagement
 	 * @return
 	 */
-	public JPanel loadAdminGUI() {
-		aPanel.setBounds(10, 25, 500, 350);
+	public JPanel loadAdminGUI(JFrame frame){
+		aPanel = new JPanel();
+		aPanel.setBackground(new Color(100,60,90));
+		aPanel.setBounds(frame.getContentPane().getBounds());
+		createUserManagement();
+		aPanel.add(userManagementContainer);
 		return aPanel;
+	}
+	
+	private void createUserManagement(){
+		userManagementContainer = new Container();
+		userManagementContainer.setBounds(10, 10, 350, 300);
+		userManagementContainer.setBackground(new Color(100,100,50));
+				
+		createUser = new JButton("Benutzer anlegen");
+		createUser.setSize(150, 20);
+		createUser.setLocation(0, 0);
+		userManagementContainer.add(createUser);
+		
+		deleteUser = new JButton("Benutzer lšschen");
+		deleteUser.setSize(150, 20);
+		deleteUser.setLocation(0, 25);
+		userManagementContainer.add(deleteUser);
+		
+		changePassword = new JButton("Passwort Šndern");
+		changePassword.setSize(150, 20);
+		changePassword.setLocation(0, 50);
+		userManagementContainer.add(changePassword);
+	
 	}
 	
 	/**
