@@ -16,22 +16,19 @@ public class TestModule extends ModuleClass {
 	public static final String moduleArea = "Algorithm";
 	public static final String moduleDescription = "Example Description";
 
-	private Object mainClass = null;
-
 	public TestModule(Object o) {
-		mainClass = o;
-
+		super(o);
 	}
 
 	public JPanel getModuleJPanel() {
-		return new moduleGUI();
+		return new ModuleGUI();
 	}
 
-	class moduleGUI extends JPanel implements ActionListener {
+	class ModuleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
 
-		public moduleGUI() {
+		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
 			init();
 		}

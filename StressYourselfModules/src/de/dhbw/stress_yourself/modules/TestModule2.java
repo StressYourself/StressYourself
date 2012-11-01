@@ -23,15 +23,12 @@ public class TestModule2 extends ModuleClass {
 
 	private int result = 0;
 
-	private Object mainClass = null;
-
 	public TestModule2(Object o) {
-		mainClass = o;
-
+		super(o);
 	}
 
 	public JPanel getModuleJPanel() {
-		return new moduleGUI();
+		return new ModuleGUI();
 	}
 
 	@Override
@@ -49,37 +46,12 @@ public class TestModule2 extends ModuleClass {
 		System.out.println("sending Result " + result);
 
 	}
-
-	public void tellFinished() {
-		Class<?> clazz = null;
-		try {
-			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		Method nextModule = null;
-		try {
-			nextModule = clazz.getMethod("nextModule");
-		} catch (NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			nextModule.invoke(mainClass);
-		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	class moduleGUI extends JPanel implements ActionListener {
+	
+	class ModuleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
 
-		public moduleGUI() {
+		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
 			init();
 		}

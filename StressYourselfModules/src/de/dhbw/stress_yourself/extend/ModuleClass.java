@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import javax.swing.JPanel;
 
 public abstract class ModuleClass {
+	// here three vars
+
 	private int diff = 0;
 	private String time = "";
 
@@ -14,9 +16,11 @@ public abstract class ModuleClass {
 
 	private Object mainClass = null;
 
-	/*
-	 * public ModuleClass(Object o) { mainClass = o; }
-	 */
+	public ModuleClass(Object o) {
+		if (mainClass == null) {
+			mainClass = o;
+		}
+	}
 
 	public void setDifficulty(int diff) {
 		this.diff = diff;
@@ -58,7 +62,7 @@ public abstract class ModuleClass {
 	}
 
 	@SuppressWarnings("serial")
-	abstract class moduleGUI extends JPanel implements ActionListener {
+	abstract class ModuleGUI extends JPanel implements ActionListener {
 	}
 
 }
