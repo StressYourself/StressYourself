@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <difficulty>1</difficulty>
+  <module>
+    <name>Eins</name>
+    <time>30</time>
+  </module>
+  <module>
+    <name>Zwei</name>
+    <time>40</time>
+  </module>
+  <module>
+    <name>Drei</name>
+    <time>50</time>
+  </module>
+</configuration>

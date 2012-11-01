@@ -1,7 +1,11 @@
 package de.dhbw.stress_yourself;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.io.File;
 import java.io.IOException;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,27 +15,34 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 import java.io.FileWriter;
-import org.jdom2.output.Format;
 
+import org.jdom2.output.Format;
+/**
+ * class manages the user data
+ * @author LukasBuchert
+ *
+ */
 public class UserData {
 
 	private final String filename = "config/userdata.xml";
 	private LinkedList<User> users = new LinkedList<User>();
-	private String currentUser;
+	private User currentUser;
 
 	public UserData() {
 		readXML();
 	}
 
-	public String getCurrentUser() {
-		return this.currentUser;
+	public String getCurrentUserName() {
+		return this.currentUser.getUserName();
 	}
 
-	public void setCurrentUser(String currentUser) {
-		this.currentUser = currentUser;
+	/**
+	 * 
+	 * @return a - for admin, u - for user
+	 */
+	public String getCurrentUserType() {
+		return this.currentUser.getUserType();
 	}
-
-	// methods interface XML userdata
 
 	/**
 	 * 
@@ -39,16 +50,16 @@ public class UserData {
 	 *            name of user
 	 * @param password
 	 *            users password
-	 * @param type
-	 *            a - for admin, u - for user
+	 * 
 	 * @return false - if sum of all parameters dosen't exist true - if
 	 *         parameter matches
 	 */
-	public boolean existsUser(String username, String password, String type) {
+	public boolean existsUser(String username, String password) {
 		boolean back = false;
 		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).equals(new User(username, password, type))) {
+			if (users.get(i).equals(username, password)) {
 				back = true;
+				currentUser = users.get(i);
 				break;
 			}
 		}
@@ -62,7 +73,7 @@ public class UserData {
 	 */
 	public boolean saveUser(String username, String password, String type) {
 		boolean back = false;
-		if (type == "a" || type == "u") {
+		if (type.equals("a") || type.equals("u")) {
 			for (int i = 0; i < users.size(); i++) {
 				if (users.get(i).equalsLightly(username)) {
 					back = true;
@@ -70,7 +81,7 @@ public class UserData {
 				}
 			}
 			if (!back) {
-				users.addLast(new User(username, password, type));
+				users.addLast(new User(username, createMD5(password), type));
 			} else {
 				back = false;
 			}
@@ -79,12 +90,11 @@ public class UserData {
 		return back;
 	}
 
-	public boolean changePassword(String username, String password,
-			String type, String newPassword) {
+	public boolean changePassword(String username, String newPassword) {
 		boolean back = false;
 		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).equals(new User(username, password, type))) {
-				users.get(i).changeUserPassword(newPassword);
+			if (users.get(i).equalsLightly(username)) {
+				users.get(i).changeUserPassword(createMD5(newPassword));
 				back = true;
 				break;
 			}
@@ -96,7 +106,7 @@ public class UserData {
 	public boolean deleteUser(String username) {
 		// user couldn't delete himself
 		boolean back = false;
-		if (username != currentUser) {
+		if (!currentUser.equalsLightly(username)) {
 
 			for (int i = 0; i < users.size(); i++) {
 
@@ -113,12 +123,11 @@ public class UserData {
 	}
 
 	public String[][] getUsers() {
-		String[][] returnArray = new String[users.size()][3];
+		String[][] returnArray = new String[users.size()][2];
 		for (int i = 0; i < users.size(); i++) {
 			User tmp = users.get(i);
 			returnArray[i][0] = tmp.name;
-			returnArray[i][1] = tmp.password;
-			returnArray[i][2] = tmp.type;
+			returnArray[i][1] = tmp.type;
 		}
 		return returnArray;
 	}
@@ -163,10 +172,10 @@ public class UserData {
 			return this.type;
 		}
 
-		public boolean equals(User user) {
-			return (this.name.equals(user.name)
-					&& this.password.equals(user.password) && this.type
-						.equals(user.type));
+		public boolean equals(String username, String password) {
+
+			return (this.name.equals(username) && this.password
+					.equals(createMD5(password)));
 		}
 
 		public boolean equalsLightly(String username) {
@@ -176,7 +185,7 @@ public class UserData {
 	}
 
 	// methods for Interface XML
-	private synchronized void resetXML() {
+	private void resetXML() {
 		try {
 			SAXBuilder builder = new SAXBuilder();
 			Document oldList = builder.build(filename);
@@ -193,7 +202,7 @@ public class UserData {
 		}
 	}
 
-	private synchronized void addUserXML(String name, String password,
+	private  void addUserXML(String name, String password,
 			String type) {
 		Element nameElement = new Element("name");
 		Element passwordElement = new Element("password");
@@ -220,7 +229,7 @@ public class UserData {
 
 	}
 
-	private synchronized void readXML() {
+	private  void readXML() {
 
 		Document list = null;
 		File file = new File(filename);
@@ -248,5 +257,17 @@ public class UserData {
 			e.printStackTrace();
 		}
 
+	}
+
+	private String createMD5(String password) {
+		String hashword = null;
+		try {
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			md5.update(password.getBytes());
+			BigInteger hash = new BigInteger(1, md5.digest());
+			hashword = hash.toString(16);
+		} catch (NoSuchAlgorithmException nsae) {
+		}
+		return hashword;
 	}
 }
