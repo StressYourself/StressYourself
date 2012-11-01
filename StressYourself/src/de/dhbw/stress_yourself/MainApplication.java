@@ -49,7 +49,7 @@ public class MainApplication {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		initModules();
@@ -141,7 +141,7 @@ public class MainApplication {
 			String time = "";
 			startModule(runningModuleClass, difficulty, time);
 		} else {
-			// test finished
+			// test finished, time to call the evaluation 
 		}
 	}
 }
