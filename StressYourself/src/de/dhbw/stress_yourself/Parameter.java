@@ -1,5 +1,6 @@
 package de.dhbw.stress_yourself;
 
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,10 +19,13 @@ import org.jdom2.output.XMLOutputter;
  * @author LukasBuchert
  *
  */
-public final class Parameter {
+
+
+public  class Parameter {
 
 	public Parameter() {
-		readXML();
+    readXML();
+
 	}
 
 	private final String pathToJar = "../stress_yourself_modules.jar";
@@ -34,7 +38,11 @@ public final class Parameter {
 
 	private int difficulty;
 
+
 	private boolean checkStatus = false;
+
+
+	
 
 	public String getPathToJar() {
 		return pathToJar;
@@ -43,6 +51,7 @@ public final class Parameter {
 	public String getPackageName() {
 		return packageName;
 	}
+
 	/**
 	 * used by Admin, MainApplication and Outcome
 	 */
@@ -93,6 +102,7 @@ public final class Parameter {
 		}
 	}
 
+
 	// some private functions for the implementation
 
 	private void check() {
@@ -112,6 +122,7 @@ public final class Parameter {
 			}
 			checkStatus = true;
 		}
+
 
 	}
 
@@ -159,6 +170,7 @@ public final class Parameter {
 
 	}
 
+
 	private void readXML() {
 
 		Document list = null;
@@ -190,5 +202,6 @@ public final class Parameter {
 		}
 
 	}
+
 
 }

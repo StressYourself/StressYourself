@@ -6,18 +6,29 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * The MainApplication Class is used to manage and load all gui classes containing the modules.
+ * 
+ * @author Tobias Ršding <tobias@roeding.eu>
+ */
 public class MainApplication {
 
 	private JFrame frame;
-	
+
 	private Parameter params;
-	
-	//private Class<?> rClass = null;
-	//private HashMap<String,Method> rMethodsMap = null;
+
+	private Class<?> runningModuleClass = null;
+	private Object runningModuleObject = null;
+	private HashMap<String, Method> runningModuleMethodsMap = null;
+	private URL url = null;
+	private LinkedList<String> classes = null;
+	private JPanel panel = null;
+
+	int index = 0;
 
 	public MainApplication() {
 		initialize();
@@ -38,82 +49,99 @@ public class MainApplication {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		params = Parameter.getInstance();
+		initModules();
+		nextModule();
 
-		URL url = Reflection.getURL(params.getPathToJar());
-		List<String> classes = Reflection.getClassNames(params.getPathToJar(),params.getPackageName());
-		Class<?> clazz = Reflection.getClass(url, classes.get(0));
-		System.out.println(clazz.getName());
-
-		int difficulty = 0;
-		String time = "";
-		startModule(clazz, difficulty, time);
 	}
 
-	
-
-	public boolean startTest() {
-		return true;
-	}
-
-	Object runningModuleObject = null;
-	Method sendResult = null;
-
+	/**
+	 * Loads the specified module into the JFrame and starts the test
+	 * 
+	 * @param clazz
+	 *            The module class
+	 * @param difficulty
+	 *            The difficulty for the Test
+	 * @param time
+	 *            The time for the Test
+	 * @return boolean Bool if the module was sucessfully loaded
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
-		HashMap<String, Method> methodsMap = Reflection.getClassMethods(clazz);
-		sendResult = methodsMap.get("sendResult");
+		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
+		runningModuleObject = createModuleInstance(clazz);
 
-		Object o = null;
-		Constructor<?> cons = null;
-		try {
-			cons = clazz.getConstructor(new Class[]{Object.class});
-		} catch (NoSuchMethodException | SecurityException e) {
-			System.err.println("Couldn't get the Constructor " +e);
-		}
-		try {
-			o = cons.newInstance(this);
-		} catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException e) {
-			System.err.println("Couldn't the object from the module " +e);
-		}
-		runningModuleObject = o;
-
-		long start = System.currentTimeMillis();
-
-		if (methodsMap.containsKey("getModuleJPanel")) {
-			JPanel panel = null;
-
-			panel = (JPanel) Reflection.runMethod(methodsMap.get("getModuleJPanel"), o,
-					(Object[]) null);
+		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
+			panel = (JPanel) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleJPanel"),
+					runningModuleObject, (Object[]) null);
 			frame.add(panel);
 		}
-		
-		System.out.println("Duration in ms: "
-				+ (System.currentTimeMillis() - start));
-		
-		Runnable runObject = (Runnable) o;
-		Thread test = new Thread(runObject);
-		test.start();
-		
-		/*
-		try {
-			test.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		*/
-		
-		
 
 		return true;
 	}
-	
-	public void isFinished(){
-		System.out.println("finished");
-		Reflection.runMethod(sendResult, runningModuleObject, (Object[]) null);
+
+	/**
+	 * Create and return an instance of the module class
+	 * 
+	 * @param clazz
+	 *            The module class
+	 * @return Object The instance of the module
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
+	public Object createModuleInstance(Class<?> clazz) {
+		Object moduleObject = null;
+		Constructor<?> cons = null;
+		try {
+			cons = clazz.getConstructor(new Class[] { Object.class });
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.err.println("Couldn't get the Constructor " + e);
+		}
+		try {
+			moduleObject = cons.newInstance(this);
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			System.err.println("Couldn't the object from the module " + e);
+		}
+		return moduleObject;
+	}
+
+	/**
+	 * Inits the Modules by getting the url and the names of the modules
+	 * 
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
+	public void initModules() {
+		params = new Parameter();
+		url = Reflection.getURL(params.getPathToJar());
+		classes = Reflection.getClassNames(params.getPathToJar(),
+				params.getPackageName());
+	}
+
+	/**
+	 * Changes the current module with the next module in the classes list
+	 * 
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
+	public void nextModule() {
+		if (panel != null) {
+			frame.remove(panel);
+			panel = null;
+		}
+
+		if (index < classes.size()) {
+			runningModuleClass = Reflection.getClass(url, classes.get(index));
+			index++;
+			System.out.println(runningModuleClass.getName());
+
+			int difficulty = 0;
+			String time = "";
+			startModule(runningModuleClass, difficulty, time);
+		} else {
+			// test finished, time to call the evaluation 
+		}
 	}
 }
