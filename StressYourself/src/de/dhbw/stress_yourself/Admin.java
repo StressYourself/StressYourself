@@ -2,14 +2,12 @@ package de.dhbw.stress_yourself;
 
 
 import java.awt.Color;
-import java.awt.Container;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 /**
  * need this imports for createMD5()
@@ -44,7 +42,7 @@ public class Admin {
 	/**
 	 * creates a JPanel
 	 * the content is: Usermanagement / Testmanagement
-	 * @return
+	 * @return - JPanel
 	 */
 	public JPanel loadAdminGUI(){
 		aPanel = new JPanel();
@@ -86,7 +84,6 @@ public class Admin {
 		
 		btnDeleteUser.setBounds(75, 110, 150, 20);
 		pnlUserManagement.add(btnDeleteUser);
-		
 	
 	}
 	
