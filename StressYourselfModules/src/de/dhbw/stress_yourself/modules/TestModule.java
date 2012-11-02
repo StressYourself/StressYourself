@@ -58,6 +58,5 @@ public class TestModule extends ModuleClass {
 				break;
 			}
 		}
-
 	}
 }
