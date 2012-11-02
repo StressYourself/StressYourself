@@ -1,17 +1,19 @@
 package de.dhbw.stress_yourself;
 
 
-import javax.swing.*;
-
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Container;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+
 /**
  * need this imports for createMD5()
  */
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 //Beschreibung bei Modulen anzeigen?? Tooltip?
@@ -21,10 +23,18 @@ import java.security.NoSuchAlgorithmException;
 
 public class Admin {
 	
-	private Container userManagementContainer;
-	private JButton createUser;
-	private JButton deleteUser;
-	private JButton changePassword;
+	private JPanel pnlUserManagement = new JPanel();
+	
+	private JButton btnCreateUser = new JButton("Benutzer anlegen");
+	private JButton btnDeleteUser = new JButton("Benutzer lšschen");
+	private JButton btnChangePassword = new JButton("Passwort Šndern");
+	
+	private JPasswordField pfPassword = new JPasswordField();
+	private JTextField tfUsername = new JTextField();
+	
+	private JLabel lblUserManagement = new JLabel("Benutzerverwaltung:");
+	private JLabel lblUsername = new JLabel("Benutzername:");
+	private JLabel lblPassword = new JLabel("Passwort:");
 	
 
 	
@@ -36,34 +46,47 @@ public class Admin {
 	 * the content is: Usermanagement / Testmanagement
 	 * @return
 	 */
-	public JPanel loadAdminGUI(JFrame frame){
+	public JPanel loadAdminGUI(){
 		aPanel = new JPanel();
-		aPanel.setBackground(new Color(100,60,90));
-		aPanel.setBounds(frame.getContentPane().getBounds());
-		createUserManagement();
-		aPanel.add(userManagementContainer);
+		aPanel.setLayout(null);
+		aPanel.setBounds(0,0,900, 400);
+		
+		createUserManagementPanel();
+		
+		lblUserManagement.setBounds(0, 0, 150, 20);
+		aPanel.add(lblUserManagement);
+		aPanel.add(pnlUserManagement);
 		return aPanel;
 	}
 	
-	private void createUserManagement(){
-		userManagementContainer = new Container();
-		userManagementContainer.setBounds(10, 10, 350, 300);
-		userManagementContainer.setBackground(new Color(100,100,50));
-				
-		createUser = new JButton("Benutzer anlegen");
-		createUser.setSize(150, 20);
-		createUser.setLocation(0, 0);
-		userManagementContainer.add(createUser);
+	private void createUserManagementPanel(){
+		pnlUserManagement.setLayout(null);
+		pnlUserManagement.setBounds(0, 20, 300, 150);
 		
-		deleteUser = new JButton("Benutzer lšschen");
-		deleteUser.setSize(150, 20);
-		deleteUser.setLocation(0, 25);
-		userManagementContainer.add(deleteUser);
+		Color bg = new Color(aPanel.getBackground().getRed()-7,aPanel.getBackground().getGreen()-7,aPanel.getBackground().getBlue()-7);
+		pnlUserManagement.setBackground(bg);
 		
-		changePassword = new JButton("Passwort Šndern");
-		changePassword.setSize(150, 20);
-		changePassword.setLocation(0, 50);
-		userManagementContainer.add(changePassword);
+		lblUsername.setBounds(5, 5, 100, 20);
+		pnlUserManagement.add(lblUsername);
+		
+		tfUsername.setBounds(110, 5, 170, 20);
+		pnlUserManagement.add(tfUsername);
+		
+		lblPassword.setBounds(5, 30, 100, 20);
+		pnlUserManagement.add(lblPassword);
+		
+		pfPassword.setBounds(110, 30, 170, 20);
+		pnlUserManagement.add(pfPassword);
+		
+		btnCreateUser.setBounds(75, 60, 150, 20);
+		pnlUserManagement.add(btnCreateUser);
+		
+		btnChangePassword.setBounds(75, 85, 150, 20);
+		pnlUserManagement.add(btnChangePassword);
+		
+		btnDeleteUser.setBounds(75, 110, 150, 20);
+		pnlUserManagement.add(btnDeleteUser);
+		
 	
 	}
 	
@@ -111,24 +134,6 @@ public class Admin {
 		
 		// siehe createUser()
 		return false;
-	}
-	
-	/**
-	 * 
-	 * @param password - Passwordstring with the userpassword
-	 * @return the passwordstring transformed in MD5
-	 */
-	private String createMD5(String password){
-		String hashword = null;
-		try{
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			md5.update(password.getBytes());
-			BigInteger hash = new BigInteger(1, md5.digest());
-			hashword = hash.toString(16);
-		} catch (NoSuchAlgorithmException nsae) {
-			
-		}
-		return hashword;
 	}
 
 }
