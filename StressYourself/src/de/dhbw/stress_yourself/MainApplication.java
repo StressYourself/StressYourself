@@ -11,7 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * The MainApplication Class is used to manage and load all gui classes containing the modules.
+ * The MainApplication Class is used to manage and load all gui classes
+ * containing the modules.
  * 
  * @author Tobias Ršding <tobias@roeding.eu>
  */
@@ -31,6 +32,7 @@ public class MainApplication {
 	int index = 0;
 
 	public MainApplication() {
+		params = new Parameter();
 		initialize();
 	}
 
@@ -72,7 +74,7 @@ public class MainApplication {
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
-		runningModuleObject = createModuleInstance(clazz);
+		runningModuleObject = Reflection.createClassInstance(clazz, this);
 
 		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
 			panel = (JPanel) Reflection.runMethod(
@@ -85,40 +87,49 @@ public class MainApplication {
 	}
 
 	/**
-	 * Create and return an instance of the module class
-	 * 
-	 * @param clazz
-	 *            The module class
-	 * @return Object The instance of the module
-	 * @author Tobias Ršding <tobias@roeding.eu>
-	 */
-	public Object createModuleInstance(Class<?> clazz) {
-		Object moduleObject = null;
-		Constructor<?> cons = null;
-		try {
-			cons = clazz.getConstructor(new Class[] { Object.class });
-		} catch (NoSuchMethodException | SecurityException e) {
-			System.err.println("Couldn't get the Constructor " + e);
-		}
-		try {
-			moduleObject = cons.newInstance(this);
-		} catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException e) {
-			System.err.println("Couldn't the object from the module " + e);
-		}
-		return moduleObject;
-	}
-
-	/**
 	 * Inits the Modules by getting the url and the names of the modules
 	 * 
 	 * @author Tobias Ršding <tobias@roeding.eu>
 	 */
 	public void initModules() {
-		params = new Parameter();
 		url = Reflection.getURL(params.getPathToJar());
 		classes = Reflection.getClassNames(params.getPathToJar(),
 				params.getPackageName());
+		for (int i = 0; i < classes.size(); i++) {
+			String[] info = getModuleInformation(url, classes.get(i));
+			params.addModuleInformation(info[0], info[1], info[2]);
+		}
+	}
+
+	public String[] getModuleInformation(URL url, String name) {
+		String[] info = new String[3];
+		runningModuleClass = Reflection.getClass(url, name);
+
+		runningModuleMethodsMap = Reflection
+				.getClassMethods(runningModuleClass);
+
+		runningModuleObject = Reflection.createClassInstance(
+				runningModuleClass, this);
+
+		if (runningModuleMethodsMap.containsKey("getModuleName")) {
+			info[0] = (String) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleName"),
+					runningModuleObject, (Object[]) null);
+		}
+
+		if (runningModuleMethodsMap.containsKey("getModuleArea")) {
+			info[1] = (String) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleArea"),
+					runningModuleObject, (Object[]) null);
+		}
+
+		if (runningModuleMethodsMap.containsKey("getModuleDescription")) {
+			info[2] = (String) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleDescription"),
+					runningModuleObject, (Object[]) null);
+		}
+
+		return info;
 	}
 
 	/**
@@ -141,7 +152,7 @@ public class MainApplication {
 			String time = "";
 			startModule(runningModuleClass, difficulty, time);
 		} else {
-			// test finished, time to call the evaluation 
+			// test finished, time to call the evaluation
 		}
 	}
 }

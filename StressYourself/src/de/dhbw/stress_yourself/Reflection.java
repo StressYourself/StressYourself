@@ -2,6 +2,7 @@ package de.dhbw.stress_yourself;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -101,6 +102,31 @@ public class Reflection {
 		}
 
 		return clazz;
+	}
+	
+	/**
+	 * Create and return an instance of the module class
+	 * 
+	 * @param clazz
+	 *            The module class
+	 * @return Object The instance of the module
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
+	public static Object createClassInstance(Class<?> clazz, Object param) {
+		Object classObject = null;
+		Constructor<?> cons = null;
+		try {
+			cons = clazz.getConstructor(new Class[] { Object.class });
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.err.println("Couldn't get the Constructor " + e);
+		}
+		try {
+			classObject = cons.newInstance(param);
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			System.err.println("Couldn't the object from the module " + e);
+		}
+		return classObject;
 	}
 
 	/**

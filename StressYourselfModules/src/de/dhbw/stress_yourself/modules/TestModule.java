@@ -12,9 +12,9 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
 
 public class TestModule extends ModuleClass {
 
-	public static final String moduleName = "TestModule";
-	public static final String moduleArea = "Algorithm";
-	public static final String moduleDescription = "Example Description";
+	private final String moduleName = "TestModule";
+	private final String moduleArea = "Algorithm";
+	private final String moduleDescription = "Example Description";
 
 	public TestModule(Object o) {
 		super(o);
@@ -22,6 +22,18 @@ public class TestModule extends ModuleClass {
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
+	}
+	
+	public String getModuleName(){
+		return moduleName;
+	}
+	
+	public String getModuleArea(){
+		return moduleArea;
+	}
+	
+	public String getModuleDescription(){
+		return moduleDescription;
 	}
 
 	class ModuleGUI extends JPanel implements ActionListener {

@@ -14,9 +14,9 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
 
 public class TestModule2 extends ModuleClass {
 
-	public static final String moduleName = "TestModule2";
-	public static final String moduleArea = "Math";
-	public static final String moduleDescription = "Example Description";
+	private final String moduleName = "TestModule2";
+	private final String moduleArea = "Math";
+	private final String moduleDescription = "Example Description";
 	
 	private int diff = 0;
 	private String time = "";
@@ -25,6 +25,18 @@ public class TestModule2 extends ModuleClass {
 
 	public TestModule2(Object o) {
 		super(o);
+	}
+	
+	public String getModuleName(){
+		return moduleName;
+	}
+	
+	public String getModuleArea(){
+		return moduleArea;
+	}
+	
+	public String getModuleDescription(){
+		return moduleDescription;
 	}
 
 	public JPanel getModuleJPanel() {
