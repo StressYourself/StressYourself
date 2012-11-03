@@ -71,6 +71,11 @@ public class Parameter {
 		availableModules
 				.addLast(new ModuleInformation(name, area, description));
 	}
+	
+	public void addModuleInformation(ModuleInformation mi) {
+		availableModules
+				.addLast(mi);
+	}
 
 	/**
 	 * used by Admin for storing the new configuration

@@ -1,16 +1,12 @@
 package de.dhbw.stress_yourself;
 
 import java.awt.EventQueue;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.event.*;
 
 /**
  * The MainApplication Class is used to manage and load all gui classes
@@ -57,7 +53,12 @@ public class MainApplication {
 		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		initModules();
+		
+		getAvaiableModules();
+		
+		//Admin admin = new Admin();
+		//frame.add(admin.loadAdminGUI());
+		//initModules();
 		nextModule();
 
 	}
@@ -94,18 +95,30 @@ public class MainApplication {
 	 * 
 	 * @author Tobias Ršding <tobias@roeding.eu>
 	 */
-	public void initModules() {
+	public void getAvaiableModules() {
 		url = Reflection.getURL(params.getPathToJar());
 		classes = Reflection.getClassNames(params.getPathToJar(),
 				params.getPackageName());
 		for (int i = 0; i < classes.size(); i++) {
-			String[] info = getModuleInformation(url, classes.get(i));
-			params.addModuleInformation(info[0], info[1], info[2]);
+			params.addModuleInformation(getModuleInformation(url, classes.get(i)));
 		}
 	}
 
-	public String[] getModuleInformation(URL url, String name) {
-		String[] info = new String[3];
+	/**
+	 * Returns an Object of ModuleInformation containing all needed Information about the Module
+	 * 
+	 * @param url
+	 * 			URL to the jar
+	 * @param name
+	 * 			Name of the class
+	 * @return
+	 * 			ModuleInformation Object
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
+	public ModuleInformation getModuleInformation(URL url, String name) {
+		String area = null;
+		String description = null;
+		 
 		runningModuleClass = Reflection.getClass(url, name);
 
 		runningModuleMethodsMap = Reflection
@@ -114,25 +127,19 @@ public class MainApplication {
 		runningModuleObject = Reflection.createClassInstance(
 				runningModuleClass, this);
 
-		if (runningModuleMethodsMap.containsKey("getModuleName")) {
-			info[0] = (String) Reflection.runMethod(
-					runningModuleMethodsMap.get("getModuleName"),
-					runningModuleObject, (Object[]) null);
-		}
-
 		if (runningModuleMethodsMap.containsKey("getModuleArea")) {
-			info[1] = (String) Reflection.runMethod(
+			area = (String) Reflection.runMethod(
 					runningModuleMethodsMap.get("getModuleArea"),
 					runningModuleObject, (Object[]) null);
 		}
 
 		if (runningModuleMethodsMap.containsKey("getModuleDescription")) {
-			info[2] = (String) Reflection.runMethod(
+			description = (String) Reflection.runMethod(
 					runningModuleMethodsMap.get("getModuleDescription"),
 					runningModuleObject, (Object[]) null);
 		}
 
-		return info;
+		return new ModuleInformation(name, area, description);
 	}
 
 	/**
