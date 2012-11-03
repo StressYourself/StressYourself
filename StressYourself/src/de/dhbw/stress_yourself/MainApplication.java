@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.event.*;
 
 /**
  * The MainApplication Class is used to manage and load all gui classes
@@ -28,11 +30,12 @@ public class MainApplication {
 	private URL url = null;
 	private LinkedList<String> classes = null;
 	private JPanel panel = null;
-
+	
 	int index = 0;
 
 	public MainApplication() {
 		params = new Parameter();
+
 		initialize();
 	}
 
