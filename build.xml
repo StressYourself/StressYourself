@@ -26,12 +26,12 @@
     
     <target name="compileProject">
         <mkdir dir="${bin.dir.project}" />
-        <javac srcdir="${src.dir.project}" destdir="${bin.dir.project}" />
+        <javac srcdir="${src.dir.project}" destdir="${bin.dir.project}" encoding="utf-8" />
     </target>
     
     <target name="compileModules">
         <mkdir dir="${bin.dir.modules}" />
-        <javac srcdir="${src.dir.modules}" destdir="${bin.dir.modules}" />
+        <javac srcdir="${src.dir.modules}" destdir="${bin.dir.modules}" encoding="utf-8" />
     </target>
     
     <target name="buildProject" depends="compileProject">
@@ -49,7 +49,8 @@
                 <attribute name="Built-By" value="${user.name}" />
                 <attribute name="Built-Date" value="${buildDate}" />
                 <attribute name="Built-Time" value="${buildTime}" />
-            </manifest>
+            	<attribute name="Class-Path" value="StressYourself/lib/jaxen-1.1.3.jar;StressYourself/lib/jdom-2.0.3-contrib.jar;StressYourself/lib/jdom-2.0.3-javadoc.jar;StressYourself/lib/jdom-2.0.3-junit.jar;StressYourself/lib/jdom-2.0.3-sources.jar;StressYourself/lib/jdom-2.0.3.jar;StressYourself/lib/xercesImpl.jar;StressYourself/lib/xml-apis.jar" />  
+	    </manifest>
         </jar>
     </target>
     

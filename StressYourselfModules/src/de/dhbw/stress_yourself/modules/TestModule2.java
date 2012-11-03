@@ -2,6 +2,8 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -10,13 +12,18 @@ import javax.swing.JTextPane;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
-public class TestModule extends ModuleClass {
+public class TestModule2 extends ModuleClass {
 
-	public static final String moduleName = "TestModule";
-	public static final String moduleArea = "Algorithm";
+	public static final String moduleName = "TestModule2";
+	public static final String moduleArea = "Math";
 	public static final String moduleDescription = "Example Description";
+	
+	private int diff = 0;
+	private String time = "";
 
-	public TestModule(Object o) {
+	private int result = 0;
+
+	public TestModule2(Object o) {
 		super(o);
 	}
 
@@ -24,6 +31,22 @@ public class TestModule extends ModuleClass {
 		return new ModuleGUI();
 	}
 
+	@Override
+	public void setDifficulty(int diff) {
+		this.diff = diff;
+	}
+
+	@Override
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	@Override
+	public void sendResult() {
+		System.out.println("sending Result " + result);
+
+	}
+	
 	class ModuleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
@@ -39,7 +62,7 @@ public class TestModule extends ModuleClass {
 
 		public void init() {
 			JTextPane pane = new JTextPane();
-			pane.setText("Beispiel TextPane");
+			pane.setText("Beispiel TextPane2");
 			pane.setBounds(50, 50, 100, 100);
 			this.add(pane);
 
@@ -52,11 +75,11 @@ public class TestModule extends ModuleClass {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch (buttons.indexOf(e.getSource())) {
-			case 0:
-				sendResult();
-				tellFinished();
-				break;
+			case 0: sendResult();
+					tellFinished();
+					break;
 			}
 		}
+
 	}
 }
