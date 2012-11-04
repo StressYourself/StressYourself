@@ -16,22 +16,30 @@ import javax.swing.JPanel;
  */
 public class MainApplication {
 
-	private JFrame frame;
-
+	private Admin admin;
+	private Login login;
+	private Outcome outcome;
 	private Parameter params;
-
+	private UserData users;
+	
+	private JFrame frame;
+	
 	private Class<?> runningModuleClass = null;
 	private Object runningModuleObject = null;
 	private HashMap<String, Method> runningModuleMethodsMap = null;
 	private URL url = null;
-	private LinkedList<String> classes = null;
+	private LinkedList<ModuleInformation> configuration = null;
 	private JPanel panel = null;
 	
 	int index = 0;
 
 	public MainApplication() {
 		params = new Parameter();
-
+		users = new UserData();
+		admin = new Admin(users, params);
+		login = new Login(users);
+		outcome = new Outcome(params);
+		
 		initialize();
 	}
 
@@ -52,15 +60,22 @@ public class MainApplication {
 		frame = new JFrame();
 		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		
 		getAvaiableModules();
+		getConfiguration();
 		
-		//Admin admin = new Admin();
-		//frame.add(admin.loadAdminGUI());
+		admin.getAdminPanel();
+		login.getLoginPanel();
+		
 		//initModules();
 		nextModule();
 
+	}
+
+	public void getConfiguration() {
+		//doesn't work right now, because of admin part
+		//configuration = params.getConfiguration();
+		configuration = params.getAvailableModules();
 	}
 
 	/**
@@ -84,7 +99,8 @@ public class MainApplication {
 			panel = (JPanel) Reflection.runMethod(
 					runningModuleMethodsMap.get("getModuleJPanel"),
 					runningModuleObject, (Object[]) null);
-			frame.add(panel);
+			frame.getContentPane().add(panel);
+			frame.getContentPane().revalidate();
 		}
 
 		return true;
@@ -96,6 +112,7 @@ public class MainApplication {
 	 * @author Tobias Ršding <tobias@roeding.eu>
 	 */
 	public void getAvaiableModules() {
+		LinkedList<String> classes = new LinkedList<String>();
 		url = Reflection.getURL(params.getPathToJar());
 		classes = Reflection.getClassNames(params.getPathToJar(),
 				params.getPackageName());
@@ -148,13 +165,11 @@ public class MainApplication {
 	 * @author Tobias Ršding <tobias@roeding.eu>
 	 */
 	public void nextModule() {
-		if (panel != null) {
-			frame.remove(panel);
-			panel = null;
-		}
+		frame.getContentPane().removeAll();
+		frame.getContentPane().invalidate();
 
-		if (index < classes.size()) {
-			runningModuleClass = Reflection.getClass(url, classes.get(index));
+		if (index < configuration.size()) {
+			runningModuleClass = Reflection.getClass(url, configuration.get(index).getName());
 			index++;
 			System.out.println(runningModuleClass.getName());
 
@@ -162,7 +177,19 @@ public class MainApplication {
 			String time = "";
 			startModule(runningModuleClass, difficulty, time);
 		} else {
-			// test finished, time to call the evaluation
+			// Test finished, time to call the evaluation!
+			createOutcome();
 		}
+	}
+	
+	/**
+	 * Generates the Outcome of the Test and creates the GUI for the Outcome
+	 * 
+	 * @author Tobias Ršding <tobias@roeding.eu>
+	 */
+	public void createOutcome(){
+		panel = outcome.getOutcomeGUI();
+		frame.getContentPane().add(panel);
+		frame.getContentPane().revalidate();
 	}
 }
