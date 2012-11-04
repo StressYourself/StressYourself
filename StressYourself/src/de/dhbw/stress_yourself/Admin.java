@@ -3,7 +3,6 @@ package de.dhbw.stress_yourself;
 public class Admin {
 	
 	public boolean loadAdminGUI(){
-		int TEST = 2;
 		return false;
 	}
 	
