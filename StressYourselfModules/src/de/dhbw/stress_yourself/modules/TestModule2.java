@@ -10,30 +10,38 @@ import javax.swing.JTextPane;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
-public class TestModule extends ModuleClass {
+public class TestModule2 extends ModuleClass {
 
-	private final String moduleName = "TestModule";
-	private final String moduleArea = "Algorithm";
+	private final String moduleName = "TestModule2";
+	private final String moduleArea = "Math";
 	private final String moduleDescription = "Example Description";
 
-	public TestModule(Object o) {
+	private int result = 0;
+
+	public TestModule2(Object o) {
 		super(o);
+	}
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public String getModuleArea() {
+		return moduleArea;
+	}
+
+	public String getModuleDescription() {
+		return moduleDescription;
 	}
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
-	
-	public String getModuleName(){
-		return moduleName;
-	}
-	
-	public String getModuleArea(){
-		return moduleArea;
-	}
-	
-	public String getModuleDescription(){
-		return moduleDescription;
+
+	@Override
+	public void sendResult() {
+		System.out.println("sending Result " + result);
+
 	}
 
 	class ModuleGUI extends JPanel implements ActionListener {
@@ -51,7 +59,7 @@ public class TestModule extends ModuleClass {
 
 		public void init() {
 			JTextPane pane = new JTextPane();
-			pane.setText("Beispiel TextPane");
+			pane.setText("Beispiel TextPane2");
 			pane.setBounds(50, 50, 100, 100);
 			this.add(pane);
 
@@ -70,5 +78,6 @@ public class TestModule extends ModuleClass {
 				break;
 			}
 		}
+
 	}
 }
