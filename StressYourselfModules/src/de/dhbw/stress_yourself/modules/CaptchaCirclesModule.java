@@ -15,6 +15,13 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
 import de.dhbw.stress_yourself.extend.RandomCircles;
 import de.dhbw.stress_yourself.extend.RandomSequence;
 
+/**
+ * Module to create captchas where the user has to find a open circle 
+ * in a canvas full of circles.
+ * 
+ * @author Moritz Herbert <moritz.herbert@gmx.de>
+ * */
+
 public class CaptchaCirclesModule extends ModuleClass {
 
 	public static final String moduleName = "CaptchaCirclesModule";

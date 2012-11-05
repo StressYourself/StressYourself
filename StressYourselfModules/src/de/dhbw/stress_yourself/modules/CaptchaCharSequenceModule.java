@@ -1,6 +1,7 @@
 package de.dhbw.stress_yourself.modules;
 
 import java.awt.Color;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,6 +14,12 @@ import javax.swing.JTextPane;
 import de.dhbw.stress_yourself.extend.ModuleClass;
 import de.dhbw.stress_yourself.extend.RandomCircles;
 import de.dhbw.stress_yourself.extend.RandomSequence;
+
+/**
+ * Module to create captchas where the user has to repeat a sequence of characters
+ * 
+ * @author Moritz Herbert <moritz.herbert@gmx.de>
+ * */
 
 public class CaptchaCharSequenceModule extends ModuleClass {
 
