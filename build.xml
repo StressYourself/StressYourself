@@ -26,7 +26,7 @@
     
     <target name="compileProject">
         <mkdir dir="${bin.dir.project}" />
-        <javac srcdir="${src.dir.project}" destdir="${bin.dir.project}" encoding="utf-8" />
+        <javac srcdir="${src.dir.project}" destdir="${bin.dir.project}" encoding="utf-8" includeantruntime="false" />
     </target>
     
     <target name="compileModules">
