@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  * The MainApplication Class is used to manage and load all gui classes
  * containing the modules.
  * 
- * @author Tobias Ršding <tobias@roeding.eu>
+ * @author Tobias Roeding <tobias@roeding.eu>
  */
 public class MainApplication {
 
@@ -88,7 +88,7 @@ public class MainApplication {
 	 * @param time
 	 *            The time for the Test
 	 * @return boolean Bool if the module was sucessfully loaded
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
@@ -109,7 +109,7 @@ public class MainApplication {
 	/**
 	 * Inits the Modules by getting the url and the names of the modules
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void getAvaiableModules() {
 		LinkedList<String> classes = new LinkedList<String>();
@@ -130,7 +130,7 @@ public class MainApplication {
 	 * 			Name of the class
 	 * @return
 	 * 			ModuleInformation Object
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public ModuleInformation getModuleInformation(URL url, String name) {
 		String area = null;
@@ -162,7 +162,7 @@ public class MainApplication {
 	/**
 	 * Changes the current module with the next module in the classes list
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void nextModule() {
 		frame.getContentPane().removeAll();
@@ -185,7 +185,7 @@ public class MainApplication {
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void createOutcome(){
 		panel = outcome.getOutcomeGUI();
