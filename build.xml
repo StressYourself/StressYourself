@@ -49,7 +49,7 @@
                 <attribute name="Built-By" value="${user.name}" />
                 <attribute name="Built-Date" value="${buildDate}" />
                 <attribute name="Built-Time" value="${buildTime}" />
-            	<attribute name="Class-Path" value="StressYourself/lib/jaxen-1.1.3.jar;StressYourself/lib/jdom-2.0.3-contrib.jar;StressYourself/lib/jdom-2.0.3-javadoc.jar;StressYourself/lib/jdom-2.0.3-junit.jar;StressYourself/lib/jdom-2.0.3-sources.jar;StressYourself/lib/jdom-2.0.3.jar;StressYourself/lib/xercesImpl.jar;StressYourself/lib/xml-apis.jar" />  
+            	<attribute name="Class-Path" value="../lib/jaxen-1.1.3.jar;../lib/jdom-2.0.3-contrib.jar;../lib/jdom-2.0.3-javadoc.jar;../lib/jdom-2.0.3-junit.jar;../lib/jdom-2.0.3-sources.jar;../lib/jdom-2.0.3.jar;../lib/xercesImpl.jar;../lib/xml-apis.jar" />  
 	    </manifest>
         </jar>
     </target>
