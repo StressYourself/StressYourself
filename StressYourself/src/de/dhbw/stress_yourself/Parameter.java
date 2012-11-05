@@ -118,6 +118,7 @@ public  class Parameter {
 				}
 				if (!exists) {
 					configuration.remove(i);
+					i--;
 				}
 			}
 			checkStatus = true;
