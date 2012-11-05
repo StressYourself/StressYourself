@@ -16,8 +16,7 @@ import org.jdom2.output.XMLOutputter;
 /**
  * class manages the information about the modules
  * 
- * @author LukasBuchert
- * 
+ * @author LukasBuchert <email>
  */
 public class Parameter {
 
@@ -126,7 +125,6 @@ public class Parameter {
 			}
 			checkStatus = true;
 		}
-
 	}
 
 	// methods for Interface XML
