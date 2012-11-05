@@ -1,6 +1,5 @@
 package de.dhbw.stress_yourself;
 
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,19 +12,17 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+
 /**
  * class manages the information about the modules
  * 
  * @author LukasBuchert
- *
+ * 
  */
-
-
-public  class Parameter {
+public class Parameter {
 
 	public Parameter() {
-    readXML();
-
+		readXML();
 	}
 
 	private final String pathToJar = "../stress_yourself_modules.jar";
@@ -38,11 +35,7 @@ public  class Parameter {
 
 	private int difficulty;
 
-
 	private boolean checkStatus = false;
-
-
-	
 
 	public String getPathToJar() {
 		return pathToJar;
@@ -60,6 +53,7 @@ public  class Parameter {
 		check();
 		return (LinkedList<ModuleInformation>) this.configuration.clone();
 	}
+
 	/**
 	 * used by Admin
 	 */
@@ -67,41 +61,51 @@ public  class Parameter {
 	public LinkedList<ModuleInformation> getAvailableModules() {
 		return (LinkedList<ModuleInformation>) this.availableModules.clone();
 	}
+
 	/**
-	 * used by MainApplication 
+	 * used by MainApplication
 	 */
-	public void addModuleInformation(String name, String area, String description){
-		availableModules.addLast(new ModuleInformation(name,area,description));
+	public void addModuleInformation(String name, String area,
+			String description) {
+		availableModules
+				.addLast(new ModuleInformation(name, area, description));
 	}
+
+	public void addModuleInformation(ModuleInformation mi) {
+		availableModules.addLast(mi);
+	}
+
 	/**
 	 * used by Admin for storing the new configuration
 	 */
-	public void overwriteConfiguration(LinkedList<ModuleInformation> configuration, int difficulty){
+	public void overwriteConfiguration(
+			LinkedList<ModuleInformation> configuration, int difficulty) {
 		this.configuration = configuration;
 		this.difficulty = difficulty;
 	}
+
 	/**
 	 * used by MainApplication to store the points
 	 */
-	public void addResult(String moduleName, int points){
-		for (int i = 0; i < configuration.size(); i++){
-			if (configuration.get(i).equals(moduleName)){
+	public void addResult(String moduleName, int points) {
+		for (int i = 0; i < configuration.size(); i++) {
+			if (configuration.get(i).equals(moduleName)) {
 				configuration.get(i).setPoints(points);
 				break;
 			}
 		}
 	}
+
 	/**
 	 * used by MainApplication when Admin is closed
 	 */
-	public void saveChangesInXML(){
+	public void saveChangesInXML() {
 		resetXML();
-		for (int i = 0; i < configuration.size(); i++){
+		for (int i = 0; i < configuration.size(); i++) {
 			ModuleInformation tmp = configuration.get(i);
-			addModuleXML(tmp.getName(),tmp.getTime());
+			addModuleXML(tmp.getName(), tmp.getTime());
 		}
 	}
-
 
 	// some private functions for the implementation
 
@@ -123,7 +127,6 @@ public  class Parameter {
 			}
 			checkStatus = true;
 		}
-
 
 	}
 
@@ -171,7 +174,6 @@ public  class Parameter {
 
 	}
 
-
 	private void readXML() {
 
 		Document list = null;
@@ -203,6 +205,5 @@ public  class Parameter {
 		}
 
 	}
-
 
 }

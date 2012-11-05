@@ -1,8 +1,10 @@
 package de.dhbw.stress_yourself;
+
 /**
  * Class stores specific information about module
+ * 
  * @author LukasBuchert
- *
+ * 
  */
 public class ModuleInformation {
 
@@ -11,56 +13,67 @@ public class ModuleInformation {
 	private String description;
 	private int time;
 	private int points;
-	
-	public ModuleInformation (String name, String area, String description){
+
+	public ModuleInformation(String name, String area, String description) {
 		this.name = name;
 		this.area = area;
 		this.description = description;
 	}
-	
-	public ModuleInformation (String name, String area, String description, int time){
+
+	public ModuleInformation(String name, String area, String description,
+			int time) {
 		this.name = name;
 		this.area = area;
 		this.description = description;
 		this.time = time;
 	}
-	
-	public ModuleInformation (String name, int time){
+
+	public ModuleInformation(String name, int time) {
 		this.name = name;
 		this.time = time;
 	}
-	
-	public String getName (){
+
+	public String getName() {
 		return this.name;
 	}
-	public String getArea (){
+
+	public String getArea() {
 		return this.area;
 	}
-	public String getDescription (){
+
+	public String getDescription() {
 		return this.description;
 	}
-	public int getTime (){
+
+	public int getTime() {
 		return this.time;
 	}
-	public int getPoints (){
+
+	public int getPoints() {
 		return this.points;
 	}
-	public void setArea(String area){
+
+	public void setArea(String area) {
 		this.area = area;
 	}
-	public void setDescription(String description){
+
+	public void setDescription(String description) {
 		this.description = description;
 	}
-	public void setTime(int time){
+
+	public void setTime(int time) {
 		this.time = time;
 	}
-	public void setPoints(int points){
+
+	public void setPoints(int points) {
 		this.points = points;
 	}
-	public boolean equals(String moduleName){
+
+	public boolean equals(String moduleName) {
 		return this.name.equals(moduleName);
 	}
-	public boolean equals(ModuleInformation element){
+
+	public boolean equals(ModuleInformation element) {
 		return this.name.equals(element.name);
 	}
 }

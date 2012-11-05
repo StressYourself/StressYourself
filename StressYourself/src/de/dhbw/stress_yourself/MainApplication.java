@@ -1,8 +1,6 @@
 package de.dhbw.stress_yourself;
 
 import java.awt.EventQueue;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
@@ -11,26 +9,37 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * The MainApplication Class is used to manage and load all gui classes containing the modules.
+ * The MainApplication Class is used to manage and load all gui classes
+ * containing the modules.
  * 
- * @author Tobias Ršding <tobias@roeding.eu>
+ * @author Tobias Roeding <tobias@roeding.eu>
  */
 public class MainApplication {
 
-	private JFrame frame;
-
+	private Admin admin;
+	private Login login;
+	private Outcome outcome;
 	private Parameter params;
-
+	private UserData users;
+	
+	private JFrame frame;
+	
 	private Class<?> runningModuleClass = null;
 	private Object runningModuleObject = null;
 	private HashMap<String, Method> runningModuleMethodsMap = null;
 	private URL url = null;
-	private LinkedList<String> classes = null;
+	private LinkedList<ModuleInformation> configuration = null;
 	private JPanel panel = null;
-
+	
 	int index = 0;
 
 	public MainApplication() {
+		params = new Parameter();
+		users = new UserData();
+		admin = new Admin(users, params);
+		login = new Login(users);
+		outcome = new Outcome(params);
+		
 		initialize();
 	}
 
@@ -51,10 +60,22 @@ public class MainApplication {
 		frame = new JFrame();
 		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		initModules();
+		
+		getAvaiableModules();
+		getConfiguration();
+		
+		admin.getAdminPanel();
+		login.getLoginPanel();
+		
+		//initModules();
 		nextModule();
 
+	}
+
+	public void getConfiguration() {
+		//doesn't work right now, because of admin part
+		//configuration = params.getConfiguration();
+		configuration = params.getAvailableModules();
 	}
 
 	/**
@@ -67,73 +88,88 @@ public class MainApplication {
 	 * @param time
 	 *            The time for the Test
 	 * @return boolean Bool if the module was sucessfully loaded
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
-		runningModuleObject = createModuleInstance(clazz);
+		runningModuleObject = Reflection.createClassInstance(clazz, this);
 
 		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
 			panel = (JPanel) Reflection.runMethod(
 					runningModuleMethodsMap.get("getModuleJPanel"),
 					runningModuleObject, (Object[]) null);
-			frame.add(panel);
+			frame.getContentPane().add(panel);
+			frame.getContentPane().revalidate();
 		}
 
 		return true;
 	}
 
 	/**
-	 * Create and return an instance of the module class
-	 * 
-	 * @param clazz
-	 *            The module class
-	 * @return Object The instance of the module
-	 * @author Tobias Ršding <tobias@roeding.eu>
-	 */
-	public Object createModuleInstance(Class<?> clazz) {
-		Object moduleObject = null;
-		Constructor<?> cons = null;
-		try {
-			cons = clazz.getConstructor(new Class[] { Object.class });
-		} catch (NoSuchMethodException | SecurityException e) {
-			System.err.println("Couldn't get the Constructor " + e);
-		}
-		try {
-			moduleObject = cons.newInstance(this);
-		} catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException e) {
-			System.err.println("Couldn't the object from the module " + e);
-		}
-		return moduleObject;
-	}
-
-	/**
 	 * Inits the Modules by getting the url and the names of the modules
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	public void initModules() {
-		params = new Parameter();
+	public void getAvaiableModules() {
+		LinkedList<String> classes = new LinkedList<String>();
 		url = Reflection.getURL(params.getPathToJar());
 		classes = Reflection.getClassNames(params.getPathToJar(),
 				params.getPackageName());
+		for (int i = 0; i < classes.size(); i++) {
+			params.addModuleInformation(getModuleInformation(url, classes.get(i)));
+		}
+	}
+
+	/**
+	 * Returns an Object of ModuleInformation containing all needed Information about the Module
+	 * 
+	 * @param url
+	 * 			URL to the jar
+	 * @param name
+	 * 			Name of the class
+	 * @return
+	 * 			ModuleInformation Object
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public ModuleInformation getModuleInformation(URL url, String name) {
+		String area = null;
+		String description = null;
+		 
+		runningModuleClass = Reflection.getClass(url, name);
+
+		runningModuleMethodsMap = Reflection
+				.getClassMethods(runningModuleClass);
+
+		runningModuleObject = Reflection.createClassInstance(
+				runningModuleClass, this);
+
+		if (runningModuleMethodsMap.containsKey("getModuleArea")) {
+			area = (String) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleArea"),
+					runningModuleObject, (Object[]) null);
+		}
+
+		if (runningModuleMethodsMap.containsKey("getModuleDescription")) {
+			description = (String) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleDescription"),
+					runningModuleObject, (Object[]) null);
+		}
+
+		return new ModuleInformation(name, area, description);
 	}
 
 	/**
 	 * Changes the current module with the next module in the classes list
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void nextModule() {
-		if (panel != null) {
-			frame.remove(panel);
-			panel = null;
-		}
+		frame.getContentPane().removeAll();
+		frame.getContentPane().invalidate();
 
-		if (index < classes.size()) {
-			runningModuleClass = Reflection.getClass(url, classes.get(index));
+		if (index < configuration.size()) {
+			runningModuleClass = Reflection.getClass(url, configuration.get(index).getName());
 			index++;
 			System.out.println(runningModuleClass.getName());
 
@@ -141,7 +177,19 @@ public class MainApplication {
 			String time = "";
 			startModule(runningModuleClass, difficulty, time);
 		} else {
-			// test finished, time to call the evaluation 
+			// Test finished, time to call the evaluation!
+			createOutcome();
 		}
+	}
+	
+	/**
+	 * Generates the Outcome of the Test and creates the GUI for the Outcome
+	 * 
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public void createOutcome(){
+		panel = outcome.getOutcomeGUI();
+		frame.getContentPane().add(panel);
+		frame.getContentPane().revalidate();
 	}
 }

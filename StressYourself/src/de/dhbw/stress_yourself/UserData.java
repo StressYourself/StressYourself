@@ -17,10 +17,12 @@ import org.jdom2.output.XMLOutputter;
 import java.io.FileWriter;
 
 import org.jdom2.output.Format;
+
 /**
  * class manages the user data
+ * 
  * @author LukasBuchert
- *
+ * 
  */
 public class UserData {
 
@@ -202,8 +204,7 @@ public class UserData {
 		}
 	}
 
-	private  void addUserXML(String name, String password,
-			String type) {
+	private void addUserXML(String name, String password, String type) {
 		Element nameElement = new Element("name");
 		Element passwordElement = new Element("password");
 		Element typeElement = new Element("type");
@@ -229,7 +230,7 @@ public class UserData {
 
 	}
 
-	private  void readXML() {
+	private void readXML() {
 
 		Document list = null;
 		File file = new File(filename);
