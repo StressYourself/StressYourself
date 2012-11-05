@@ -2,6 +2,7 @@ package de.dhbw.stress_yourself;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -17,7 +18,7 @@ import java.util.jar.JarFile;
  * The Reflection class is a extension to the Reflection API and provides some
  * usefull methods to find and get classes out of a jar file
  * 
- * @author Tobias Ršding <tobias@roeding.eu>
+ * @author Tobias Roeding <tobias@roeding.eu>
  */
 public class Reflection {
 
@@ -27,7 +28,7 @@ public class Reflection {
 	 * @param path
 	 *            The path as string
 	 * @return URL of the file or directory
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public static URL getURL(String path) {
 		URL url = null;
@@ -47,7 +48,7 @@ public class Reflection {
 	 * @param packageName
 	 *            Package name the searched classes are in
 	 * @return List<String> List with all class names
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public static LinkedList<String> getClassNames(String pathToJar,
 			String packageName) {
@@ -67,7 +68,7 @@ public class Reflection {
 	 * @param clazz
 	 *            Class to search for methods
 	 * @return HashMap<String,Method> A HashMap with the name and the function
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public static HashMap<String, Method> getClassMethods(Class<?> clazz) {
 		Method[] methodsArray = clazz.getMethods();
@@ -87,7 +88,7 @@ public class Reflection {
 	 * @param name
 	 *            Name of the class
 	 * @return The class
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public static Class<?> getClass(URL url, String name) {
 		URLClassLoader urlcl = null;
@@ -102,6 +103,31 @@ public class Reflection {
 
 		return clazz;
 	}
+	
+	/**
+	 * Create and return an instance of the module class
+	 * 
+	 * @param clazz
+	 *            The module class
+	 * @return Object The instance of the module
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public static Object createClassInstance(Class<?> clazz, Object param) {
+		Object classObject = null;
+		Constructor<?> cons = null;
+		try {
+			cons = clazz.getConstructor(new Class[] { Object.class });
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.err.println("Couldn't get the Constructor " + e);
+		}
+		try {
+			classObject = cons.newInstance(param);
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			System.err.println("Couldn't the object from the module " + e);
+		}
+		return classObject;
+	}
 
 	/**
 	 * Runs the specified Method in the context of the specified Object and with
@@ -115,7 +141,7 @@ public class Reflection {
 	 *            The parameter the function is called with
 	 * @return An object of the return value of the function (has to be casted
 	 *         to use)
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public static Object runMethod(Method function, Object o, Object[] params) {
 		Object result = null;
@@ -139,7 +165,7 @@ public class Reflection {
 	 * @param packageName
 	 *            The base package
 	 * @return The names of the classes as LinkedList
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public static LinkedList<String> getClassesFromJar(String pathToJar,
 			String packageName) {
@@ -163,7 +189,6 @@ public class Reflection {
 					className = className.substring(0,
 							className.indexOf(".class"));
 
-					// classes.add(className);
 					classes.addLast(className);
 				}
 			} while (je.hasMoreElements());

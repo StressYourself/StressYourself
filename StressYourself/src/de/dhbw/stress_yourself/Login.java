@@ -1,9 +1,21 @@
 package de.dhbw.stress_yourself;
 
-public class Login {
+import javax.swing.JPanel;
 
-	public boolean loadLogin() {
-		return false;
+/**
+ * 
+ * @author Christoph Schollmeyer <email>
+ */
+public class Login {
+	private UserData users;
+	
+	public Login(UserData users){
+		this.users = users;
+	}
+	
+	public JPanel getLoginPanel() {
+		JPanel panel = new JPanel();
+		return panel;
 	}
 
 	public int login(String username, String password) {
