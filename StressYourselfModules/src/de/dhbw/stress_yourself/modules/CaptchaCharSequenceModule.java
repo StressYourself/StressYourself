@@ -24,9 +24,9 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  */
 public class CaptchaCharSequenceModule extends ModuleClass {
 
-	public static final String moduleName = "CaptchaCharSequenceModule";
-	public static final String moduleArea = "Concentration";
-	public static final String moduleDescription = "Example Description";
+	private final String moduleName = "CaptchaCharSequenceModule";
+	private final String moduleArea = "Concentration";
+	private final String moduleDescription = "Example Description";
 
 	private int diff = 0;
 	private String time = "";
@@ -41,6 +41,22 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
+	
+	@Override
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	@Override
+	public String getModuleArea() {
+		return moduleArea;
+	}
+
+	@Override
+	public String getModuleDescription() {
+		return moduleDescription;
+	}
+
 
 	@Override
 	public void setDifficulty(int diff) {
@@ -214,5 +230,4 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		}
 
 	}
-
 }

@@ -25,9 +25,9 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  */
 public class CaptchaCirclesModule extends ModuleClass {
 
-	public static final String moduleName = "CaptchaCirclesModule";
-	public static final String moduleArea = "Concentration";
-	public static final String moduleDescription = "Example Description";
+	private final String moduleName = "CaptchaCirclesModule";
+	private final String moduleArea = "Concentration";
+	private final String moduleDescription = "Example Description";
 
 	private int diff = 2;
 	private String time = "";
@@ -39,6 +39,21 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
+	}
+	
+	@Override
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	@Override
+	public String getModuleArea() {
+		return moduleArea;
+	}
+
+	@Override
+	public String getModuleDescription() {
+		return moduleDescription;
 	}
 
 	@Override

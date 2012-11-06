@@ -176,9 +176,10 @@ public class MainApplication {
 		frame.getContentPane().invalidate();
 
 		if (index < configuration.size()) {
-			runningModuleClass = Reflection.getClass(url, configuration.get(index).getName());
+			runningModuleClass = Reflection.getClass(url, configuration.get(index).getClassName());
+			System.out.println(configuration.get(index).getName());
 			index++;
-			System.out.println(runningModuleClass.getName());
+			
 
 			int difficulty = 0;
 			String time = "";
