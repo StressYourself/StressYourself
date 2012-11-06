@@ -19,7 +19,6 @@ import org.jdom2.output.XMLOutputter;
  * @author LukasBuchert
  * 
  */
-
 public class Parameter {
 
 	public Parameter() {
@@ -70,6 +69,10 @@ public class Parameter {
 			String description) {
 		availableModules
 				.addLast(new ModuleInformation(name, area, description));
+	}
+
+	public void addModuleInformation(ModuleInformation mi) {
+		availableModules.addLast(mi);
 	}
 
 	/**

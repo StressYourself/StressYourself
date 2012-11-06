@@ -6,11 +6,17 @@ import java.lang.reflect.Method;
 
 import javax.swing.JPanel;
 
+/**
+ * The ModuleClass is an abstract class to predefine some functions and vars for
+ * the subclasses.
+ * 
+ * @author Moritz Herbert <>
+ * @author Tobias Roeding <tobias@roeding.eu>
+ */
 public abstract class ModuleClass {
-	// here three vars
 
-	private int diff = 0;
-	private String time = "";
+	private int diff;
+	private String time;
 
 	private int result = 0;
 
@@ -37,6 +43,12 @@ public abstract class ModuleClass {
 
 	}
 
+	/**
+	 * Function to tell the main class, that the module has finshed his test and
+	 * the next module can be loaded
+	 * 
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
 	public void tellFinished() {
 		Class<?> clazz = null;
 		try {
