@@ -22,8 +22,8 @@ public class OperandModule extends ModuleClass {
 	private final String moduleArea = "";
 	private final String moduleDescription = "Example Description";
 
-	public OperandModule(Object o) {
-		super(o);
+	public OperandModule(Object o, Integer difficulty, Integer time) {
+		super(o, difficulty.intValue(), time.intValue());
 	}
 	
 	public String getModuleName(){
