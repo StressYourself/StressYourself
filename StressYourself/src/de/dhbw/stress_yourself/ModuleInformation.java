@@ -6,7 +6,7 @@ package de.dhbw.stress_yourself;
  * @author LukasBuchert <email>
  */
 public class ModuleInformation {
-
+	
 	private String name;
 	private String area;
 	private String description;
