@@ -29,8 +29,8 @@ public class Admin {
 	
 	
 	private UserData users;
-	private Parameter params;
-	
+	private Parameter params;	
+
 	public Admin(UserData users, Parameter params){
 		this.users = users;
 		this.params = params;

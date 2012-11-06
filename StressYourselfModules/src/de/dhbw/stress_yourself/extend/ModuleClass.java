@@ -52,6 +52,10 @@ public abstract class ModuleClass {
 	    System.out.println( "Immer puenktlich!" );
 	  }
 	}
+	
+	public abstract String getModuleName();
+	public abstract String getModuleArea();
+	public abstract String getModuleDescription();
 
 	public abstract JPanel getModuleJPanel();
 

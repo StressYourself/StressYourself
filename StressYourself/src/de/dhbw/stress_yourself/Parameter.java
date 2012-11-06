@@ -64,10 +64,10 @@ public class Parameter {
 	/**
 	 * used by MainApplication
 	 */
-	public void addModuleInformation(String name, String area,
+	public void addModuleInformation(String name,String classname, String area,
 			String description) {
 		availableModules
-				.addLast(new ModuleInformation(name, area, description));
+				.addLast(new ModuleInformation(name,classname, area, description));
 	}
 
 	public void addModuleInformation(ModuleInformation mi) {
@@ -203,5 +203,4 @@ public class Parameter {
 		}
 
 	}
-
 }

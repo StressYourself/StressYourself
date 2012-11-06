@@ -6,21 +6,24 @@ package de.dhbw.stress_yourself;
  * @author LukasBuchert <email>
  */
 public class ModuleInformation {
-
+	
+	private String classname;
 	private String name;
 	private String area;
 	private String description;
 	private int time;
 	private int points;
 
-	public ModuleInformation(String name, String area, String description) {
+	public ModuleInformation(String classname, String name, String area, String description) {
+		this.classname = classname;
 		this.name = name;
 		this.area = area;
 		this.description = description;
 	}
 
-	public ModuleInformation(String name, String area, String description,
+	public ModuleInformation(String classname, String name, String area, String description,
 			int time) {
+		this.classname = classname;
 		this.name = name;
 		this.area = area;
 		this.description = description;
@@ -34,6 +37,10 @@ public class ModuleInformation {
 
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getClassName() {
+		return this.classname;
 	}
 
 	public String getArea() {
