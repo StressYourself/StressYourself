@@ -64,9 +64,7 @@ public class UserData {
 				String type = users.get(i).getUserType();
 				if(type.equals("u")){
 					result = 1;
-					System.out.println("Ich komme hier hin!");
 				} else if(type.equals("a")){
-					System.out.println("Ich komme hier hin!");
 					result = 2;
 				}
 				break;
