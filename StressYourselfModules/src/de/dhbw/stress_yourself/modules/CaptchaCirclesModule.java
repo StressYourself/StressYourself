@@ -7,13 +7,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 import de.dhbw.stress_yourself.extend.RandomCircles;
-import de.dhbw.stress_yourself.extend.RandomSequence;
 
 /**
  * Module to create captchas where the user has to find a open circle 
@@ -27,29 +29,16 @@ public class CaptchaCirclesModule extends ModuleClass {
 	public static final String moduleName = "CaptchaCirclesModule";
 	public static final String moduleArea = "Concentration";
 	public static final String moduleDescription = "Example Description";
-
-	private int diff = 2;
-	private String time = "";
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
-	public CaptchaCirclesModule(Object o) {
-		super(o);
+	public CaptchaCirclesModule(Object o, int difficulty, int time) {
+		super(o, difficulty, time);
 	}
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
-
-	@Override
-	public void setDifficulty(int diff) {
-		this.diff = diff;
-	}
-
-	@Override
-	public void setTime(String time) {
-		this.time = time;
-	}
-
+	
 	/**
 	 * This method calculates whether coordinates of mouse click are in open
 	 * circle with help of the Pythagorean theorem
@@ -80,6 +69,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 	}
 
 	class ModuleGUI extends JPanel implements ActionListener, MouseListener {
+		
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
 		private RandomCircles captcha;
@@ -94,7 +84,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 		}
 		
 		public RandomCircles createCaptcha() {
-			RandomCircles c = new RandomCircles(diff);
+			RandomCircles c = new RandomCircles(getDifficulty());
 			
 			c.setBounds(50, 100, 300, 100);
 			c.setBackground(Color.darkGray);
@@ -119,6 +109,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 			button.addActionListener(this);
 			button.setBounds(230, 50, 120, 30);
 			this.add(button);
+			setTimer();
 		}
 
 		@Override

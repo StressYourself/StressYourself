@@ -3,9 +3,16 @@ package de.dhbw.stress_yourself.extend;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.Random;
+
+/**
+ * This class contains a blueprint 
+ * for a canvas which draws a random character sequence 
+ * used as a captcha test 
+ * 
+ * @author Moritz Herbert <moritz.herbert@gmx.de>
+ * */
 
 public class RandomSequence extends Canvas {
 	private static final long serialVersionUID = 1L;

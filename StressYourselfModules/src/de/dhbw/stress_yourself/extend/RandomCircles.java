@@ -6,6 +6,13 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Random;
 
+/**
+ * This class contains a blueprint 
+ * for a canvas which draws random circles used as a captcha test 
+ * 
+ * @author Moritz Herbert <moritz.herbert@gmx.de>
+ * */
+
 public class RandomCircles extends Canvas {
 	private static final long serialVersionUID = 1L;
 

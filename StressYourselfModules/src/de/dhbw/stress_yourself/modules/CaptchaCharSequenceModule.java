@@ -28,27 +28,15 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	public static final String moduleDescription = "Example Description";
 
 	private int diff = 0;
-	private String time = "";
+	private Integer time = 6;
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
-	private String typedSequence, displayedSequence;
-
-	public CaptchaCharSequenceModule(Object o) {
-		super(o);
+	public CaptchaCharSequenceModule(Object o, int difficulty, int time) {
+		super(o, difficulty, time);
 	}
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
-	}
-
-	@Override
-	public void setDifficulty(int diff) {
-		this.diff = diff;
-	}
-
-	@Override
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	/**
