@@ -16,16 +16,16 @@ public class Admin {
 
 	private JPanel pnlUserManagement = new JPanel();
 	
-	private JButton btnCreateUser = new JButton("Benutzer anlegen");
-	private JButton btnDeleteUser = new JButton("Benutzer lšschen");
-	private JButton btnChangePassword = new JButton("Passwort Šndern");
+	private JButton btnCreateUser = new JButton("Create User");
+	private JButton btnDeleteUser = new JButton("Delete User");
+	private JButton btnChangePassword = new JButton("Change Password");
 	
 	private JPasswordField pfPassword = new JPasswordField();
 	private JTextField tfUsername = new JTextField();
 	
-	private JLabel lblUserManagement = new JLabel("Benutzerverwaltung:");
-	private JLabel lblUsername = new JLabel("Benutzername:");
-	private JLabel lblPassword = new JLabel("Passwort:");
+	private JLabel lblUserManagement = new JLabel("User Management:");
+	private JLabel lblUsername = new JLabel("User:");
+	private JLabel lblPassword = new JLabel("Password:");
 	
 	
 	private UserData users;

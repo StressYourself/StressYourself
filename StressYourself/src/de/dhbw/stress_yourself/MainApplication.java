@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  * The MainApplication Class is used to manage and load all gui classes
  * containing the modules.
  * 
- * @author Tobias Ršding <tobias@roeding.eu>
+ * @author Tobias Roeding <tobias@roeding.eu>
  */
 public class MainApplication {
 
@@ -88,7 +88,7 @@ public class MainApplication {
 	 * @param time
 	 *            The time for the Test
 	 * @return boolean Bool if the module was sucessfully loaded
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public boolean startModule(Class<?> clazz, int difficulty, String time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
@@ -109,7 +109,7 @@ public class MainApplication {
 	/**
 	 * Inits the Modules by getting the url and the names of the modules
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void getAvaiableModules() {
 		LinkedList<String> classes = new LinkedList<String>();
@@ -130,19 +130,26 @@ public class MainApplication {
 	 * 			Name of the class
 	 * @return
 	 * 			ModuleInformation Object
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	public ModuleInformation getModuleInformation(URL url, String name) {
+	public ModuleInformation getModuleInformation(URL url, String classname) {
+		String name = null;
 		String area = null;
 		String description = null;
 		 
-		runningModuleClass = Reflection.getClass(url, name);
+		runningModuleClass = Reflection.getClass(url, classname);
 
 		runningModuleMethodsMap = Reflection
 				.getClassMethods(runningModuleClass);
 
 		runningModuleObject = Reflection.createClassInstance(
 				runningModuleClass, this);
+		
+		if (runningModuleMethodsMap.containsKey("getModuleName")) {
+			name = (String) Reflection.runMethod(
+					runningModuleMethodsMap.get("getModuleName"),
+					runningModuleObject, (Object[]) null);
+		}
 
 		if (runningModuleMethodsMap.containsKey("getModuleArea")) {
 			area = (String) Reflection.runMethod(
@@ -156,22 +163,23 @@ public class MainApplication {
 					runningModuleObject, (Object[]) null);
 		}
 
-		return new ModuleInformation(name, area, description);
+		return new ModuleInformation(classname, name, area, description);
 	}
 
 	/**
 	 * Changes the current module with the next module in the classes list
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void nextModule() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 
 		if (index < configuration.size()) {
-			runningModuleClass = Reflection.getClass(url, configuration.get(index).getName());
+			runningModuleClass = Reflection.getClass(url, configuration.get(index).getClassName());
+			System.out.println(configuration.get(index).getName());
 			index++;
-			System.out.println(runningModuleClass.getName());
+			
 
 			int difficulty = 0;
 			String time = "";
@@ -185,7 +193,7 @@ public class MainApplication {
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void createOutcome(){
 		panel = outcome.getOutcomeGUI();

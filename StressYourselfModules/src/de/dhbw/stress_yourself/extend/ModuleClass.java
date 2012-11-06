@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  * the subclasses.
  * 
  * @author Moritz Herbert <>
- * @author Tobias Ršding <tobias@roeding.eu>
+ * @author Tobias Roeding <tobias@roeding.eu>
  */
 public abstract class ModuleClass {
 
@@ -35,6 +35,10 @@ public abstract class ModuleClass {
 	public void setTime(String time) {
 		this.time = time;
 	}
+	
+	public abstract String getModuleName();
+	public abstract String getModuleArea();
+	public abstract String getModuleDescription();
 
 	public abstract JPanel getModuleJPanel();
 
@@ -47,7 +51,7 @@ public abstract class ModuleClass {
 	 * Function to tell the main class, that the module has finshed his test and
 	 * the next module can be loaded
 	 * 
-	 * @author Tobias Ršding <tobias@roeding.eu>
+	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void tellFinished() {
 		Class<?> clazz = null;
