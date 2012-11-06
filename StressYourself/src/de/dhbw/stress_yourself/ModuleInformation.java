@@ -8,18 +8,20 @@ package de.dhbw.stress_yourself;
 public class ModuleInformation {
 
 	private String name;
+	private String classname;
 	private String area;
 	private String description;
 	private int time;
 	private int points;
 
-	public ModuleInformation(String name, String area, String description) {
+	public ModuleInformation(String name,String classname, String area, String description) {
 		this.name = name;
+		this.classname = classname;
 		this.area = area;
 		this.description = description;
 	}
 
-	public ModuleInformation(String name, String area, String description,
+	public ModuleInformation(String name, String classname, String area, String description,
 			int time) {
 		this.name = name;
 		this.area = area;
@@ -34,6 +36,10 @@ public class ModuleInformation {
 
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getClassName() {
+		return this.classname;
 	}
 
 	public String getArea() {
