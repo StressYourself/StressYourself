@@ -1,6 +1,5 @@
 package de.dhbw.stress_yourself;
 
-
 import java.awt.Color;
 
 import javax.swing.JButton;
@@ -10,31 +9,33 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
- * need this imports for createMD5()
+ * 
+ * @author Florian Albert <email>
  */
-
-
-//Beschreibung bei Modulen anzeigen?? Tooltip?
-//bekomme 2 LinkedLists von Userdata mit 
-
-
-
 public class Admin {
 
 	private JPanel pnlUserManagement = new JPanel();
 	
-	private JButton btnCreateUser = new JButton("Benutzer anlegen");
-	private JButton btnDeleteUser = new JButton("Benutzer lšschen");
-	private JButton btnChangePassword = new JButton("Passwort Šndern");
+	private JButton btnCreateUser = new JButton("Create User");
+	private JButton btnDeleteUser = new JButton("Delete User");
+	private JButton btnChangePassword = new JButton("Change Password");
 	
 	private JPasswordField pfPassword = new JPasswordField();
 	private JTextField tfUsername = new JTextField();
 	
-	private JLabel lblUserManagement = new JLabel("Benutzerverwaltung:");
-	private JLabel lblUsername = new JLabel("Benutzername:");
-	private JLabel lblPassword = new JLabel("Passwort:");
+	private JLabel lblUserManagement = new JLabel("User Management:");
+	private JLabel lblUsername = new JLabel("User:");
+	private JLabel lblPassword = new JLabel("Password:");
 	
+	
+	private UserData users;
+	private Parameter params;	
 
+	public Admin(UserData users, Parameter params){
+		this.users = users;
+		this.params = params;
+	}
+	
 	
 	public static JPanel aPanel;
 
@@ -44,7 +45,7 @@ public class Admin {
 	 * the content is: Usermanagement / Testmanagement
 	 * @return - JPanel
 	 */
-	public JPanel loadAdminGUI(){
+	public JPanel getAdminPanel(){
 		aPanel = new JPanel();
 		aPanel.setLayout(null);
 		aPanel.setBounds(0,0,900, 400);
@@ -95,12 +96,7 @@ public class Admin {
 	 * @return true if user was created / false is some param is not ok
 	 */
 	public boolean createUser(String username, String password, String type) {
-		//rufe saveUser() aus UserData auf
-		
-		
-		// fragen ob linkedlist von usern static sein kann
-		// damit ich ein objekt erzeugen kann und in selbe liste schreibe
-		return false;
+		return users.saveUser(username, password, type);
 	}
 	
 	
@@ -111,11 +107,7 @@ public class Admin {
 	 * 			of the programm
 	 */
 	public boolean deleteUser(String username) {
-		// rufe deleteUser() aus UserData auf
-		
-		
-		//siehe createUser()
-		return false;
+		return users.deleteUser(username);
 	}
 	
 	
@@ -126,11 +118,8 @@ public class Admin {
 	 * @return true if the password was changed !the password isn't written in xml yet!
 	 * 			if the programm chrashes the changes are lost!
 	 */
-	public boolean changePassword(String username, String newpassword) {
-		// changePassword(username, password) aus UserData
-		
-		// siehe createUser()
-		return false;
+	public boolean changePassword(String username, String newPassword) {
+		return users.changePassword(username, newPassword);
 	}
 
 }

@@ -56,17 +56,20 @@ public class UserData {
 	 * @return false - if sum of all parameters dosen't exist true - if
 	 *         parameter matches
 	 */
-	public boolean existsUser(String username, String password) {
-		boolean back = false;
+	public int existsUser(String username, String password) {
+		int result = 0;
 		for (int i = 0; i < users.size(); i++) {
 			if (users.get(i).equals(username, password)) {
-				back = true;
-				currentUser = users.get(i);
+				String type = users.get(i).getUserType();
+				if(type == "u"){
+					result = 1;
+				} else if(type == "a"){
+					result = 2;
+				}
 				break;
 			}
 		}
-
-		return back;
+		return result;
 	}
 
 	/**
