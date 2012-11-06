@@ -30,14 +30,14 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
-	public CaptchaCharSequenceModule(Object o, int difficulty, int time) {
-		super(o, difficulty, time);
+	public CaptchaCharSequenceModule(Object o, Integer difficulty, Integer time) {
+		super(o, difficulty.intValue(), time.intValue());
 	}
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
-	
+
 	@Override
 	public String getModuleName() {
 		return moduleName;
@@ -52,7 +52,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	public String getModuleDescription() {
 		return moduleDescription;
 	}
-
 
 	/**
 	 * This method calculates whether coordinates of mouse click are in open
@@ -140,7 +139,13 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		}
 	}
 
-	class RandomSequence extends Canvas {
+	/**
+	 * This class contains a blueprint for a canvas which draws a random
+	 * character sequence used as a captcha test
+	 * 
+	 * @author Moritz Herbert <moritz.herbert@gmx.de>
+	 */
+	public class RandomSequence extends Canvas {
 		private static final long serialVersionUID = 1L;
 
 		private int difficulty = 0;
@@ -212,8 +217,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 
 				x += incrementationStep;
 			}
-
 		}
-
 	}
 }

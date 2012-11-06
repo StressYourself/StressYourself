@@ -32,13 +32,14 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
-	public CaptchaCirclesModule(Object o, int difficulty, int time) {
-		super(o, difficulty, time);
+	public CaptchaCirclesModule(Object o, Integer difficulty, Integer time) {
+		super(o, difficulty.intValue(), time.intValue());
 	}
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
+
 	@Override
 	public String getModuleName() {
 		return moduleName;
@@ -53,7 +54,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 	public String getModuleDescription() {
 		return moduleDescription;
 	}
-	
+
 	/**
 	 * This method calculates whether coordinates of mouse click are in open
 	 * circle with help of the Pythagorean theorem
@@ -84,7 +85,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 	}
 
 	class ModuleGUI extends JPanel implements ActionListener, MouseListener {
-		
+
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
 		private RandomCircles captcha;
@@ -175,6 +176,12 @@ public class CaptchaCirclesModule extends ModuleClass {
 		}
 	}
 
+	/**
+	 * This class contains a blueprint for a canvas which draws random circles
+	 * used as a captcha test
+	 * 
+	 * @author Moritz Herbert <moritz.herbert@gmx.de>
+	 */
 	class RandomCircles extends Canvas {
 		private static final long serialVersionUID = 1L;
 
