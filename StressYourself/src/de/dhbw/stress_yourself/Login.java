@@ -1,24 +1,62 @@
 package de.dhbw.stress_yourself;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JPanel;
+
+import de.dhbw.stress_yourself.UserData;
+
+/**
+ * 
+ * @author Christoph Schollmeyer <email>
+ */
 public class Login {
+
+	private UserData users;
+
+	public Login(UserData users) {
+		this.users = users;
+	}
+
 	/**
 	 * 
-	 * defines the GUI for the Login 
-	 *
+	 * @param username
+	 * @param password
+	 * @return
 	 */
-	
+	public int login(String username, String password) {
+		// Userdata.
+		// if (username.existsUser = 0 && password.existsUser = 0) {
+		// JOptionPane.showMessageDialog(null, "Login Successfull");
+		// else
+		// JOptionPane.showMessageDialog(null,
+		// "Eingabe fehlerhaft! Username oder Passwort falsch");
+		return 0;
+	}
+
+	public JPanel getLoginPanel() {
+		JPanel panel = new JPanel();
+		return panel;
+	}
+
+	/**
+	 * 
+	 * defines the GUI for the Login
+	 * 
+	 */
 	class LoginGUI extends JPanel implements ActionListener {
-		
+
 		JButton submit;
 		JPanel panel;
-		JLabel label1,label2;
+		JLabel label1;
+		JLabel label2;
+
 		JTextField text1, text2;
-		
-		public void init(){
-			
+
+		public void init() {
+
 			label1 = new JLabel();
 			label1.setText("Username:");
 			text1 = new JTextField(15);
@@ -26,9 +64,9 @@ public class Login {
 			label2 = new JLabel();
 			label2.setText("Password:");
 			text2 = new JPasswordField(8);
-			 
-			submit=new JButton("SUBMIT");
-			panel=new JPanel(new GridLayout(3,1));
+
+			submit = new JButton("SUBMIT");
+			panel = new JPanel(new GridLayout(3, 1));
 			panel.add(label1);
 			panel.add(text1);
 			panel.add(label2);
@@ -37,6 +75,7 @@ public class Login {
 			add(panel);
 			submit.addActionListener(this);
 		}
+
 		/**
 		 * Gets the Text from the TextFields
 		 */
@@ -45,29 +84,5 @@ public class Login {
 			String username = text1.getText();
 			String password = text2.getText();
 		}
-		
-		
-		
 	}
-	 
-		
-	/**
-	 * 
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	
-	public int login(String username, String password){
-	//	Userdata.
-	//	if (username.existsUser = 0 && password.existsUser = 0) {
-	// 		JOptionPane.showMessageDialog(null, "Login Successfull");
-	// 	else
-	// 		JOptionPane.showMessageDialog(null, "Eingabe fehlerhaft! Username oder Passwort falsch");
-		return 0;
-	}
-
-	
-	
-
 }
