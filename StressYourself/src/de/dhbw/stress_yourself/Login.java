@@ -27,13 +27,14 @@ public class Login {
 	 * @return
 	 */
 	public int login(String username, String password) {
-		// Userdata.
-		// if (username.existsUser = 0 && password.existsUser = 0) {
-		// JOptionPane.showMessageDialog(null, "Login Successfull");
-		// else
-		// JOptionPane.showMessageDialog(null,
-		// "Eingabe fehlerhaft! Username oder Passwort falsch");
-		return 0;
+		if (users.existsUser(username, password)) {
+			JOptionPane.showMessageDialog(null, "Login Successfull");
+			return 0;
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"Eingabe fehlerhaft! Username oder Passwort falsch");
+			return 0;
+		}
 	}
 
 	public JPanel getLoginPanel() {
@@ -83,6 +84,14 @@ public class Login {
 		public void actionPerformed(ActionEvent e) {
 			String username = text1.getText();
 			String password = text2.getText();
+			int result = login(username, password);
+			if (result == 0) {
+				// not logged in
+			} else if (result == 1) {
+				// user
+			} else if (result == 2) {
+				// admin
+			}
 		}
 	}
 }
