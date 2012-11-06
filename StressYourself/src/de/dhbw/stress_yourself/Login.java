@@ -26,6 +26,7 @@ public class Login {
 	 * @param password
 	 * @return
 	 */
+
 	public int login(String username, String password) {
 		if (users.existsUser(username, password)) {
 			JOptionPane.showMessageDialog(null, "Login Successfull");
@@ -38,7 +39,7 @@ public class Login {
 	}
 
 	public JPanel getLoginPanel() {
-		JPanel panel = new JPanel();
+		LoginGUI panel = new LoginGUI();
 		return panel;
 	}
 
@@ -47,33 +48,37 @@ public class Login {
 	 * defines the GUI for the Login
 	 * 
 	 */
-	class LoginGUI extends JPanel implements ActionListener {
+	private class LoginGUI extends JPanel implements ActionListener {
 
-		JButton submit;
-		JPanel panel;
-		JLabel label1;
-		JLabel label2;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private JButton submit;
+		private JLabel label1;
+		private JLabel label2;
 
-		JTextField text1, text2;
+		private JTextField text1, text2;
+		
+		public LoginGUI() {
+			init();
+		}
 
-		public void init() {
+		private void init() {
 
-			label1 = new JLabel();
-			label1.setText("Username:");
+			label1 = new JLabel("Username:");
 			text1 = new JTextField(15);
 
-			label2 = new JLabel();
-			label2.setText("Password:");
+			label2 = new JLabel("Password:");
 			text2 = new JPasswordField(8);
 
 			submit = new JButton("SUBMIT");
-			panel = new JPanel(new GridLayout(3, 1));
-			panel.add(label1);
-			panel.add(text1);
-			panel.add(label2);
-			panel.add(text2);
-			panel.add(submit);
-			add(panel);
+			setLayout(new GridLayout(3, 1));
+			add(label1);
+			add(text1);
+			add(label2);
+			add(text2);
+			add(submit);
 			submit.addActionListener(this);
 		}
 
@@ -84,6 +89,7 @@ public class Login {
 		public void actionPerformed(ActionEvent e) {
 			String username = text1.getText();
 			String password = text2.getText();
+			
 			int result = login(username, password);
 			if (result == 0) {
 				// not logged in

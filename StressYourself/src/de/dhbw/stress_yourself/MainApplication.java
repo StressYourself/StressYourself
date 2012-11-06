@@ -64,11 +64,11 @@ public class MainApplication {
 		getAvaiableModules();
 		getConfiguration();
 		
-		admin.getAdminPanel();
-		login.getLoginPanel();
+		//admin.getAdminPanel();
+		frame.setContentPane(login.getLoginPanel());
 		
 		//initModules();
-		nextModule();
+		//nextModule();
 
 	}
 
