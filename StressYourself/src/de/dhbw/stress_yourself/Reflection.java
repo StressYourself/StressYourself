@@ -189,7 +189,6 @@ public class Reflection {
 					className = className.substring(0,
 							className.indexOf(".class"));
 
-					// classes.add(className);
 					classes.addLast(className);
 				}
 			} while (je.hasMoreElements());

@@ -35,6 +35,10 @@ public abstract class ModuleClass {
 	public void setTime(String time) {
 		this.time = time;
 	}
+	
+	public abstract String getModuleName();
+	public abstract String getModuleArea();
+	public abstract String getModuleDescription();
 
 	public abstract JPanel getModuleJPanel();
 

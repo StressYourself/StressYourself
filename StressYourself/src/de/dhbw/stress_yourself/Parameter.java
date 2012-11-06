@@ -16,8 +16,7 @@ import org.jdom2.output.XMLOutputter;
 /**
  * class manages the information about the modules
  * 
- * @author LukasBuchert
- * 
+ * @author LukasBuchert <email>
  */
 public class Parameter {
 
@@ -65,10 +64,10 @@ public class Parameter {
 	/**
 	 * used by MainApplication
 	 */
-	public void addModuleInformation(String name, String area,
+	public void addModuleInformation(String name,String classname, String area,
 			String description) {
 		availableModules
-				.addLast(new ModuleInformation(name, area, description));
+				.addLast(new ModuleInformation(name,classname, area, description));
 	}
 
 	public void addModuleInformation(ModuleInformation mi) {
@@ -122,11 +121,11 @@ public class Parameter {
 				}
 				if (!exists) {
 					configuration.remove(i);
+					i--;
 				}
 			}
 			checkStatus = true;
 		}
-
 	}
 
 	// methods for Interface XML
