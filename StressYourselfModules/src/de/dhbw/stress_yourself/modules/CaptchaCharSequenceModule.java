@@ -28,8 +28,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
 
-	private int diff = 0;
-	private Integer time = 6;
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
 	public CaptchaCharSequenceModule(Object o, int difficulty, int time) {
@@ -93,7 +91,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		}
 
 		public RandomSequence createCaptcha() {
-			RandomSequence captcha = new RandomSequence(diff);
+			RandomSequence captcha = new RandomSequence(getDifficulty());
 
 			captcha.setBounds(50, 100, 300, 100);
 			captcha.setBackground(Color.darkGray);

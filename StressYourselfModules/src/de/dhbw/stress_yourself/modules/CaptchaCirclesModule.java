@@ -30,8 +30,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
 
-	private int diff = 2;
-	private String time = "";
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
 	public CaptchaCirclesModule(Object o, int difficulty, int time) {
@@ -95,9 +93,9 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
-			init();
 			setLayout(null);
 			setBounds(0, 0, 800, 600);
+			init();
 		}
 
 		public RandomCircles createCaptcha() {
