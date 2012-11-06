@@ -64,19 +64,21 @@ public class Admin {
 	     }
 	   }
 	}
-
+	
+	//Panels
 	private JPanel pnlUserManagement = new JPanel();
 	private JPanel pnlTestManagement = new JPanel();
 	
+	//Color
 	private Color backgroundColor; 
 	
-	
+	//Constants
 	private final int COMPONENTHEIGHT = 20;
 	private final int TEXTFIELDWIDTH = 170;
 	private final int LABELWIDTH = 100;
 	private final int BUTTONWIDTH = 150;
 	
-	
+	//Buttons 
 	private JButton btnCreateUser = new JButton("Create User");
 	private JButton btnDeleteUser = new JButton("Delete User");
 	private JButton btnChangePassword = new JButton("Change Password");
@@ -85,31 +87,41 @@ public class Admin {
 	private JButton btnModuleUp = new JButton("Module Prev");
 	private JButton btnModuleDown = new JButton("Module Back");
 	
+	//Textfields
 	private JPasswordField pfPassword = new JPasswordField();
 	private JTextField tfUsername = new JTextField();
 	private JTextField tfTime = new JTextField();
 	
-	
+	//Lists
 	private DefaultListModel<String> dlActiveModules = new DefaultListModel<String>();
 	private DefaultListModel<String> dlAvailableModules = new DefaultListModel<String>();
 	private JList<String> lActiveModules;
 	private JList<String> lAvailableModules;
 	
+	//Scrollpane
 	private JScrollPane spActiveModules;
 	private JScrollPane spAvailableModules;
 	
+	//Labels
 	private JLabel lblTestManagement = new JLabel("Testconfiguration:");
 	private JLabel lblUserManagement = new JLabel("User Management:");
 	private JLabel lblUsername = new JLabel("User:");
 	private JLabel lblPassword = new JLabel("Password:");
 	private JLabel lblSetTime = new JLabel("Set Time:");
 	
-	
+	//Information about users and parameters
 	private UserData users;
 	private Parameter params;
 	
+	/**
+	 * Actionlistener for all buttons
+	 * 	- checks which button is the caller and calls a
+	 * 	  specific function
+	 */
 	private ActionListener selectBtnFunction = new ActionListener() {
+		
 		private int index;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
@@ -121,7 +133,6 @@ public class Admin {
 						
 						index = lAvailableModules.getSelectedIndex();
 						System.out.println(index);
-						lAvailableModules.remove(index);
 						dlAvailableModules.remove(index);
 						
 						lAvailableModules.revalidate();
@@ -149,7 +160,12 @@ public class Admin {
 	};
 	
 	public static JPanel aPanel;	
-	
+		
+	/**
+	 * Constructor - creates an object of the class Admin
+	 * @param users - stores information about registrate users
+	 * @param params - stores the saved configuration and modulinformation
+	 */
 	public Admin(UserData users, Parameter params){
 		this.users = users;
 		this.params = params;
@@ -160,7 +176,6 @@ public class Admin {
 	 * the content is: Usermanagement / Testmanagement
 	 * @return - JPanel
 	 */
-
 	public JPanel getAdminPanel(){
 
 		aPanel = new JPanel();

@@ -116,12 +116,12 @@ public class Reflection {
 		Object classObject = null;
 		Constructor<?> cons = null;
 		try {
-			cons = clazz.getConstructor(new Class[] { Object.class });
+			cons = clazz.getConstructor(new Class[] {Object.class, Integer.class, Integer.class});
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.err.println("Couldn't get the Constructor " + e);
 		}
 		try {
-			classObject = cons.newInstance(param);
+			classObject = cons.newInstance(new Object[] {param, new Integer(1), new Integer(1)});
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
 			System.err.println("Couldn't the object from the module " + e);

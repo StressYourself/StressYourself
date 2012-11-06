@@ -28,20 +28,16 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
 
-	private int diff = 0;
-	private String time = "";
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
-	private String typedSequence, displayedSequence;
-
-	public CaptchaCharSequenceModule(Object o) {
-		super(o);
+	public CaptchaCharSequenceModule(Object o, Integer difficulty, Integer time) {
+		super(o, difficulty.intValue(), time.intValue());
 	}
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
-	
+
 	@Override
 	public String getModuleName() {
 		return moduleName;
@@ -55,17 +51,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	@Override
 	public String getModuleDescription() {
 		return moduleDescription;
-	}
-
-
-	@Override
-	public void setDifficulty(int diff) {
-		this.diff = diff;
-	}
-
-	@Override
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	/**
@@ -105,7 +90,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		}
 
 		public RandomSequence createCaptcha() {
-			RandomSequence captcha = new RandomSequence(diff);
+			RandomSequence captcha = new RandomSequence(getDifficulty());
 
 			captcha.setBounds(50, 100, 300, 100);
 			captcha.setBackground(Color.darkGray);
@@ -154,7 +139,13 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		}
 	}
 
-	class RandomSequence extends Canvas {
+	/**
+	 * This class contains a blueprint for a canvas which draws a random
+	 * character sequence used as a captcha test
+	 * 
+	 * @author Moritz Herbert <moritz.herbert@gmx.de>
+	 */
+	public class RandomSequence extends Canvas {
 		private static final long serialVersionUID = 1L;
 
 		private int difficulty = 0;
@@ -226,8 +217,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 
 				x += incrementationStep;
 			}
-
 		}
-
 	}
 }

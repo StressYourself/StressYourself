@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -29,18 +30,16 @@ public class CaptchaCirclesModule extends ModuleClass {
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
 
-	private int diff = 2;
-	private String time = "";
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
-	public CaptchaCirclesModule(Object o) {
-		super(o);
+	public CaptchaCirclesModule(Object o, Integer difficulty, Integer time) {
+		super(o, difficulty.intValue(), time.intValue());
 	}
 
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
-	
+
 	@Override
 	public String getModuleName() {
 		return moduleName;
@@ -54,16 +53,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 	@Override
 	public String getModuleDescription() {
 		return moduleDescription;
-	}
-
-	@Override
-	public void setDifficulty(int diff) {
-		this.diff = diff;
-	}
-
-	@Override
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	/**
@@ -96,6 +85,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 	}
 
 	class ModuleGUI extends JPanel implements ActionListener, MouseListener {
+
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
 		private RandomCircles captcha;
@@ -104,13 +94,13 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
-			init();
 			setLayout(null);
 			setBounds(0, 0, 800, 600);
+			init();
 		}
 
 		public RandomCircles createCaptcha() {
-			RandomCircles c = new RandomCircles(diff);
+			RandomCircles c = new RandomCircles(getDifficulty());
 
 			c.setBounds(50, 100, 300, 100);
 			c.setBackground(Color.darkGray);
@@ -135,6 +125,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 			button.addActionListener(this);
 			button.setBounds(230, 50, 120, 30);
 			this.add(button);
+			setTimer();
 		}
 
 		@Override
@@ -185,6 +176,12 @@ public class CaptchaCirclesModule extends ModuleClass {
 		}
 	}
 
+	/**
+	 * This class contains a blueprint for a canvas which draws random circles
+	 * used as a captcha test
+	 * 
+	 * @author Moritz Herbert <moritz.herbert@gmx.de>
+	 */
 	class RandomCircles extends Canvas {
 		private static final long serialVersionUID = 1L;
 
