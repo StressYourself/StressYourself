@@ -8,7 +8,6 @@ import java.awt.event.*;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-
 import de.dhbw.stress_yourself.UserData;
 
 /**
@@ -29,8 +28,16 @@ public class Login {
 	 * @param password
 	 * @return
 	 */
-
-
+	public int login(String username, String password) {
+		int result = users.existsUser(username, password);
+		if (result == 1 || result == 2) {
+			JOptionPane.showMessageDialog(null, "Login Successfull");
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"Eingabe fehlerhaft! Username oder Passwort falsch");
+		}
+		return result;
+	}
 
 	public JPanel getLoginPanel() {
 		LoginGUI panel = new LoginGUI();
@@ -53,15 +60,15 @@ public class Login {
 		private JLabel label2;
 
 		private JTextField text1, text2;
-		
+
 		public LoginGUI() {
 			init();
 		}
 
 		private void init() {
-			setLayout(new GridLayout(3,2));
+			setLayout(new GridLayout(3, 2));
 			setBorder(new EmptyBorder(300, 300, 300, 300));
-			
+
 			label1 = new JLabel("Username:");
 			text1 = new JTextField(15);
 
@@ -69,15 +76,14 @@ public class Login {
 			text2 = new JPasswordField(8);
 
 			submit = new JButton("SUBMIT");
-			
-			
+
 			add(label1);
 			add(text1);
 			add(label2);
 			add(text2);
 			add(new JLabel());
 			add(submit);
-			
+
 			submit.addActionListener(this);
 		}
 
@@ -88,14 +94,15 @@ public class Login {
 		public void actionPerformed(ActionEvent e) {
 			String username = text1.getText();
 			String password = text2.getText();
-			if (users.existsUser(username, password)) {
-				JOptionPane.showMessageDialog(this, "Login Successfull");
-				}
-				else {
-				JOptionPane.showMessageDialog(this,"Eingabe fehlerhaft! Username oder Passwort falsch");
-				}
-	    }
+			int result = login(username, password);
+			if (result == 0) {
+				text1.setText("");
+				text2.setText("");
+			} else if (result == 1) {
+				// user
+			} else if (result == 2) {
+				// admin
+			}
+		}
 	}
 }
-		
-

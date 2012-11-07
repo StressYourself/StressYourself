@@ -8,8 +8,6 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.sun.media.jai.opimage.AddCollectionCRIF;
-
 /**
  * The MainApplication Class is used to manage and load all gui classes
  * containing the modules.
@@ -67,11 +65,11 @@ public class MainApplication {
 		getAvaiableModules();
 		getConfiguration();
 		
-		frame.setContentPane(admin.getAdminPanel());
-		login.getLoginPanel();
+		//frame.setContentPane(admin.getAdminPanel());
+		frame.setContentPane(login.getLoginPanel());
 		
 		//initModules();
-		nextModule();
+		//nextModule();
 
 	}
 
