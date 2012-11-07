@@ -40,7 +40,7 @@ public class MathSizeUnitsModule extends ModuleClass {
 	private Object mainClass = null;
 
 	public MathSizeUnitsModule(Object o) {
-		mainClass = o;
+		super(o);
 	}
 
 	public JPanel getModuleJPanel() {

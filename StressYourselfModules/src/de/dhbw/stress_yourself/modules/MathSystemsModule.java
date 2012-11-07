@@ -35,7 +35,7 @@ public class MathSystemsModule extends ModuleClass {
 	private Object mainClass = null;
 
 	public MathSystemsModule(Object o) {
-		mainClass = o;
+		super(o);
 	}
 
 	public JPanel getModuleJPanel() {
