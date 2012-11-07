@@ -60,10 +60,11 @@ public class UserData {
 		int result = 0;
 		for (int i = 0; i < users.size(); i++) {
 			if (users.get(i).equals(username, password)) {
+				currentUser = users.get(i);
 				String type = users.get(i).getUserType();
-				if(type == "u"){
+				if(type.equals("u")){
 					result = 1;
-				} else if(type == "a"){
+				} else if(type.equals("a")){
 					result = 2;
 				}
 				break;
