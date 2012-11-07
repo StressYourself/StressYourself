@@ -116,7 +116,7 @@ public class UserData {
 
 			for (int i = 0; i < users.size(); i++) {
 
-				if (users.get(i).equalsLightly(username) == true) {
+				if (users.get(i).equalsLightly(username)) {
 					users.remove(i);
 					back = true;
 					break;
