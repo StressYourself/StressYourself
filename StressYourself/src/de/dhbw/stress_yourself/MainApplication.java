@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.sun.media.jai.opimage.AddCollectionCRIF;
+
 /**
  * The MainApplication Class is used to manage and load all gui classes
  * containing the modules.
@@ -39,7 +41,7 @@ public class MainApplication {
 		admin = new Admin(users, params);
 		login = new Login(users);
 		outcome = new Outcome(params);
-		
+
 		initialize();
 	}
 
@@ -48,6 +50,7 @@ public class MainApplication {
 			public void run() {
 				try {
 					MainApplication window = new MainApplication();
+					
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +63,7 @@ public class MainApplication {
 		frame = new JFrame();
 		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		frame.add(login.getLoginPanel());
 		getAvaiableModules();
 		getConfiguration();
 		
@@ -68,7 +71,7 @@ public class MainApplication {
 		login.getLoginPanel();
 		
 		//initModules();
-		nextModule();
+		//nextModule();
 
 	}
 
@@ -171,7 +174,7 @@ public class MainApplication {
 	 * 
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	public void nextModule() {
+	/*public void nextModule() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 
@@ -188,7 +191,7 @@ public class MainApplication {
 			// Test finished, time to call the evaluation!
 			createOutcome();
 		}
-	}
+	}*/
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome

@@ -1,10 +1,17 @@
 package de.dhbw.stress_yourself;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.html.StyleSheet.ListPainter;
 
 import de.dhbw.stress_yourself.UserData;
 
@@ -55,7 +62,9 @@ public class Login {
 		}
 
 		private void init() {
-
+			setLayout(new GridLayout(3,2));
+			setBorder(new EmptyBorder(300, 300, 300, 300));
+			
 			label1 = new JLabel("Username:");
 			text1 = new JTextField(15);
 
@@ -63,12 +72,15 @@ public class Login {
 			text2 = new JPasswordField(8);
 
 			submit = new JButton("SUBMIT");
-			setLayout(new GridLayout(3, 1));
+			
+			
 			add(label1);
 			add(text1);
 			add(label2);
 			add(text2);
+			add(new JLabel());
 			add(submit);
+			
 			submit.addActionListener(this);
 		}
 
