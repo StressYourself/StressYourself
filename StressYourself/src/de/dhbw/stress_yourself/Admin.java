@@ -5,12 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
@@ -65,6 +68,40 @@ public class Admin {
 	   }
 	}
 	
+	//Keylistener for letters only
+	public KeyListener klLetters= new KeyListener() {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource().equals(tfUsername)) {
+				if((e.getKeyCode() != (char)8 && e.getKeyChar() < (char)65) 
+						|| (e.getKeyChar() > (char)90 && e.getKeyChar() < 97) 
+						|| e.getKeyChar() > (char)122 && e.getKeyChar() < (char)255) {
+					tfUsername.setText(tfUsername.getText().substring(0, tfUsername.getText().length()-1));
+				}
+			} else if(e.getSource().equals(pfPassword)) {
+				if((e.getKeyChar() != (char)8 && e.getKeyChar() < (char)48) 
+						|| (e.getKeyChar() > (char)57 && e.getKeyChar() < (char)65)
+						|| (e.getKeyChar() > 90 && e.getKeyChar() < (char)97)
+						|| e.getKeyChar() > (char)122 && e.getKeyChar() < (char)255) {
+					pfPassword.setText(String.valueOf(pfPassword.getPassword()).substring(0, pfPassword.getPassword().length-1));
+				}
+			}
+			
+		}
+	};
+	
 	//Panels
 	private JPanel pnlUserManagement = new JPanel();
 	private JPanel pnlTestManagement = new JPanel();
@@ -107,11 +144,26 @@ public class Admin {
 	private JLabel lblUserManagement = new JLabel("User Management:");
 	private JLabel lblUsername = new JLabel("User:");
 	private JLabel lblPassword = new JLabel("Password:");
-	private JLabel lblSetTime = new JLabel("Set Time:");
+	private JLabel lblSetTime = new JLabel("Set Time (sec):");
+	
+	//Radiobuttons
+	private JRadioButton rbUser = new JRadioButton("User");
+	private JRadioButton rbAdmin = new JRadioButton("Admin");
+	private JRadioButton rbEasy = new JRadioButton("Easy");
+	private JRadioButton rbMedium = new JRadioButton("Medium");
+	private JRadioButton rbHard = new JRadioButton("Hard");
+	
+	//ButtonGroup
+	private ButtonGroup bgUserType = new ButtonGroup();
+	private ButtonGroup bgDifficulty = new ButtonGroup();
 	
 	//Information about users and parameters
 	private UserData users;
 	private Parameter params;
+	private String type;
+	
+	//Tempvars
+	private String tmp;
 	
 	/**
 	 * Actionlistener for all buttons
@@ -126,13 +178,11 @@ public class Admin {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource().equals(btnActivateModule)) {
-				System.out.println(lAvailableModules.getSelectedValue());
 				if(tfTime.getText().length() > 0) {
 					if(!lAvailableModules.isSelectionEmpty()) {
-						dlActiveModules.addElement(lAvailableModules.getSelectedValue()+" "+tfTime.getText());
+						dlActiveModules.addElement(lAvailableModules.getSelectedValue()+" ; "+tfTime.getText());
 						
 						index = lAvailableModules.getSelectedIndex();
-						System.out.println(index);
 						dlAvailableModules.remove(index);
 						
 						lAvailableModules.revalidate();
@@ -143,14 +193,27 @@ public class Admin {
 					}
 				}
 			} else if(e.getSource().equals(btnInactivateModule)) {
-				
+				if(!lActiveModules.isSelectionEmpty()) {
+					dlAvailableModules.addElement(lActiveModules.getSelectedValue().substring(0, lActiveModules.getSelectedValue().indexOf(" ;")));
+					
+					index = lActiveModules.getSelectedIndex();
+					
+					dlActiveModules.remove(index);
+					
+					lAvailableModules.revalidate();
+					spAvailableModules.revalidate();
+					
+					lActiveModules.revalidate();
+					spActiveModules.revalidate();
+				}
 			} else if(e.getSource().equals(btnChangePassword)) {
-				
+				changePassword();
 			} else if(e.getSource().equals(btnCreateUser)) {
-				
+				createUser();
 			} else if(e.getSource().equals(btnDeleteUser)) {
-				
+				deleteUser();
 			} else if(e.getSource().equals(btnModuleDown)) {
+				tmp = lActiveModules.getSelectedValue();
 				
 			} else if(e.getSource().equals(btnModuleUp)) {
 				
@@ -203,7 +266,7 @@ public class Admin {
 	
 	private void createUserManagementPanel(){
 		pnlUserManagement.setLayout(null);
-		pnlUserManagement.setBounds(0, 20, 300, 150);
+		pnlUserManagement.setBounds(0, 20, 300, 250);
 		
 		pnlUserManagement.setBackground(backgroundColor);
 		
@@ -211,6 +274,7 @@ public class Admin {
 		pnlUserManagement.add(lblUsername);
 		
 		tfUsername.setBounds(110, 5, TEXTFIELDWIDTH, COMPONENTHEIGHT);
+		tfUsername.addKeyListener(klLetters);
 		pnlUserManagement.add(tfUsername);
 		
 		lblPassword.setBounds(5, 30, LABELWIDTH, COMPONENTHEIGHT);
@@ -218,17 +282,26 @@ public class Admin {
 		
 		pfPassword.setBounds(110, 30, TEXTFIELDWIDTH, COMPONENTHEIGHT);
 		pfPassword.setDocument(new SetMaxText(8));
+		pfPassword.addKeyListener(klLetters);
 		pnlUserManagement.add(pfPassword);
 		
-		btnCreateUser.setBounds(75, 60, BUTTONWIDTH, COMPONENTHEIGHT);
+		bgUserType.add(rbUser);
+		bgUserType.add(rbAdmin);
+		rbUser.setBounds(65, 100, 80, 20);
+		rbUser.setSelected(true);
+		rbAdmin.setBounds(150, 100, 140, 20);
+		pnlUserManagement.add(rbUser);
+		pnlUserManagement.add(rbAdmin);
+		
+		btnCreateUser.setBounds(75, 160, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnCreateUser.addActionListener(selectBtnFunction);
 		pnlUserManagement.add(btnCreateUser);
 		
-		btnChangePassword.setBounds(75, 85, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnChangePassword.setBounds(75, 185, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnChangePassword.addActionListener(selectBtnFunction);
 		pnlUserManagement.add(btnChangePassword);
 		
-		btnDeleteUser.setBounds(75, 110, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnDeleteUser.setBounds(75, 210, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnDeleteUser.addActionListener(selectBtnFunction);
 		pnlUserManagement.add(btnDeleteUser);
 	
@@ -272,30 +345,36 @@ public class Admin {
 		
 		pnlTestManagement.add(tfTime);
 		
-		btnInactivateModule.setBounds(215, 160, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnInactivateModule.setBounds(215, 130, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnInactivateModule.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnInactivateModule);
 		
-		btnModuleUp.setBounds(215, 200, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnModuleUp.setBounds(215, 170, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnModuleUp.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnModuleUp);
 		
-		btnModuleDown.setBounds(215, 240, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnModuleDown.setBounds(215, 210, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnModuleDown.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnModuleDown);
+		
+		
+		bgDifficulty.add(rbEasy);
+		bgDifficulty.add(rbMedium);
+		bgDifficulty.add(rbHard);
+		rbEasy.setBounds(215, 250, 70, COMPONENTHEIGHT);
+		rbMedium.setBounds(215, 275, 90, COMPONENTHEIGHT);
+		rbHard.setBounds(280, 250, 70, COMPONENTHEIGHT);
+		
+		pnlTestManagement.add(rbEasy);
+		pnlTestManagement.add(rbMedium);
+		pnlTestManagement.add(rbHard);
 		
 		try {
 			for (int i = 0; i < params.getAvailableModules().size();i++) {
 				dlAvailableModules.add(i, params.getAvailableModules().get(i).getName());
-				if(i == params.getAvailableModules().size()-1) {
-					dlAvailableModules.add(i+1, "22");
-				}
 			}
 			for (int i = 0; i < params.getConfiguration().size();i++) {
 				dlActiveModules.add(i, params.getConfiguration().get(i).getName()+" "+params.getConfiguration().get(i).getTime());
-				if(i == params.getConfiguration().size()-1) {
-					dlActiveModules.add(i+1, " 22");
-				}
 			}
 		}catch(IndexOutOfBoundsException e) {
 			System.out.println("One list is empty");
@@ -317,38 +396,39 @@ public class Admin {
 	}
 	
 	/**
-	 * 
-	 * @param username - String with the username which should be created
-	 * @param password - String with the password of the user
-	 * @param type - depends on weather he is an admin(a) or an user(u) 
+	 * Creates an user/admin
 	 * @return true if user was created / false is some param is not ok
 	 */
-	public boolean createUser(String username, String password, String type) {
-
-		return users.saveUser(username, password, type);
+	public boolean createUser() {
+		if(rbAdmin.isSelected()) {
+			type = "a";
+		}
+		else {
+			type = "u";
+		}
+		return users.saveUser(tfUsername.getText(), String.valueOf(pfPassword.getPassword()), type);
 	}
 	
 	
 	/**
-	 * 
-	 * @param username - String with the username of the user who should be deleted
+	 * Deletes a user/admin
 	 * @return true if the user is marked as deleted. Will be saved after regular closing 
 	 * 			of the programm
 	 */
-	public boolean deleteUser(String username) {
-		return users.deleteUser(username);
+	public boolean deleteUser() {
+		return users.deleteUser(tfUsername.getText());
 	}
 	
 	
 	/**
-	 * 
-	 * @param username - String with the username from whom u wannt to change the password
-	 * @param newpassword - String with the new password of the named user
+	 * Changes the password of an user/admin
 	 * @return true if the password was changed !the password isn't written in xml yet!
 	 * 			if the programm chrashes the changes are lost!
 	 */
-	public boolean changePassword(String username, String newPassword) {
-		return users.changePassword(username, newPassword);
+	public boolean changePassword() {
+		String username = tfUsername.getText();
+		String password = String.valueOf(pfPassword.getPassword());
+		return users.changePassword(username, password);	
 	}
 
 }
