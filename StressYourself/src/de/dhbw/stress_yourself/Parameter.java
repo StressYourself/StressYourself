@@ -43,6 +43,10 @@ public class Parameter {
 	public String getPackageName() {
 		return packageName;
 	}
+	
+	public int getDifficulty(){
+		return difficulty;
+	}
 
 	/**
 	 * used by Admin, MainApplication and Outcome

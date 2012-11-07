@@ -62,9 +62,9 @@ public class UserData {
 			if (users.get(i).equals(username, password)) {
 				currentUser = users.get(i);
 				String type = users.get(i).getUserType();
-				if(type.equals("u")){
+				if (type.equals("u")) {
 					result = 1;
-				} else if(type.equals("a")){
+				} else if (type.equals("a")) {
 					result = 2;
 				}
 				break;
@@ -112,17 +112,18 @@ public class UserData {
 	public boolean deleteUser(String username) {
 		// user couldn't delete himself
 		boolean back = false;
-		if (!currentUser.equalsLightly(username)) {
+		if (currentUser != null) {
+			if (!currentUser.equalsLightly(username)) {
 
-			for (int i = 0; i < users.size(); i++) {
+				for (int i = 0; i < users.size(); i++) {
 
-				if (users.get(i).equalsLightly(username) == true) {
-					users.remove(i);
-					back = true;
-					break;
+					if (users.get(i).equalsLightly(username)) {
+						users.remove(i);
+						back = true;
+						break;
+					}
 				}
 			}
-
 		}
 		return back;
 
