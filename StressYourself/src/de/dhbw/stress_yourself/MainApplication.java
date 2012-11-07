@@ -63,12 +63,12 @@ public class MainApplication {
 
 		getAvaiableModules();
 		getConfiguration();
-
-		// admin.getAdminPanel();
-		frame.setContentPane(login.getLoginPanel());
-
-		// initModules();
-		// nextModule();
+		
+		frame.setContentPane(admin.getAdminPanel());
+		login.getLoginPanel();
+		
+		//initModules();
+		//nextModule();
 
 	}
 
@@ -163,6 +163,8 @@ public class MainApplication {
 					runningModuleMethodsMap.get("getModuleDescription"),
 					runningModuleObject, (Object[]) null);
 		}
+		
+		System.out.println(name);
 
 		return new ModuleInformation(classname, name, area, description);
 	}

@@ -105,6 +105,16 @@ public class Parameter {
 			addModuleXML(tmp.getName(), tmp.getTime());
 		}
 	}
+	
+	/**
+	 * used by Admin
+	 * returns the difficulty
+	 *@author Florian Albert <florian-albert@gmx.de>
+	 */
+	public int getDifficulty() {
+		return difficulty;
+	}
+	
 
 	// some private functions for the implementation
 
