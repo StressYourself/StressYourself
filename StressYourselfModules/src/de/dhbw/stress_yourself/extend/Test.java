@@ -12,7 +12,6 @@ public class Test {
 	private static final String[] compareOperators = { "==", "!=", "<", ">", "<=", ">=" };
 	private static final String[] incdecOperators = { "++", "--" };
 	private static final String[] logicalOperators = { "!", "&&", "&", "||", "|", "^" };
-	private static final String[] bool = {"==","!="};
 
 	
 	
@@ -27,16 +26,28 @@ public class Test {
 		return (int) (Math.random() * (high - low) + low);
 	}
 
+	public static String generateCalculation(int number){
+		String result = "";
+		for (int i = 1; i <= number; i++) {
+			result += String.valueOf(randomNumber(9, 1));
+			result += arithmeticOperators[randomNumber(arithmeticOperators.length -1, 0)];
+		}
+		result += String.valueOf(randomNumber(9, 1));
+		return result;
+	}
+	
+	public static String generateCalculationComparison(int number){
+		String result = "";
+		result += generateCalculation(number);
+		result += compareOperators[randomNumber(compareOperators.length, 0)];
+		result += generateCalculation(number);
+		return result;
+	}
+	
 	public static String generateTest(int difficulty) {
 		
-		String test = "";
-		test += String.valueOf(randomNumber(9, 0));
-		test += arithmeticOperators[randomNumber(arithmeticOperators.length -1, 0)];
-		test += String.valueOf(randomNumber(9, 0));
-		test += bool[randomNumber(bool.length -1, 0)];
-		test += String.valueOf(randomNumber(9, 0));
-		test += arithmeticOperators[randomNumber(arithmeticOperators.length -1, 0)];
-		test += String.valueOf(randomNumber(9, 0));
+		String test; 
+		test = generateCalculationComparison(10);
 		
 		String result = "";
 		switch (difficulty) {
