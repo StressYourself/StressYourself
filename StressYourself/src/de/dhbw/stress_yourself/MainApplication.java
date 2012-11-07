@@ -23,16 +23,16 @@ public class MainApplication {
 	private Outcome outcome;
 	private Parameter params;
 	private UserData users;
-	
+
 	private JFrame frame;
-	
+
 	private Class<?> runningModuleClass = null;
 	private Object runningModuleObject = null;
 	private HashMap<String, Method> runningModuleMethodsMap = null;
 	private URL url = null;
 	private LinkedList<ModuleInformation> configuration = null;
 	private JPanel panel = null;
-	
+
 	int index = 0;
 
 	public MainApplication() {
@@ -67,17 +67,17 @@ public class MainApplication {
 		getAvaiableModules();
 		getConfiguration();
 		
-		admin.getAdminPanel();
+		frame.setContentPane(admin.getAdminPanel());
 		login.getLoginPanel();
 		
 		//initModules();
-		//nextModule();
+		nextModule();
 
 	}
 
 	public void getConfiguration() {
-		//doesn't work right now, because of admin part
-		//configuration = params.getConfiguration();
+		// doesn't work right now, because of admin part
+		// configuration = params.getConfiguration();
 		configuration = params.getAvailableModules();
 	}
 
@@ -120,26 +120,27 @@ public class MainApplication {
 		classes = Reflection.getClassNames(params.getPathToJar(),
 				params.getPackageName());
 		for (int i = 0; i < classes.size(); i++) {
-			params.addModuleInformation(getModuleInformation(url, classes.get(i)));
+			params.addModuleInformation(getModuleInformation(url,
+					classes.get(i)));
 		}
 	}
 
 	/**
-	 * Returns an Object of ModuleInformation containing all needed Information about the Module
+	 * Returns an Object of ModuleInformation containing all needed Information
+	 * about the Module
 	 * 
 	 * @param url
-	 * 			URL to the jar
+	 *            URL to the jar
 	 * @param name
-	 * 			Name of the class
-	 * @return
-	 * 			ModuleInformation Object
+	 *            Name of the class
+	 * @return ModuleInformation Object
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public ModuleInformation getModuleInformation(URL url, String classname) {
 		String name = null;
 		String area = null;
 		String description = null;
-		 
+
 		runningModuleClass = Reflection.getClass(url, classname);
 
 		runningModuleMethodsMap = Reflection
@@ -147,7 +148,7 @@ public class MainApplication {
 
 		runningModuleObject = Reflection.createClassInstance(
 				runningModuleClass, this);
-		
+
 		if (runningModuleMethodsMap.containsKey("getModuleName")) {
 			name = (String) Reflection.runMethod(
 					runningModuleMethodsMap.get("getModuleName"),
@@ -165,6 +166,8 @@ public class MainApplication {
 					runningModuleMethodsMap.get("getModuleDescription"),
 					runningModuleObject, (Object[]) null);
 		}
+		
+		System.out.println(name);
 
 		return new ModuleInformation(classname, name, area, description);
 	}
@@ -174,15 +177,15 @@ public class MainApplication {
 	 * 
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	/*public void nextModule() {
+	public void nextModule() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 
 		if (index < configuration.size()) {
-			runningModuleClass = Reflection.getClass(url, configuration.get(index).getClassName());
+			runningModuleClass = Reflection.getClass(url,
+					configuration.get(index).getClassName());
 			System.out.println(configuration.get(index).getName());
 			index++;
-			
 
 			int difficulty = 0;
 			String time = "";
@@ -191,14 +194,14 @@ public class MainApplication {
 			// Test finished, time to call the evaluation!
 			createOutcome();
 		}
-	}*/
+	}
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
 	 * 
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	public void createOutcome(){
+	public void createOutcome() {
 		panel = outcome.getOutcomeGUI();
 		frame.getContentPane().add(panel);
 		frame.getContentPane().revalidate();

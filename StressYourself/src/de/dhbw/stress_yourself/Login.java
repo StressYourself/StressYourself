@@ -1,17 +1,13 @@
 package de.dhbw.stress_yourself;
 
 import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.html.StyleSheet.ListPainter;
+
 
 import de.dhbw.stress_yourself.UserData;
 
@@ -33,7 +29,8 @@ public class Login {
 	 * @param password
 	 * @return
 	 */
-	
+
+
 
 	public JPanel getLoginPanel() {
 		LoginGUI panel = new LoginGUI();
@@ -97,6 +94,8 @@ public class Login {
 				else {
 				JOptionPane.showMessageDialog(this,"Eingabe fehlerhaft! Username oder Passwort falsch");
 				}
-		}
+	    }
 	}
 }
+		
+
