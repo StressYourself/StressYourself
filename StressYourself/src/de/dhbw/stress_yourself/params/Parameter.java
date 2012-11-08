@@ -1,4 +1,4 @@
-package de.dhbw.stress_yourself;
+package de.dhbw.stress_yourself.params;
 
 import java.io.File;
 import java.io.FileWriter;
