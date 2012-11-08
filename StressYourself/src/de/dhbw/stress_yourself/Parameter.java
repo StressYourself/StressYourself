@@ -44,6 +44,10 @@ public class Parameter {
 		return packageName;
 	}
 
+	public int getDifficulty() {
+		return difficulty;
+	}
+
 	/**
 	 * used by Admin, MainApplication and Outcome
 	 */
@@ -64,10 +68,10 @@ public class Parameter {
 	/**
 	 * used by MainApplication
 	 */
-	public void addModuleInformation(String name,String classname, String area,
-			String description) {
-		availableModules
-				.addLast(new ModuleInformation(name,classname, area, description));
+	public void addModuleInformation(String name, String classname,
+			String area, String description) {
+		availableModules.addLast(new ModuleInformation(name, classname, area,
+				description));
 	}
 
 	public void addModuleInformation(ModuleInformation mi) {
@@ -105,16 +109,6 @@ public class Parameter {
 			addModuleXML(tmp.getName(), tmp.getTime());
 		}
 	}
-	
-	/**
-	 * used by Admin
-	 * returns the difficulty
-	 *@author Florian Albert <florian-albert@gmx.de>
-	 */
-	public int getDifficulty() {
-		return difficulty;
-	}
-	
 
 	// some private functions for the implementation
 
