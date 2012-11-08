@@ -1,4 +1,4 @@
-package de.dhbw.stress_yourself;
+package de.dhbw.stress_yourself.params;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

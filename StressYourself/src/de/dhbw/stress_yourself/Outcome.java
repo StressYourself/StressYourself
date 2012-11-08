@@ -3,6 +3,8 @@ package de.dhbw.stress_yourself;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.params.Parameter;
+
 public class Outcome {
 
 	private Parameter params;

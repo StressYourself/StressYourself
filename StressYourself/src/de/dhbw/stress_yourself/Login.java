@@ -5,7 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import de.dhbw.stress_yourself.UserData;
+
+import de.dhbw.stress_yourself.params.UserData;
 
 /**
  * The Login Class is used to manage the Login. It distinguish between the users

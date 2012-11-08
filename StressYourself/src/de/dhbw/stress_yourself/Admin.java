@@ -22,6 +22,10 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import de.dhbw.stress_yourself.params.ModuleInformation;
+import de.dhbw.stress_yourself.params.Parameter;
+import de.dhbw.stress_yourself.params.UserData;
+
 /**
  * Class Admin creates a JPanel with configuration components on it
  * 		- User management: 
