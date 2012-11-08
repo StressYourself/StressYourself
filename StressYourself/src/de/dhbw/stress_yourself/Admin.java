@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
-
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -42,6 +41,7 @@ public class Admin {
 	private JPanel pnlUserManagement = new JPanel();
 	private JPanel pnlTestManagement = new JPanel();
 	private JPanel pnlStatus = new JPanel();
+	private JPanel pnlUsers = new JPanel();
 	
 	//Color
 	private Color backgroundColor; 
@@ -55,6 +55,7 @@ public class Admin {
 	private final int BUTTONWIDTH = 150;
 	private final int UP = 1;
 	private final int DOWN = 0;
+	private final int PANELX = 160;
 	
 	//Buttons 
 	private JButton btnCreateUser = new JButton("Create User");
@@ -77,13 +78,16 @@ public class Admin {
 	//Lists
 	private DefaultListModel<String> dlActiveModules = new DefaultListModel<String>();
 	private DefaultListModel<String> dlAvailableModules = new DefaultListModel<String>();
+	private DefaultListModel<String> dlUsers = new DefaultListModel<String>();
 	private JList<String> lActiveModules;
 	private JList<String> lAvailableModules;
+	private JList<String> lUsers;
 	private LinkedList<ModuleInformation> llConfig = new LinkedList<ModuleInformation>();
 	
 	//Scrollpane
 	private JScrollPane spActiveModules;
 	private JScrollPane spAvailableModules;
+	private JScrollPane spUsers;
 	
 	//Labels
 	private JLabel lblTestManagement = new JLabel("Testconfiguration:");
@@ -94,6 +98,7 @@ public class Admin {
 	private JLabel lblActiveModules = new JLabel("Active Modules:");
 	private JLabel lblAvailableModules = new JLabel("Available Modules:");
 	private JLabel lblStatus = new JLabel("  Status:");
+	private JLabel lblRegUsers = new JLabel("Registered Users");
 	
 	//Radiobuttons
 	private JRadioButton rbUser = new JRadioButton("User");
@@ -120,6 +125,8 @@ public class Admin {
 	private int difficulty;
 	private boolean newConfig;
 	private boolean exists;
+	private String tmpUsername;
+	private boolean del;
 	
 	/**
 	 * Actionlistener for all buttons
@@ -212,6 +219,7 @@ public class Admin {
 					if(createUser()) {
 						lblStatus.setText(lblStatus.getText() + " User Created");
 						lblStatus.setBackground(cGreen);
+						dlUsers.addElement(tfUsername.getText());
 					} else {
 						lblStatus.setText(lblStatus.getText() + " User already exists");
 						lblStatus.setBackground(cRed);
@@ -228,17 +236,32 @@ public class Admin {
 				
 			//Click on button "Delete User"	
 			} else if(e.getSource().equals(btnDeleteUser)) {
-				if (tfUsername.getText().length() != 0) {
-					if (deleteUser()) {
+				del = false;
+				if(tfUsername.getText().length() > 0) {
+					tmpUsername = tfUsername.getText();
+					del = true;
+				} else if (!lUsers.isSelectionEmpty()) {
+					tmpUsername = lUsers.getSelectedValue();
+					del = true;
+				} else if (lUsers.isSelectionEmpty() && tfUsername.getText().length() == 0) {
+					lblStatus.setText(lblStatus.getText()+" Username empty");
+					lblStatus.setBackground(cRed);
+					del = false;
+				}
+				if (del) {
+					if (deleteUser(tmpUsername)) {
 						lblStatus.setText(lblStatus.getText() + " User Deleted");
 						lblStatus.setBackground(cGreen);
+						for(int y=0; y<dlUsers.getSize();y++) {
+							if(tmpUsername.equals(dlUsers.elementAt(y))){
+								dlUsers.remove(y);
+							}
+						}
+						
 					} else {
 						lblStatus.setText(lblStatus.getText() + " Failed");
 						lblStatus.setBackground(cRed);
 					}
-				} else {
-					lblStatus.setText(lblStatus.getText()+" Username empty");
-					lblStatus.setBackground(cRed);
 				}
 				
 			//Click on button "Module Down"
@@ -293,6 +316,7 @@ public class Admin {
 		this.main = main;
 		this.users = users;
 		this.params = params;
+
 	}
 
 	/**
@@ -303,18 +327,21 @@ public class Admin {
 	public JPanel getAdminPanel(){
 
 		aPanel.setLayout(null);
-		aPanel.setBounds(0,0,900, 400);
+		aPanel.setBounds(0,0,900, 700);
 		
-		lblUserManagement.setBounds(0, 0, 150, COMPONENTHEIGHT);
-		lblTestManagement.setBounds(310, 0, 150, COMPONENTHEIGHT);
+		lblUserManagement.setBounds(PANELX, 0, 150, COMPONENTHEIGHT);
+		lblTestManagement.setBounds(PANELX, 210, 150, COMPONENTHEIGHT);
 		
 		initColors();
 		
 		createUserManagementPanel();
 		createTestManagementPanel();
 		createStatusPanel();
+		createUsersPanel();
 		
 		aPanel.add(pnlStatus);
+		
+		aPanel.add(pnlUsers);
 	
 		aPanel.add(lblUserManagement);
 		aPanel.add(pnlUserManagement);
@@ -325,6 +352,23 @@ public class Admin {
 		return aPanel;
 	}
 	
+	private void createUsersPanel() {
+		pnlUsers.setBackground(backgroundColor);
+		pnlUsers.setLayout(null);
+		pnlUsers.setBounds(PANELX+300, 20, 280, 180);
+		
+		lblRegUsers.setBounds(10, 0, 200, COMPONENTHEIGHT);
+		pnlUsers.add(lblRegUsers);
+		
+		for(String[] element : users.getUsers()) {
+			dlUsers.addElement(element[0]);
+		}
+		lUsers = new JList<String>(dlUsers);
+		spUsers = new JScrollPane(lUsers);
+		spUsers.setBounds(10, 20, 150, 150);
+		pnlUsers.add(spUsers);
+	}
+	
 	/**
 	 * Creates the status panel with label 
 	 * and button "Back"
@@ -332,7 +376,7 @@ public class Admin {
 	private void createStatusPanel() {
 		//Creates the panel "Status"
 		pnlStatus.setLayout(null);
-		pnlStatus.setBounds(0, 275, 300, 95);
+		pnlStatus.setBounds(PANELX, 590, 580, 55);
 		pnlStatus.setBackground(backgroundColor);
 		lblStatus.setOpaque(true);
 		lblStatus.setBackground(backgroundColor);
@@ -340,7 +384,7 @@ public class Admin {
 		lblStatus.setFont(new Font(null, 0, 14));
 		pnlStatus.add(lblStatus);
 		
-		btnBack.setBounds(5, 55, (BUTTONWIDTH*2)-10, COMPONENTHEIGHT);
+		btnBack.setBounds(280, 20, (BUTTONWIDTH*2)-20, COMPONENTHEIGHT);
 		btnBack.addActionListener(selectBtnFunction);
 		pnlStatus.add(btnBack);
 		
@@ -365,7 +409,7 @@ public class Admin {
 	private void createUserManagementPanel(){
 		//Creates the panel "User Management"
 		pnlUserManagement.setLayout(null);
-		pnlUserManagement.setBounds(0, 20, 300, 250);
+		pnlUserManagement.setBounds(PANELX, 20, 300, 180);
 		
 		pnlUserManagement.setBackground(backgroundColor);
 		
@@ -386,21 +430,21 @@ public class Admin {
 		
 		bgUserType.add(rbUser);
 		bgUserType.add(rbAdmin);
-		rbUser.setBounds(65, 100, 80, 20);
+		rbUser.setBounds(65, 70, 80, 20);
 		rbUser.setSelected(true);
-		rbAdmin.setBounds(150, 100, 140, 20);
+		rbAdmin.setBounds(150, 70, 140, 20);
 		pnlUserManagement.add(rbUser);
 		pnlUserManagement.add(rbAdmin);
 		
-		btnCreateUser.setBounds(75, 160, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnCreateUser.setBounds(75, 100, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnCreateUser.addActionListener(selectBtnFunction);
 		pnlUserManagement.add(btnCreateUser);
 		
-		btnChangePassword.setBounds(75, 185, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnChangePassword.setBounds(75, 125, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnChangePassword.addActionListener(selectBtnFunction);
 		pnlUserManagement.add(btnChangePassword);
 		
-		btnDeleteUser.setBounds(75, 210, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnDeleteUser.setBounds(75, 150, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnDeleteUser.addActionListener(selectBtnFunction);
 		pnlUserManagement.add(btnDeleteUser);
 	
@@ -413,7 +457,7 @@ public class Admin {
 	private void createTestManagementPanel(){
 		//Creates the panel "Test Management"
 		pnlTestManagement.setLayout(null);
-		pnlTestManagement.setBounds(310, 20, 580, 350);
+		pnlTestManagement.setBounds(PANELX, 230, 580, 350);
 		pnlTestManagement.setBackground(backgroundColor);
 		
 		btnActivateModule.setBounds(215, 40, BUTTONWIDTH, COMPONENTHEIGHT);
@@ -612,8 +656,8 @@ public class Admin {
 	 * @return true if the user is marked as deleted. Will be saved after regular closing 
 	 * 			of the programm
 	 */
-	private boolean deleteUser() {
-		return users.deleteUser(tfUsername.getText());
+	private boolean deleteUser(String username) {
+		return users.deleteUser(tmpUsername);
 	}
 	
 	/**
