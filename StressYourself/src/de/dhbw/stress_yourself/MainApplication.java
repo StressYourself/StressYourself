@@ -36,8 +36,8 @@ public class MainApplication {
 	public MainApplication() {
 		params = new Parameter();
 		users = new UserData();
-		admin = new Admin(users, params);
-		login = new Login(users);
+		admin = new Admin(this, users, params);
+		login = new Login(this, users);
 		outcome = new Outcome(params);
 
 		initialize();
@@ -65,11 +65,22 @@ public class MainApplication {
 		getAvaiableModules();
 		getConfiguration();
 		
-		//frame.setContentPane(admin.getAdminPanel());
-		//frame.setContentPane(login.getLoginPanel());
 
-		nextModule();
-
+		startLoginPanel();
+	}
+	
+	public void startLoginPanel(){
+		frame.getContentPane().removeAll();
+		frame.getContentPane().invalidate();
+		frame.getContentPane().add(login.getLoginPanel());
+		frame.getContentPane().revalidate();
+	}
+	
+	public void startAdminPanel(){
+		frame.getContentPane().removeAll();
+		frame.getContentPane().invalidate();
+		frame.getContentPane().add(admin.getAdminPanel());
+		frame.getContentPane().revalidate();
 	}
 
 	public void getConfiguration() {
