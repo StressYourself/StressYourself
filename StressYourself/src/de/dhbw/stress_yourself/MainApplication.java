@@ -65,8 +65,8 @@ public class MainApplication {
 		getAvaiableModules();
 		getConfiguration();
 		
-		//frame.setContentPane(admin.getAdminPanel());
-		frame.setContentPane(login.getLoginPanel());
+		frame.setContentPane(admin.getAdminPanel());
+//		frame.setContentPane(login.getLoginPanel());
 		
 		//initModules();
 		//nextModule();
