@@ -163,6 +163,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			resetNextTaskTimer(nextTaskIntervall, nextTaskIntervall, new NextTask());
 			isValidCircle(e.getX(), e.getY(),
 					captcha.getOpenCircleCoordinates(),
 					captcha.getOpenCircleRadius());

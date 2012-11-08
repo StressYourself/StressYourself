@@ -146,6 +146,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		public void actionPerformed(ActionEvent e) {
 			switch (buttons.indexOf(e.getSource())) {
 			case 0:// nextCaptchaButton
+				resetNextTaskTimer(nextTaskIntervall, nextTaskIntervall, new NextTask());
 				isValidSequence(captchaText.getText(), c.getSequence());
 				this.remove(c);
 				c = createCaptcha();
