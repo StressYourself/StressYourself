@@ -148,7 +148,7 @@ public class Admin {
 	private JButton btnSaveConfig = new JButton("Save Config");
 	private JButton btnTimeUp = new JButton("+");
 	private JButton btnTimeDown = new JButton("-");
-	private JButton btnBack = new JButton("Back");
+	private JButton btnBack = new JButton("Quit Admin Area And Save All Changes");
 	
 	//Textfields
 	private JPasswordField pfPassword = new JPasswordField();
@@ -389,9 +389,13 @@ public class Admin {
 					lblStatus.setBackground(cRed);
 				}
 			
-			//Click on button "Back"
+			//Click on button "Quit Admin Area And Save All Changes"
 			}else if(e.getSource().equals(btnBack)) {
+				params.saveChangesInXML();
+				users.saveChangesInXML();
+				
 				//Hier an Mainapplication -> Admin ende
+				
 				
 			}
 		}
@@ -453,7 +457,7 @@ public class Admin {
 		lblStatus.setFont(new Font(null, 0, 14));
 		pnlStatus.add(lblStatus);
 		
-		btnBack.setBounds(25, 55, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnBack.setBounds(5, 55, (BUTTONWIDTH*2)-10, COMPONENTHEIGHT);
 		btnBack.addActionListener(selectBtnFunction);
 		pnlStatus.add(btnBack);
 		
