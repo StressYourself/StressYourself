@@ -6,9 +6,11 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
@@ -49,7 +51,7 @@ public class KeyPress extends ModuleClass {
 
 	@Override
 	public JPanel getModuleJPanel() {
-		return null;
+		return new ModuleGUI();
 	}
 	
 	
@@ -61,11 +63,16 @@ public class KeyPress extends ModuleClass {
 		private JLabel scoreLabel;
 		private int score;
 		
+		private JTextPane pane = new JTextPane();
+		private JButton button = new JButton("next module");
+		
 		/**
 		 * 
 		 */
 		
 		public ModuleGUI() {
+			setLayout(null);
+			setBounds(0, 0, 800, 600);
 			init();
 			setVisible(true);
 			keyGame();
@@ -81,6 +88,10 @@ public class KeyPress extends ModuleClass {
 			keyField.addKeyListener(this);
 			add(keyField);
 			add(scoreLabel);
+			pane.setText("CaptchaCirclesModules");
+			pane.setBounds(50, 50, 175, 30);
+			this.add(pane);
+			setTimer();
 		}
 		
 		private void keyGame() {	
@@ -107,7 +118,11 @@ public class KeyPress extends ModuleClass {
 			if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyField.getText())) {
 				scoreLabel.setText("" + ++score);
 				keyGame();
+				results.add(true);
 				}
+			else{
+				results.add(false);
+			}
 			
 		}
 		

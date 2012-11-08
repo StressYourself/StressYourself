@@ -69,7 +69,7 @@ public class MainApplication {
 		frame.setContentPane(login.getLoginPanel());
 		
 		//initModules();
-		nextModule();
+		//nextModule();
 
 	}
 

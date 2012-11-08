@@ -49,7 +49,7 @@ public class Login {
 	 * defines the GUI for the Login
 	 * 
 	 */
-	private class LoginGUI extends JPanel implements ActionListener {
+	private class LoginGUI extends JPanel implements ActionListener, KeyListener {
 
 		/**
 		 * 
@@ -83,17 +83,16 @@ public class Login {
 			add(text2);
 			add(new JLabel());
 			add(submit);
-
+			
+			text1.addKeyListener(this);
+			text2.addKeyListener(this);
 			submit.addActionListener(this);
+			
 		}
-
-		/**
-		 * Gets the Text from the TextFields
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String username = text1.getText();
-			String password = text2.getText();
+		
+		public void Login(String username, String password) {
+			username = text1.getText();
+			password = text2.getText();
 			int result = login(username, password);
 			if (result == 0) {
 				text1.setText("");
@@ -103,6 +102,34 @@ public class Login {
 			} else if (result == 2) {
 				// admin
 			}
+		}
+
+		/**
+		 * Gets the Text from the TextFields
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Login(text1.getText(), text2.getText());
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				Login(text1.getText(), text2.getText());
+			}
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }
