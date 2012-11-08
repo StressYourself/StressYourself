@@ -1,10 +1,12 @@
 package de.dhbw.stress_yourself;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
@@ -27,12 +29,22 @@ import javax.swing.text.PlainDocument;
 
 
 /**
- * 
+ * Class Admin creates a JPanel with configuration components on it
+ * 		- User management: 
+ * 			- create / delete user 
+ * 			- change password
+ * 		- Test management:
+ * 			- activate / deactivate modules
+ * 			- change given time for modules
+ * 			- change module order
+ * 			- change difficulty of the test
+ *
  * @author Florian Albert <floria-albert@gmx.de>
  */
 
 
 public class Admin {
+	
 	/**
 	 * class SetMaxText
 	 * 		- with this class you are able to
@@ -40,6 +52,7 @@ public class Admin {
 	 * 		  in a very easy way.
 	 *		- use: someTextField.setDocument(new SetMaxText(int Max));
 	 */
+	@SuppressWarnings("serial")
 	public class SetMaxText extends PlainDocument {
 	  private int limit;
 	  // optional uppercase conversion
@@ -68,7 +81,10 @@ public class Admin {
 	   }
 	}
 	
-	//Keylistener for letters only
+	/**
+	 * Keylistener for letters only
+	 * 		- used on textfield "Username"
+	 */
 	public KeyListener klLetters= new KeyListener() {
 
 		@Override
@@ -83,7 +99,7 @@ public class Admin {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
+			//Allows only letters
 			if(e.getSource().equals(tfUsername)) {
 				if((e.getKeyCode() != (char)8 && e.getKeyChar() < (char)65) 
 						|| (e.getKeyChar() > (char)90 && e.getKeyChar() < 97) 
@@ -103,26 +119,36 @@ public class Admin {
 	};
 	
 	//Panels
+	private static JPanel aPanel = new JPanel();
 	private JPanel pnlUserManagement = new JPanel();
 	private JPanel pnlTestManagement = new JPanel();
+	private JPanel pnlStatus = new JPanel();
 	
 	//Color
 	private Color backgroundColor; 
+	private Color cGreen;
+	private Color cRed;
 	
 	//Constants
 	private final int COMPONENTHEIGHT = 20;
 	private final int TEXTFIELDWIDTH = 170;
 	private final int LABELWIDTH = 100;
 	private final int BUTTONWIDTH = 150;
+	private final int UP = 1;
+	private final int DOWN = 0;
 	
 	//Buttons 
 	private JButton btnCreateUser = new JButton("Create User");
 	private JButton btnDeleteUser = new JButton("Delete User");
 	private JButton btnChangePassword = new JButton("Change Password");
-	private JButton btnActivateModule = new JButton("<< Activate Modul");
-	private JButton btnInactivateModule = new JButton("Deactivate Modul >>");
-	private JButton btnModuleUp = new JButton("Module Prev");
-	private JButton btnModuleDown = new JButton("Module Back");
+	private JButton btnActivateModule = new JButton("Activate Modul >>");
+	private JButton btnDeactivateModule = new JButton("<< Deactivate Modul");
+	private JButton btnModuleUp = new JButton("Module Up");
+	private JButton btnModuleDown = new JButton("Module Down");
+	private JButton btnSaveConfig = new JButton("Save Config");
+	private JButton btnTimeUp = new JButton("+");
+	private JButton btnTimeDown = new JButton("-");
+	private JButton btnBack = new JButton("Quit Admin Area And Save All Changes");
 	
 	//Textfields
 	private JPasswordField pfPassword = new JPasswordField();
@@ -134,6 +160,7 @@ public class Admin {
 	private DefaultListModel<String> dlAvailableModules = new DefaultListModel<String>();
 	private JList<String> lActiveModules;
 	private JList<String> lAvailableModules;
+	private LinkedList<ModuleInformation> llConfig = new LinkedList<ModuleInformation>();
 	
 	//Scrollpane
 	private JScrollPane spActiveModules;
@@ -145,6 +172,9 @@ public class Admin {
 	private JLabel lblUsername = new JLabel("User:");
 	private JLabel lblPassword = new JLabel("Password:");
 	private JLabel lblSetTime = new JLabel("Set Time (sec):");
+	private JLabel lblActiveModules = new JLabel("Active Modules:");
+	private JLabel lblAvailableModules = new JLabel("Available Modules:");
+	private JLabel lblStatus = new JLabel("  Status:");
 	
 	//Radiobuttons
 	private JRadioButton rbUser = new JRadioButton("User");
@@ -163,7 +193,12 @@ public class Admin {
 	private String type;
 	
 	//Tempvars
-	private String tmp;
+	private String tmpModule;
+	private int selIndex;
+	private int movement;
+	private String place;
+	private int difficulty;
+	private boolean newConfig;
 	
 	/**
 	 * Actionlistener for all buttons
@@ -177,6 +212,12 @@ public class Admin {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			
+			//Initialize Status-Label
+			lblStatus.setText("  Status:");
+			lblStatus.setBackground(backgroundColor);
+			
+			//Click on button "Activate Module"
 			if(e.getSource().equals(btnActivateModule)) {
 				if(tfTime.getText().length() > 0) {
 					if(!lAvailableModules.isSelectionEmpty()) {
@@ -190,39 +231,176 @@ public class Admin {
 						
 						lActiveModules.revalidate();
 						spActiveModules.revalidate();
+						
+						lblStatus.setText(lblStatus.getText()+" Module activated");
+						lblStatus.setBackground(cGreen);
+					} else {
+						lblStatus.setText(lblStatus.getText()+" No module selected");
+						lblStatus.setBackground(cRed);
 					}
+				} else {
+					lblStatus.setText(lblStatus.getText()+" No time set");
+					lblStatus.setBackground(cRed);
 				}
-			} else if(e.getSource().equals(btnInactivateModule)) {
+				
+			//Click on button "Deactivate Module"
+			} else if(e.getSource().equals(btnDeactivateModule)) {
 				if(!lActiveModules.isSelectionEmpty()) {
 					dlAvailableModules.addElement(lActiveModules.getSelectedValue().substring(0, lActiveModules.getSelectedValue().indexOf(" ;")));
 					
 					index = lActiveModules.getSelectedIndex();
 					
 					dlActiveModules.remove(index);
-					
+		
 					lAvailableModules.revalidate();
 					spAvailableModules.revalidate();
 					
 					lActiveModules.revalidate();
 					spActiveModules.revalidate();
+					
+					lblStatus.setText(lblStatus.getText()+" Module deactivated");
+					lblStatus.setBackground(cGreen);
+				} else {
+					lblStatus.setText(lblStatus.getText()+" No module selected");
+					lblStatus.setBackground(cRed);
 				}
-			} else if(e.getSource().equals(btnChangePassword)) {
-				changePassword();
-			} else if(e.getSource().equals(btnCreateUser)) {
-				createUser();
-			} else if(e.getSource().equals(btnDeleteUser)) {
-				deleteUser();
-			} else if(e.getSource().equals(btnModuleDown)) {
-				tmp = lActiveModules.getSelectedValue();
 				
+			//Click on button "Change Password"
+			} else if(e.getSource().equals(btnChangePassword)) {
+				if(tfUsername.getText().length() != 0 && pfPassword.getPassword().length != 0) {
+					if(changePassword()) {
+						lblStatus.setText(lblStatus.getText() + " Password changed");
+						lblStatus.setBackground(cGreen);
+					} else {
+						lblStatus.setText(lblStatus.getText() + "User doesn't exist");
+						lblStatus.setBackground(cRed);
+					}
+				} else {
+					if(tfUsername.getText().length() == 0) {
+						lblStatus.setText(lblStatus.getText() + " Username empty");
+						lblStatus.setBackground(cRed);
+					} else {
+						lblStatus.setText(lblStatus.getText() + " Password empty");
+						lblStatus.setBackground(cRed);
+					}
+				}
+				
+			//Click on button "Create User"
+			} else if(e.getSource().equals(btnCreateUser)) {
+				if(tfUsername.getText().length() != 0 && pfPassword.getPassword().length != 0) {
+					if(createUser()) {
+						lblStatus.setText(lblStatus.getText() + " User Created");
+						lblStatus.setBackground(cGreen);
+					} else {
+						lblStatus.setText(lblStatus.getText() + " User already exists");
+						lblStatus.setBackground(cRed);
+					}
+				} else {
+					if(tfUsername.getText().length() == 0) {
+						lblStatus.setText(lblStatus.getText() + " Username empty");
+						lblStatus.setBackground(cRed);
+					} else {
+						lblStatus.setText(lblStatus.getText() + " Password empty");
+						lblStatus.setBackground(cRed);
+					}
+				}
+				
+			//Click on button "Delete User"	
+			} else if(e.getSource().equals(btnDeleteUser)) {
+				if (tfUsername.getText().length() != 0) {
+					if (deleteUser()) {
+						lblStatus.setText(lblStatus.getText() + " User Deleted");
+						lblStatus.setBackground(cGreen);
+					} else {
+						lblStatus.setText(lblStatus.getText() + " Failed");
+						lblStatus.setBackground(cRed);
+					}
+				} else {
+					lblStatus.setText(lblStatus.getText()+" Username empty");
+					lblStatus.setBackground(cRed);
+				}
+				
+			//Click on button "Module Down"
+			} else if(e.getSource().equals(btnModuleDown)) {
+				moveModule(DOWN);
+			
+			//Click on button "Module Up"
 			} else if(e.getSource().equals(btnModuleUp)) {
+				moveModule(UP);
+			
+			//Click on button "Save Config"
+			} else if(e.getSource().equals(btnSaveConfig)) {
+				newConfig = false;
+				//Creates new config
+				llConfig = new LinkedList<ModuleInformation>();
+				for(int i = 0; i < dlActiveModules.size(); i++) {
+					llConfig.add(new ModuleInformation(dlActiveModules.getElementAt(i).substring(
+							0, dlActiveModules.getElementAt(i).indexOf(" ;")),
+							Integer.parseInt(dlActiveModules.getElementAt(i).substring(
+							dlActiveModules.getElementAt(i).indexOf("; ")+2,
+							dlActiveModules.getElementAt(i).length()))));
+				}
+				if (rbEasy.isSelected()) {
+					difficulty = 1;
+				} else if (rbMedium.isSelected()) {
+					difficulty = 2;
+				} else if (rbHard.isSelected()) {
+					difficulty = 3;
+				}
+				
+				//Checks whether the config is new
+				if (difficulty != params.getDifficulty()) {
+					newConfig = true;
+				} else if (params.getConfiguration().size() != llConfig.size()) {
+					newConfig = true;
+				} else {
+					for (int i=0; i<llConfig.size(); i++) {
+						if (!llConfig.get(i).equals(params.getConfiguration().get(i))) {
+							newConfig = true;
+							break;
+						}
+					}
+				}
+				
+				if (!newConfig) {
+					lblStatus.setText(lblStatus.getText()+" Nothing changed");
+					lblStatus.setBackground(cRed);
+				} else if (newConfig){
+					params.overwriteConfiguration(llConfig, difficulty);
+					lblStatus.setText(lblStatus.getText()+" Configuration saved");
+					lblStatus.setBackground(cGreen);
+				}
+			
+			//Click on button "-"
+			} else if(e.getSource().equals(btnTimeDown)) {
+				if(Integer.parseInt(tfTime.getText()) > 60) {
+					tfTime.setText(String.valueOf(Integer.parseInt(tfTime.getText())-30));
+				} else {
+					lblStatus.setText(lblStatus.getText()+" Minimum time reached");
+					lblStatus.setBackground(cRed);
+				}
+				
+			//Click on button "+"
+			} else if(e.getSource().equals(btnTimeUp)) {
+				if(Integer.parseInt(tfTime.getText()) < 990) {
+					tfTime.setText(String.valueOf(Integer.parseInt(tfTime.getText())+30));
+				} else {
+					lblStatus.setText(lblStatus.getText()+" Maximum time reached");
+					lblStatus.setBackground(cRed);
+				}
+			
+			//Click on button "Quit Admin Area And Save All Changes"
+			}else if(e.getSource().equals(btnBack)) {
+				params.saveChangesInXML();
+				users.saveChangesInXML();
+				
+				//Hier an Mainapplication -> Admin ende
+				
 				
 			}
 		}
 		
 	};
-	
-	public static JPanel aPanel;	
 		
 	/**
 	 * Constructor - creates an object of the class Admin
@@ -241,20 +419,20 @@ public class Admin {
 	 */
 	public JPanel getAdminPanel(){
 
-		aPanel = new JPanel();
 		aPanel.setLayout(null);
 		aPanel.setBounds(0,0,900, 400);
-		
-		backgroundColor = new Color(aPanel.getBackground().getRed()-7,
-				  aPanel.getBackground().getGreen()-7,
-				  aPanel.getBackground().getBlue()-7);
-		
-		createUserManagementPanel();
-		createTestManagementPanel();
 		
 		lblUserManagement.setBounds(0, 0, 150, COMPONENTHEIGHT);
 		lblTestManagement.setBounds(310, 0, 150, COMPONENTHEIGHT);
 		
+		initColors();
+		
+		createUserManagementPanel();
+		createTestManagementPanel();
+		createStatusPanel();
+		
+		aPanel.add(pnlStatus);
+	
 		aPanel.add(lblUserManagement);
 		aPanel.add(pnlUserManagement);
 		
@@ -264,7 +442,45 @@ public class Admin {
 		return aPanel;
 	}
 	
+	/**
+	 * Creates the status panel with label 
+	 * and button "Back"
+	 */
+	private void createStatusPanel() {
+		//Creates the panel "Status"
+		pnlStatus.setLayout(null);
+		pnlStatus.setBounds(0, 275, 300, 95);
+		pnlStatus.setBackground(backgroundColor);
+		lblStatus.setOpaque(true);
+		lblStatus.setBackground(backgroundColor);
+		lblStatus.setBounds(25, 10, 250, 35);
+		lblStatus.setFont(new Font(null, 0, 14));
+		pnlStatus.add(lblStatus);
+		
+		btnBack.setBounds(5, 55, (BUTTONWIDTH*2)-10, COMPONENTHEIGHT);
+		btnBack.addActionListener(selectBtnFunction);
+		pnlStatus.add(btnBack);
+		
+	}
+
+	/**
+	 * Initialize all used colors 
+	 */
+	private void initColors() {
+		//Initialize colors
+		backgroundColor = new Color(aPanel.getBackground().getRed()-9,
+				  aPanel.getBackground().getGreen()-9,
+				  aPanel.getBackground().getBlue()-9);
+		cGreen = new Color(1,200,1);
+		cRed = new Color(200,1,1);
+	}
+	
+	/**
+	 * Creates the panel "User Management"
+	 * with all components
+	 */
 	private void createUserManagementPanel(){
+		//Creates the panel "User Management"
 		pnlUserManagement.setLayout(null);
 		pnlUserManagement.setBounds(0, 20, 300, 250);
 		
@@ -307,7 +523,12 @@ public class Admin {
 	
 	}
 	
+	/**
+	 * Creates the panel "Test Management" with all components
+	 * and fills the scrollpanes with information
+	 */
 	private void createTestManagementPanel(){
+		//Creates the panel "Test Management"
 		pnlTestManagement.setLayout(null);
 		pnlTestManagement.setBounds(310, 20, 580, 350);
 		pnlTestManagement.setBackground(backgroundColor);
@@ -319,35 +540,23 @@ public class Admin {
 		lblSetTime.setBounds(215, 80, BUTTONWIDTH, COMPONENTHEIGHT);
 		pnlTestManagement.add(lblSetTime);
 		
+		btnTimeDown.setBounds(235, 100, 20, 20);
+		btnTimeDown.addActionListener(selectBtnFunction);
+		pnlTestManagement.add(btnTimeDown);
 		tfTime.setBounds(260, 100, 45, 20);
 		tfTime.setDocument(new SetMaxText(3));
-		tfTime.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				if((e.getKeyCode() != 8 && e.getKeyChar() < (char)48) || e.getKeyChar() > (char) 57) {
-					tfTime.setText(tfTime.getText().substring(0, tfTime.getText().length()-1));
-				}
-			}
-		});
+		tfTime.setEnabled(false);
+		tfTime.setText("60");
 		
+		btnTimeUp.setBounds(310, 100, 20, 20);
+		btnTimeUp.addActionListener(selectBtnFunction);
+		pnlTestManagement.add(btnTimeUp);
 		
 		pnlTestManagement.add(tfTime);
 		
-		btnInactivateModule.setBounds(215, 130, BUTTONWIDTH, COMPONENTHEIGHT);
-		btnInactivateModule.addActionListener(selectBtnFunction);
-		pnlTestManagement.add(btnInactivateModule);
+		btnDeactivateModule.setBounds(215, 130, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnDeactivateModule.addActionListener(selectBtnFunction);
+		pnlTestManagement.add(btnDeactivateModule);
 		
 		btnModuleUp.setBounds(215, 170, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnModuleUp.addActionListener(selectBtnFunction);
@@ -365,10 +574,30 @@ public class Admin {
 		rbMedium.setBounds(215, 275, 90, COMPONENTHEIGHT);
 		rbHard.setBounds(280, 250, 70, COMPONENTHEIGHT);
 		
+		//Select the radiobutton depending on the configuration
+		switch(params.getDifficulty()) {
+		case 1 :
+			rbEasy.setSelected(true);
+			break;
+		case 2 :
+			rbMedium.setSelected(true);
+			break;
+		case 3 :
+			rbHard.setSelected(true);
+			break;
+		default :
+			rbMedium.setSelected(true);
+			break;
+		}
 		pnlTestManagement.add(rbEasy);
 		pnlTestManagement.add(rbMedium);
 		pnlTestManagement.add(rbHard);
 		
+		btnSaveConfig.setBounds(215, 305, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnSaveConfig.addActionListener(selectBtnFunction);
+		pnlTestManagement.add(btnSaveConfig);
+		
+		//Adds items into the scrollpanes
 		try {
 			for (int i = 0; i < params.getAvailableModules().size();i++) {
 				dlAvailableModules.add(i, params.getAvailableModules().get(i).getName());
@@ -377,29 +606,66 @@ public class Admin {
 				dlActiveModules.add(i, params.getConfiguration().get(i).getName()+" "+params.getConfiguration().get(i).getTime());
 			}
 		}catch(IndexOutOfBoundsException e) {
-			System.out.println("One list is empty");
+			lblStatus.setText(lblStatus.getText()+" One list is empty");
+			lblStatus.setBackground(cRed);
 		}
+		
+		lblActiveModules.setBounds(375, 5, 200, COMPONENTHEIGHT);
+		pnlTestManagement.add(lblActiveModules);
 		
 		lActiveModules = new JList<String>(dlActiveModules);
 		spActiveModules = new JScrollPane(lActiveModules);
-		spActiveModules.setBounds(5, 20, 200, 300);
-		
+		spActiveModules.setBounds(375, 30, 200, 300);
 		pnlTestManagement.add(spActiveModules);
+		
+		lblAvailableModules.setBounds(5, 5, 200, COMPONENTHEIGHT);
+		pnlTestManagement.add(lblAvailableModules);
 		
 		lAvailableModules = new JList<String>(dlAvailableModules);
 		spAvailableModules = new JScrollPane(lAvailableModules);
-		spAvailableModules.setBounds(375, 20, 200, 300);
-		
+		spAvailableModules.setBounds(5, 30, 200, 300);
 		pnlTestManagement.add(spAvailableModules);
+	}
+	
+	/**
+	 * Moves the selected module 1 place up or down depending
+	 * on the param direction
+	 * @param direction
+	 * 			- up = 1 // down = 0
+	 */
+	private void moveModule(int direction) {
+		if (!lActiveModules.isSelectionEmpty()) {
+			tmpModule = lActiveModules.getSelectedValue();
+			selIndex = lActiveModules.getSelectedIndex();
 		
+			if(direction == 0) {
+				movement = 2;
+				place = "last";
+			} else if(direction == 1) {
+				movement = -1;
+				place = "first";
+			}
 		
+			try {
+				dlActiveModules.add(selIndex+movement, tmpModule);
+				dlActiveModules.remove(lActiveModules.getSelectedIndex());
+			} catch(IndexOutOfBoundsException ioob) {
+				lblStatus.setText(lblStatus.getText()+" Already on "+place+" position");
+				lblStatus.setBackground(cRed);
+			}
+			lActiveModules.revalidate();
+			spActiveModules.revalidate();
+		} else if (lActiveModules.isSelectionEmpty()) {
+			lblStatus.setBackground(cRed);
+			lblStatus.setText(lblStatus.getText()+" No module selected");
+		}
 	}
 	
 	/**
 	 * Creates an user/admin
 	 * @return true if user was created / false is some param is not ok
 	 */
-	public boolean createUser() {
+	private boolean createUser() {
 		if(rbAdmin.isSelected()) {
 			type = "a";
 		}
@@ -409,23 +675,21 @@ public class Admin {
 		return users.saveUser(tfUsername.getText(), String.valueOf(pfPassword.getPassword()), type);
 	}
 	
-	
 	/**
 	 * Deletes a user/admin
 	 * @return true if the user is marked as deleted. Will be saved after regular closing 
 	 * 			of the programm
 	 */
-	public boolean deleteUser() {
+	private boolean deleteUser() {
 		return users.deleteUser(tfUsername.getText());
 	}
-	
 	
 	/**
 	 * Changes the password of an user/admin
 	 * @return true if the password was changed !the password isn't written in xml yet!
 	 * 			if the programm chrashes the changes are lost!
 	 */
-	public boolean changePassword() {
+	private boolean changePassword() {
 		String username = tfUsername.getText();
 		String password = String.valueOf(pfPassword.getPassword());
 		return users.changePassword(username, password);	

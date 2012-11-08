@@ -67,8 +67,7 @@ public class MainApplication {
 		
 		//frame.setContentPane(admin.getAdminPanel());
 		//frame.setContentPane(login.getLoginPanel());
-		
-		//initModules();
+
 		nextModule();
 
 	}
