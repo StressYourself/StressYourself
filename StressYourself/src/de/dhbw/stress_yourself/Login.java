@@ -14,8 +14,10 @@ import de.dhbw.stress_yourself.UserData;
 public class Login {
 
 	private UserData users;
+	private MainApplication main;
 
-	public Login(UserData users) {
+	public Login(MainApplication main, UserData users) {
+		this.main = main;
 		this.users = users;
 	}
 
@@ -82,8 +84,10 @@ public class Login {
 				label3.setText("Wrong username or password!");
 			} else if (result == 1) {
 				// user - start the test with standard configuration
+				main.nextModule();
 			} else if (result == 2) {
 				// admin - launch the admin panel
+				main.startAdminPanel();
 			}
 		}
 	}
