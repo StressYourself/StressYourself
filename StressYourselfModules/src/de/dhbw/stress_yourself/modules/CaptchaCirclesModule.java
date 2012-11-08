@@ -11,12 +11,15 @@ import java.awt.event.MouseListener;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
+import de.dhbw.stress_yourself.modules.CaptchaCharSequenceModule.ModuleGUI.NextModule;
+import de.dhbw.stress_yourself.modules.CaptchaCharSequenceModule.ModuleGUI.NextTask;
 
 /**
  * Module to create captchas where the user has to find a open circle in a
@@ -29,13 +32,28 @@ public class CaptchaCirclesModule extends ModuleClass {
 	private final String moduleName = "CaptchaCirclesModule";
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
+	private int nextTaskIntervall = 5000;
 
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 
 	public CaptchaCirclesModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
+		setTimerIntervall();
 	}
-
+	
+	public void setTimerIntervall() {
+		switch(getDifficulty()) {
+		case(0):
+			break;
+		case(1):
+			nextTaskIntervall = 4000;
+			break;
+		case(2):
+			nextTaskIntervall = 3000;
+			break;
+		}
+	}
+	
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
@@ -91,6 +109,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 		private RandomCircles captcha;
 		private JTextPane pane = new JTextPane();
 		private JButton button = new JButton("next module");
+		private JPanel thisPanel = this;
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -125,7 +144,8 @@ public class CaptchaCirclesModule extends ModuleClass {
 			button.addActionListener(this);
 			button.setBounds(230, 50, 120, 30);
 			this.add(button);
-			setTimer();
+			setNextTaskTimer(nextTaskIntervall, nextTaskIntervall, new NextTask());
+			setNextModuleTimer(getTime(), new NextModule());
 		}
 
 		@Override
@@ -174,13 +194,30 @@ public class CaptchaCirclesModule extends ModuleClass {
 			// TODO Auto-generated method stub
 
 		}
+		
+		public class NextTask extends TimerTask {
+			@Override
+			public void run() {
+				
+				thisPanel.remove(captcha);
+				captcha = createCaptcha();
+				thisPanel.revalidate();
+				
+			}
+		}
+		
+		public class NextModule extends TimerTask {
+			@Override
+			public void run() {
+				sendResult();
+				tellFinished();
+			}
+		}
 	}
 
 	/**
 	 * This class contains a blueprint for a canvas which draws random circles
 	 * used as a captcha test
-	 * 
-	 * @author Moritz Herbert <moritz.herbert@gmx.de>
 	 */
 	class RandomCircles extends Canvas {
 		private static final long serialVersionUID = 1L;

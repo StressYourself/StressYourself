@@ -66,10 +66,10 @@ public class MainApplication {
 		getConfiguration();
 		
 		//frame.setContentPane(admin.getAdminPanel());
-		frame.setContentPane(login.getLoginPanel());
+		//frame.setContentPane(login.getLoginPanel());
 		
 		//initModules();
-		//nextModule();
+		nextModule();
 
 	}
 
@@ -91,10 +91,10 @@ public class MainApplication {
 	 * @return boolean Bool if the module was sucessfully loaded
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	public boolean startModule(Class<?> clazz, int difficulty, String time) {
+	public boolean startModule(Class<?> clazz, Integer difficulty, Integer time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
-		runningModuleObject = Reflection.createClassInstance(clazz, this);
+		runningModuleObject = Reflection.createClassInstance(clazz, new Object[] {this, difficulty, time});
 
 		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
 			panel = (JPanel) Reflection.runMethod(
@@ -145,7 +145,7 @@ public class MainApplication {
 				.getClassMethods(runningModuleClass);
 
 		runningModuleObject = Reflection.createClassInstance(
-				runningModuleClass, this);
+				runningModuleClass, new Object[] {this, new Integer(0), new Integer(0)});
 
 		if (runningModuleMethodsMap.containsKey("getModuleName")) {
 			name = (String) Reflection.runMethod(
@@ -185,8 +185,8 @@ public class MainApplication {
 			System.out.println(configuration.get(index).getName());
 			index++;
 
-			int difficulty = 0;
-			String time = "";
+			Integer difficulty = new Integer(0);
+			Integer time = new Integer(20000);
 			startModule(runningModuleClass, difficulty, time);
 		} else {
 			// Test finished, time to call the evaluation!
