@@ -2,7 +2,11 @@
 <configuration>
   <difficulty>1</difficulty>
   <module>
-    <name>Zwei</name>
-    <time>40</time>
+    <name>KeyPress</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>CaptchaCirclesModule</name>
+    <time>60</time>
   </module>
 </configuration>

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -29,9 +30,25 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	private final String moduleDescription = "Example Description";
 
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
+	private int captchaCount = 1;
+	private int nextTaskIntervall = 5000;
 
 	public CaptchaCharSequenceModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
+		setTimerIntervall();
+	}
+	
+	public void setTimerIntervall() {
+		switch(getDifficulty()) {
+		case(0):
+			break;
+		case(1):
+			nextTaskIntervall = 4000;
+			break;
+		case(2):
+			nextTaskIntervall = 3000;
+			break;
+		}
 	}
 
 	public JPanel getModuleJPanel() {
@@ -81,6 +98,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		private JButton nextCaptchaButton = new JButton("next captcha");
 		private JButton nextModuleButton = new JButton("next module");
 		private RandomSequence c;
+		private JPanel thisPanel = this;
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -120,16 +138,20 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 			registerButton(nextModuleButton);
 			nextModuleButton.addActionListener(this);
 			this.add(nextModuleButton);
+			setNextTaskTimer(nextTaskIntervall, nextTaskIntervall, new NextTask());
+			setNextModuleTimer(getTime(), new NextModule());
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch (buttons.indexOf(e.getSource())) {
 			case 0:// nextCaptchaButton
+				resetNextTaskTimer(nextTaskIntervall, nextTaskIntervall, new NextTask());
 				isValidSequence(captchaText.getText(), c.getSequence());
 				this.remove(c);
 				c = createCaptcha();
 				this.revalidate();
+				captchaCount++;
 				break;
 			case 1:// nextModuleButton
 				sendResult();
@@ -137,8 +159,30 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 				break;
 			}
 		}
+		
+		public class NextTask extends TimerTask {
+			@Override
+			public void run() {
+				thisPanel.remove(c);
+				c = createCaptcha();
+				thisPanel.revalidate();
+				captchaCount++;
+				
+			}
+		}
+		
+		public class NextModule extends TimerTask {
+			@Override
+			public void run() {
+				sendResult();
+				tellFinished();
+			}
+		}
 	}
 
+	
+	
+	
 	/**
 	 * This class contains a blueprint for a canvas which draws a random
 	 * character sequence used as a captcha test

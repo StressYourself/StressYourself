@@ -30,8 +30,9 @@ public class KeyPress extends ModuleClass {
 
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 	
-	public KeyPress(Object o, int difficulty, int time) {
-		super(o, difficulty, time);
+	public KeyPress(Object o, Integer difficulty, Integer time) {
+		super(o, difficulty.intValue(), time.intValue());
+		setTimerIntervall();
 	}
 
 	@Override
@@ -52,6 +53,12 @@ public class KeyPress extends ModuleClass {
 	@Override
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
+	}
+	
+	@Override
+	public void setTimerIntervall() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
@@ -91,7 +98,7 @@ public class KeyPress extends ModuleClass {
 			pane.setText("CaptchaCirclesModules");
 			pane.setBounds(50, 50, 175, 30);
 			this.add(pane);
-			setTimer();
+			//setTimer();
 		}
 		
 		private void keyGame() {	
@@ -127,4 +134,7 @@ public class KeyPress extends ModuleClass {
 		}
 		
 	}
+
+
+	
 }

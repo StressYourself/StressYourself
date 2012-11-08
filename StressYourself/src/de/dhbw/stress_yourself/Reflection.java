@@ -112,7 +112,7 @@ public class Reflection {
 	 * @return Object The instance of the module
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	public static Object createClassInstance(Class<?> clazz, Object param) {
+	public static Object createClassInstance(Class<?> clazz, Object[] params) {
 		Object classObject = null;
 		Constructor<?> cons = null;
 		try {
@@ -121,7 +121,7 @@ public class Reflection {
 			System.err.println("Couldn't get the Constructor " + e);
 		}
 		try {
-			classObject = cons.newInstance(new Object[] {param, new Integer(1), new Integer(1)});
+			classObject = cons.newInstance(params);
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
 			System.err.println("Couldn't the object from the module " + e);
