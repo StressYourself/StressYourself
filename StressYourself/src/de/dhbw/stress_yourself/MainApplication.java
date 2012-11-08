@@ -8,6 +8,11 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.params.ModuleInformation;
+import de.dhbw.stress_yourself.params.Parameter;
+import de.dhbw.stress_yourself.params.UserData;
+import de.dhbw.stress_yourself.reflection.Reflection;
+
 /**
  * The MainApplication Class is used to manage and load all gui classes
  * containing the modules.
@@ -57,11 +62,13 @@ public class MainApplication {
 		});
 	}
 
+	/**
+	 *  Initialize the frame and add the login
+	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(login.getLoginPanel());
 		getAvaiableModules();
 		getConfiguration();
 		
@@ -69,6 +76,9 @@ public class MainApplication {
 		startLoginPanel();
 	}
 	
+	/**
+	 *  Removes all other panels and loads LoginPanel
+	 */
 	public void startLoginPanel(){
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
@@ -76,6 +86,9 @@ public class MainApplication {
 		frame.getContentPane().revalidate();
 	}
 	
+	/**
+	 *  Removes all other panels and loads AdminPanel
+	 */
 	public void startAdminPanel(){
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
@@ -83,6 +96,9 @@ public class MainApplication {
 		frame.getContentPane().revalidate();
 	}
 
+	/**
+	 *  The the actual configuration
+	 */
 	public void getConfiguration() {
 		// doesn't work right now, because of admin part
 		// configuration = params.getConfiguration();
@@ -99,7 +115,6 @@ public class MainApplication {
 	 * @param time
 	 *            The time for the Test
 	 * @return boolean Bool if the module was sucessfully loaded
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public boolean startModule(Class<?> clazz, Integer difficulty, Integer time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
@@ -119,8 +134,6 @@ public class MainApplication {
 
 	/**
 	 * Inits the Modules by getting the url and the names of the modules
-	 * 
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void getAvaiableModules() {
 		LinkedList<String> classes = new LinkedList<String>();
@@ -142,7 +155,6 @@ public class MainApplication {
 	 * @param name
 	 *            Name of the class
 	 * @return ModuleInformation Object
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public ModuleInformation getModuleInformation(URL url, String classname) {
 		String name = null;
@@ -182,8 +194,6 @@ public class MainApplication {
 
 	/**
 	 * Changes the current module with the next module in the classes list
-	 * 
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void nextModule() {
 		frame.getContentPane().removeAll();
@@ -206,8 +216,6 @@ public class MainApplication {
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
-	 * 
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void createOutcome() {
 		panel = outcome.getOutcomeGUI();
