@@ -86,6 +86,7 @@ public class UserData {
 			}
 			if (!back) {
 				users.addLast(new User(username, createMD5(password), type));
+				back = true;
 			} else {
 				back = false;
 			}
