@@ -119,6 +119,7 @@ public class Admin {
 	private String place;
 	private int difficulty;
 	private boolean newConfig;
+	private boolean exists;
 	
 	/**
 	 * Actionlistener for all buttons
@@ -518,10 +519,23 @@ public class Admin {
 		pnlTestManagement.add(btnSaveConfig);
 		
 		//Adds items into the scrollpanes
+		
 		try {
-			for (int i = 0; i < params.getAvailableModules().size();i++) {
-				dlAvailableModules.add(i, params.getAvailableModules().get(i).getName());
+			for (int i = 0; i < params.getAvailableModules().size(); i++) {
+				exists = false;
+				for (int b=0; b < params.getConfiguration().size(); b++) {
+					
+					if (params.getConfiguration().get(b).getName().equals(params.getAvailableModules().get(i).getName())) {
+						exists = true;
+						break;
+					}
+				}
+				if(!exists) {
+					dlAvailableModules.addElement(params.getAvailableModules().get(i).getName());
+					exists = false;
+				}
 			}
+			
 			for (int i = 0; i < params.getConfiguration().size();i++) {
 				dlActiveModules.add(i, params.getConfiguration().get(i).getName()+" "+params.getConfiguration().get(i).getTime());
 			}
