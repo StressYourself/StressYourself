@@ -547,12 +547,12 @@ public class Admin {
 			}
 			
 			for (int i = 0; i < params.getConfiguration().size();i++) {
-				dlActiveModules.add(i, params.getConfiguration().get(i).getName()+" "+params.getConfiguration().get(i).getTime());
+				dlActiveModules.add(i, params.getConfiguration().get(i).getName()+" ; "+params.getConfiguration().get(i).getTime());
 			}
 		}catch(IndexOutOfBoundsException e) {
 			lblStatus.setText(lblStatus.getText()+" One list is empty");
 			lblStatus.setBackground(cRed);
-		}
+		} 
 		
 		lblActiveModules.setBounds(375, 5, 200, COMPONENTHEIGHT);
 		pnlTestManagement.add(lblActiveModules);
