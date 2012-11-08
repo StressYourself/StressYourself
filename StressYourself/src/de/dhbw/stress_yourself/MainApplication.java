@@ -48,6 +48,7 @@ public class MainApplication {
 			public void run() {
 				try {
 					MainApplication window = new MainApplication();
+					
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,15 +61,15 @@ public class MainApplication {
 		frame = new JFrame();
 		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		frame.add(login.getLoginPanel());
 		getAvaiableModules();
 		getConfiguration();
-
-		// admin.getAdminPanel();
-		frame.setContentPane(login.getLoginPanel());
-
-		// initModules();
-		// nextModule();
+		
+		frame.setContentPane(admin.getAdminPanel());
+//		frame.setContentPane(login.getLoginPanel());
+		
+		//initModules();
+		//nextModule();
 
 	}
 
@@ -163,6 +164,8 @@ public class MainApplication {
 					runningModuleMethodsMap.get("getModuleDescription"),
 					runningModuleObject, (Object[]) null);
 		}
+		
+		System.out.println(name);
 
 		return new ModuleInformation(classname, name, area, description);
 	}

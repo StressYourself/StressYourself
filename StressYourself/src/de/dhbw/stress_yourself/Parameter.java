@@ -27,6 +27,7 @@ public class Parameter {
 	private final String pathToJar = "../stress_yourself_modules.jar";
 	private final String packageName = "de.dhbw.stress_yourself.modules";
 	private final String filename = "config/configuration.xml";
+	private final String outcomePath = "";
 
 	private LinkedList<ModuleInformation> configuration = new LinkedList<ModuleInformation>();
 
@@ -44,7 +45,11 @@ public class Parameter {
 		return packageName;
 	}
 	
-	public int getDifficulty(){
+	public String getOutcomePath() {
+		return outcomePath;
+	}
+
+	public int getDifficulty() {
 		return difficulty;
 	}
 
@@ -68,10 +73,10 @@ public class Parameter {
 	/**
 	 * used by MainApplication
 	 */
-	public void addModuleInformation(String name,String classname, String area,
-			String description) {
-		availableModules
-				.addLast(new ModuleInformation(name,classname, area, description));
+	public void addModuleInformation(String name, String classname,
+			String area, String description) {
+		availableModules.addLast(new ModuleInformation(name, classname, area,
+				description));
 	}
 
 	public void addModuleInformation(ModuleInformation mi) {
