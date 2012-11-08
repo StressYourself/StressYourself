@@ -22,7 +22,6 @@ import org.jdom2.output.Format;
  * class manages the user data
  * 
  * @author LukasBuchert
- * 
  */
 public class UserData {
 
@@ -52,7 +51,6 @@ public class UserData {
 	 *            name of user
 	 * @param password
 	 *            users password
-	 * 
 	 * @return false - if sum of all parameters dosen't exist true - if
 	 *         parameter matches
 	 */

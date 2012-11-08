@@ -1,13 +1,10 @@
 package de.dhbw.stress_yourself;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import de.dhbw.stress_yourself.UserData;
 
 /**
@@ -22,23 +19,6 @@ public class Login {
 		this.users = users;
 	}
 
-	/**
-	 * 
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	public int login(String username, String password) {
-		int result = users.existsUser(username, password);
-		if (result == 1 || result == 2) {
-			JOptionPane.showMessageDialog(null, "Login Successfull");
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"Eingabe fehlerhaft! Username oder Passwort falsch");
-		}
-		return result;
-	}
-
 	public JPanel getLoginPanel() {
 		LoginGUI panel = new LoginGUI();
 		return panel;
@@ -51,13 +31,11 @@ public class Login {
 	 */
 	private class LoginGUI extends JPanel implements ActionListener {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		private JButton submit;
 		private JLabel label1;
 		private JLabel label2;
+		private JLabel label3;
 
 		private JTextField text1, text2;
 
@@ -66,8 +44,8 @@ public class Login {
 		}
 
 		private void init() {
-			setLayout(new GridLayout(3, 2));
-			setBorder(new EmptyBorder(300, 300, 300, 300));
+			setLayout(new GridLayout(4, 2));
+			setBorder(new EmptyBorder(280, 300, 280, 300));
 
 			label1 = new JLabel("Username:");
 			text1 = new JTextField(15);
@@ -75,7 +53,9 @@ public class Login {
 			label2 = new JLabel("Password:");
 			text2 = new JPasswordField(8);
 
-			submit = new JButton("SUBMIT");
+			submit = new JButton("Submit");
+			
+			label3 = new JLabel("");
 
 			add(label1);
 			add(text1);
@@ -83,7 +63,8 @@ public class Login {
 			add(text2);
 			add(new JLabel());
 			add(submit);
-
+			add(label3);
+			
 			submit.addActionListener(this);
 		}
 
@@ -94,14 +75,15 @@ public class Login {
 		public void actionPerformed(ActionEvent e) {
 			String username = text1.getText();
 			String password = text2.getText();
-			int result = login(username, password);
+			int result = users.existsUser(username, password);
 			if (result == 0) {
 				text1.setText("");
 				text2.setText("");
+				label3.setText("Wrong username or password!");
 			} else if (result == 1) {
-				// user
+				// user - start the test with standard configuration
 			} else if (result == 2) {
-				// admin
+				// admin - launch the admin panel
 			}
 		}
 	}
