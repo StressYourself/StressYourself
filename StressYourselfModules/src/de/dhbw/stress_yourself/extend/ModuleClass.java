@@ -45,6 +45,14 @@ public abstract class ModuleClass {
 	    nextTaskTimer.schedule( timer, time, intervall );
 	}
 	
+	public void resetNextTaskTimer(int time, int intervall, TimerTask timer) {
+		nextTaskTimer.cancel();
+		nextTaskTimer.purge();
+	    nextTaskTimer = new Timer();
+		nextTaskTimer.schedule( timer, time, intervall );
+		
+	}
+	
 	abstract class NextTask extends TimerTask{}
 	
 	public void setNextModuleTimer(int time, TimerTask timer) {
