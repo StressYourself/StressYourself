@@ -251,46 +251,7 @@ public class Admin {
 			
 			//Click on button "Save Config"
 			} else if(e.getSource().equals(btnSaveConfig)) {
-				newConfig = false;
-				//Creates new config
-				llConfig = new LinkedList<ModuleInformation>();
-				for(int i = 0; i < dlActiveModules.size(); i++) {
-					llConfig.add(new ModuleInformation(dlActiveModules.getElementAt(i).substring(
-							0, dlActiveModules.getElementAt(i).indexOf(" ;")),
-							Integer.parseInt(dlActiveModules.getElementAt(i).substring(
-							dlActiveModules.getElementAt(i).indexOf("; ")+2,
-							dlActiveModules.getElementAt(i).length()))));
-				}
-				if (rbEasy.isSelected()) {
-					difficulty = 1;
-				} else if (rbMedium.isSelected()) {
-					difficulty = 2;
-				} else if (rbHard.isSelected()) {
-					difficulty = 3;
-				}
-				
-				//Checks whether the config is new
-				if (difficulty != params.getDifficulty()) {
-					newConfig = true;
-				} else if (params.getConfiguration().size() != llConfig.size()) {
-					newConfig = true;
-				} else {
-					for (int i=0; i<llConfig.size(); i++) {
-						if (!llConfig.get(i).equals(params.getConfiguration().get(i))) {
-							newConfig = true;
-							break;
-						}
-					}
-				}
-				
-				if (!newConfig) {
-					lblStatus.setText(lblStatus.getText()+" Nothing changed");
-					lblStatus.setBackground(cRed);
-				} else if (newConfig){
-					params.overwriteConfiguration(llConfig, difficulty);
-					lblStatus.setText(lblStatus.getText()+" Configuration saved");
-					lblStatus.setBackground(cGreen);
-				}
+				saveConfTmp();
 			
 			//Click on button "-"
 			} else if(e.getSource().equals(btnTimeDown)) {
@@ -312,6 +273,7 @@ public class Admin {
 			
 			//Click on button "Quit Admin Area And Save All Changes"
 			}else if(e.getSource().equals(btnBack)) {
+				saveConfTmp();
 				params.saveChangesInXML();
 				users.saveChangesInXML();
 				
@@ -663,6 +625,52 @@ public class Admin {
 		String username = tfUsername.getText();
 		String password = String.valueOf(pfPassword.getPassword());
 		return users.changePassword(username, password);	
+	}
+	
+	/**
+	 * Save configuration temporarely
+	 */
+	public void saveConfTmp() {
+		newConfig = false;
+		//Creates new config
+		llConfig = new LinkedList<ModuleInformation>();
+		for(int i = 0; i < dlActiveModules.size(); i++) {
+			llConfig.add(new ModuleInformation(dlActiveModules.getElementAt(i).substring(
+					0, dlActiveModules.getElementAt(i).indexOf(" ;")),
+					Integer.parseInt(dlActiveModules.getElementAt(i).substring(
+					dlActiveModules.getElementAt(i).indexOf("; ")+2,
+					dlActiveModules.getElementAt(i).length()))));
+		}
+		if (rbEasy.isSelected()) {
+			difficulty = 1;
+		} else if (rbMedium.isSelected()) {
+			difficulty = 2;
+		} else if (rbHard.isSelected()) {
+			difficulty = 3;
+		}
+		
+		//Checks whether the config is new
+		if (difficulty != params.getDifficulty()) {
+			newConfig = true;
+		} else if (params.getConfiguration().size() != llConfig.size()) {
+			newConfig = true;
+		} else {
+			for (int i=0; i<llConfig.size(); i++) {
+				if (!llConfig.get(i).equals(params.getConfiguration().get(i))) {
+					newConfig = true;
+					break;
+				}
+			}
+		}
+		
+		if (!newConfig) {
+			lblStatus.setText(lblStatus.getText()+" Nothing changed");
+			lblStatus.setBackground(cRed);
+		} else if (newConfig){
+			params.overwriteConfiguration(llConfig, difficulty);
+			lblStatus.setText(lblStatus.getText()+" Configuration saved");
+			lblStatus.setBackground(cGreen);
+		}
 	}
 
 	
