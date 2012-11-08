@@ -18,11 +18,11 @@ import javax.swing.JPanel;
 public abstract class ModuleClass {
 
 	private int diff;
-	private int time = 5;
-
+	private int time;
 	private int result = 0;
-
 	private Object mainClass = null;
+	private Timer nextTaskTimer;
+	private Timer nextModuleTimer;
 
 	public ModuleClass(Object o, int difficulty,int time) {
 		if (mainClass == null) {
@@ -40,18 +40,23 @@ public abstract class ModuleClass {
 		return time;
 	}
 	
-	public void setTimer() {
-	    Timer timer = new Timer();
-	    timer.schedule(new Task(), time*1000);
+	public void setNextTaskTimer(int time, int intervall, TimerTask timer) {
+	    nextTaskTimer = new Timer();
+	    nextTaskTimer.schedule( timer, time, intervall );
 	}
+	
+	abstract class NextTask extends TimerTask{}
+	
+	public void setNextModuleTimer(int time, TimerTask timer) {
+		nextModuleTimer = new Timer();
+		nextModuleTimer.schedule(timer, time);
+	}	
+	
+	public abstract void setTimerIntervall() ;
+	
+	abstract class NextModule extends TimerTask{}
 
-	class Task extends TimerTask
-	{
-	  @Override public void run()
-	  {
-	    System.out.println( "Immer puenktlich!" );
-	  }
-	}
+	
 	
 	public abstract String getModuleName();
 	public abstract String getModuleArea();

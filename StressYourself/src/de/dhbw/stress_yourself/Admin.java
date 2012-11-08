@@ -22,12 +22,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-
-
-//Beschreibung bei Modulen anzeigen?? Tooltip?
-//bekomme 2 LinkedLists von Userdata mit 
-
-
 /**
  * Class Admin creates a JPanel with configuration components on it
  * 		- User management: 
@@ -41,82 +35,7 @@ import javax.swing.text.PlainDocument;
  *
  * @author Florian Albert <floria-albert@gmx.de>
  */
-
-
 public class Admin {
-	
-	/**
-	 * class SetMaxText
-	 * 		- with this class you are able to
-	 * 		  set the maxlength of an JTextField / JPasswordField
-	 * 		  in a very easy way.
-	 *		- use: someTextField.setDocument(new SetMaxText(int Max));
-	 */
-	@SuppressWarnings("serial")
-	public class SetMaxText extends PlainDocument {
-	  private int limit;
-	  // optional uppercase conversion
-	  private boolean toUppercase = false;
-	  
-	  SetMaxText(int limit) {
-	   super();
-	   this.limit = limit;
-	   }
-	   
-	  SetMaxText(int limit, boolean upper) {
-	   super();
-	   this.limit = limit;
-	   toUppercase = upper;
-	   }
-	 
-	  public void insertString
-	    (int offset, String  str, AttributeSet attr)
-	      throws BadLocationException {
-	   if (str == null) return;
-
-	   if ((getLength() + str.length()) <= limit) {
-	     if (toUppercase) str = str.toUpperCase();
-	     super.insertString(offset, str, attr);
-	     }
-	   }
-	}
-	
-	/**
-	 * Keylistener for letters only
-	 * 		- used on textfield "Username"
-	 */
-	public KeyListener klLetters= new KeyListener() {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			//Allows only letters
-			if(e.getSource().equals(tfUsername)) {
-				if((e.getKeyCode() != (char)8 && e.getKeyChar() < (char)65) 
-						|| (e.getKeyChar() > (char)90 && e.getKeyChar() < 97) 
-						|| e.getKeyChar() > (char)122 && e.getKeyChar() < (char)255) {
-					tfUsername.setText(tfUsername.getText().substring(0, tfUsername.getText().length()-1));
-				}
-			} else if(e.getSource().equals(pfPassword)) {
-				if((e.getKeyChar() != (char)8 && e.getKeyChar() < (char)48) 
-						|| (e.getKeyChar() > (char)57 && e.getKeyChar() < (char)65)
-						|| (e.getKeyChar() > 90 && e.getKeyChar() < (char)97)
-						|| e.getKeyChar() > (char)122 && e.getKeyChar() < (char)255) {
-					pfPassword.setText(String.valueOf(pfPassword.getPassword()).substring(0, pfPassword.getPassword().length-1));
-				}
-			}
-			
-		}
-	};
 	
 	//Panels
 	private static JPanel aPanel = new JPanel();
@@ -188,6 +107,7 @@ public class Admin {
 	private ButtonGroup bgDifficulty = new ButtonGroup();
 	
 	//Information about users and parameters
+	private MainApplication main;
 	private UserData users;
 	private Parameter params;
 	private String type;
@@ -395,9 +315,8 @@ public class Admin {
 				params.saveChangesInXML();
 				users.saveChangesInXML();
 				
-				//Hier an Mainapplication -> Admin ende
-				
-				
+				//launch the login
+				main.startLoginPanel();
 			}
 		}
 		
@@ -408,7 +327,8 @@ public class Admin {
 	 * @param users - stores information about registrate users
 	 * @param params - stores the saved configuration and modulinformation
 	 */
-	public Admin(UserData users, Parameter params){
+	public Admin(MainApplication main, UserData users, Parameter params){
+		this.main = main;
 		this.users = users;
 		this.params = params;
 	}
@@ -676,6 +596,42 @@ public class Admin {
 	}
 	
 	/**
+	 * class SetMaxText
+	 * 		- with this class you are able to
+	 * 		  set the maxlength of an JTextField / JPasswordField
+	 * 		  in a very easy way.
+	 *		- use: someTextField.setDocument(new SetMaxText(int Max));
+	 */
+	@SuppressWarnings("serial")
+	public class SetMaxText extends PlainDocument {
+	  private int limit;
+	  // optional uppercase conversion
+	  private boolean toUppercase = false;
+	  
+	  SetMaxText(int limit) {
+	   super();
+	   this.limit = limit;
+	   }
+	   
+	  SetMaxText(int limit, boolean upper) {
+	   super();
+	   this.limit = limit;
+	   toUppercase = upper;
+	   }
+	 
+	  public void insertString
+	    (int offset, String  str, AttributeSet attr)
+	      throws BadLocationException {
+	   if (str == null) return;
+
+	   if ((getLength() + str.length()) <= limit) {
+	     if (toUppercase) str = str.toUpperCase();
+	     super.insertString(offset, str, attr);
+	     }
+	   }
+	}
+	
+	/**
 	 * Creates an user/admin
 	 * @return true if user was created / false is some param is not ok
 	 */
@@ -709,4 +665,41 @@ public class Admin {
 		return users.changePassword(username, password);	
 	}
 
+	
+	/**
+	 * Keylistener for letters only
+	 * 		- used on textfield "Username"
+	 */
+	public KeyListener klLetters= new KeyListener() {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			//Allows only letters
+			if(e.getSource().equals(tfUsername)) {
+				if((e.getKeyCode() != (char)8 && e.getKeyChar() < (char)65) 
+						|| (e.getKeyChar() > (char)90 && e.getKeyChar() < 97) 
+						|| e.getKeyChar() > (char)122 && e.getKeyChar() < (char)255) {
+					tfUsername.setText(tfUsername.getText().substring(0, tfUsername.getText().length()-1));
+				}
+			} else if(e.getSource().equals(pfPassword)) {
+				if((e.getKeyChar() != (char)8 && e.getKeyChar() < (char)48) 
+						|| (e.getKeyChar() > (char)57 && e.getKeyChar() < (char)65)
+						|| (e.getKeyChar() > 90 && e.getKeyChar() < (char)97)
+						|| e.getKeyChar() > (char)122 && e.getKeyChar() < (char)255) {
+					pfPassword.setText(String.valueOf(pfPassword.getPassword()).substring(0, pfPassword.getPassword().length-1));
+				}
+			}
+			
+		}
+	};
 }

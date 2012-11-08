@@ -10,4 +10,29 @@
     <password>e8dc4081b13434b45189a720b77b6818</password>
     <type>u</type>
   </user>
+  <user>
+    <name>test</name>
+    <password>98f6bcd4621d373cade4e832627b4f6</password>
+    <type>u</type>
+  </user>
+  <user>
+    <name>admin</name>
+    <password>63a9f0ea7bb98050796b649e85481845</password>
+    <type>a</type>
+  </user>
+  <user>
+    <name>root</name>
+    <password>63a9f0ea7bb98050796b649e85481845</password>
+    <type>a</type>
+  </user>
+  <user>
+    <name>Moritz</name>
+    <password>bc9d4a64f73ecbc7216ed54efaa119b6</password>
+    <type>u</type>
+  </user>
+  <user>
+    <name>tobias</name>
+    <password>2b2731af96cc3d862395993a7ba1188d</password>
+    <type>u</type>
+  </user>
 </list>
