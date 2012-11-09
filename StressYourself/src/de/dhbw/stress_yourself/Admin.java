@@ -610,6 +610,8 @@ public class Admin {
 				if(dlActiveModules.getElementAt(i).substring(0, dlActiveModules.getElementAt(i).indexOf(" ;")).equals(params.getAvailableModules().get(x).getName())) {
 					params.getAvailableModules().get(x).setTime(Integer.parseInt(dlActiveModules.getElementAt(i).substring(dlActiveModules.getElementAt(i).indexOf("; ")+2,dlActiveModules.getElementAt(i).length())));
 					llConfig.add(params.getAvailableModules().get(x));
+					System.out.println("Available-name  "+params.getAvailableModules().get(x).getName());
+					System.out.println("llConfig- classname + time "+llConfig.getLast().getClassName()+" : "+llConfig.getLast().getTime());
 				}
 			}
 //			  OLD
