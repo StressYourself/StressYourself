@@ -102,7 +102,7 @@ public class MainApplication {
 	public void getConfiguration() {
 		configuration = params.getConfiguration();
 		for(int i = 0; i< configuration.size(); i++){
-			System.out.println("configuration  " + configuration.get(i).getClassName());
+			System.out.println("configuration  " + configuration.get(i).getName());
 		}
 	}
 
