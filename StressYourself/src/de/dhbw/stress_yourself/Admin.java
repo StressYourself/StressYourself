@@ -606,11 +606,18 @@ public class Admin {
 		//Creates new config
 		llConfig = new LinkedList<ModuleInformation>();
 		for(int i = 0; i < dlActiveModules.size(); i++) {
-			llConfig.add(new ModuleInformation(dlActiveModules.getElementAt(i).substring(
-					0, dlActiveModules.getElementAt(i).indexOf(" ;")),
-					Integer.parseInt(dlActiveModules.getElementAt(i).substring(
-					dlActiveModules.getElementAt(i).indexOf("; ")+2,
-					dlActiveModules.getElementAt(i).length()))));
+			for(int x = 0; x < params.getAvailableModules().size(); x++) {
+				if(dlActiveModules.getElementAt(i).substring(0, dlActiveModules.getElementAt(i).indexOf(" ;")).equals(params.getAvailableModules().get(x).getName())) {
+					params.getAvailableModules().get(x).setTime(Integer.parseInt(dlActiveModules.getElementAt(i).substring(dlActiveModules.getElementAt(i).indexOf("; ")+2,dlActiveModules.getElementAt(i).length())));
+					llConfig.add(params.getAvailableModules().get(x));
+				}
+			}
+//			  OLD
+//			llConfig.add(new ModuleInformation(dlActiveModules.getElementAt(i).substring(
+//					0, dlActiveModules.getElementAt(i).indexOf(" ;")),
+//					Integer.parseInt(dlActiveModules.getElementAt(i).substring(
+//					dlActiveModules.getElementAt(i).indexOf("; ")+2,
+//					dlActiveModules.getElementAt(i).length()))));
 		}
 		if (rbEasy.isSelected()) {
 			difficulty = 1;
@@ -636,6 +643,7 @@ public class Admin {
 		
 		if (!newConfig) {
 		} else if (newConfig){
+			
 			params.overwriteConfiguration(llConfig, difficulty);
 		}
 	}
