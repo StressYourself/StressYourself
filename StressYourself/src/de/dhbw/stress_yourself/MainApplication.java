@@ -89,7 +89,6 @@ public class MainApplication {
 	 *  Removes all other panels and loads AdminPanel
 	 */
 	public void startAdminPanel(){
-		admin = new Admin(this, users, params);
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(admin.getAdminPanel());

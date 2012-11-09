@@ -6,4 +6,9 @@
     <classname>de.dhbw.stress_yourself.modules.CaptchaCharSequenceModule</classname>
     <time>60</time>
   </module>
+  <module>
+    <name>CaptchaCirclesModule</name>
+    <classname>de.dhbw.stress_yourself.modules.CaptchaCirclesModule</classname>
+    <time>60</time>
+  </module>
 </configuration>
