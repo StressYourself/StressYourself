@@ -94,7 +94,6 @@ public class MainApplication {
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(admin.getAdminPanel());
 		frame.getContentPane().revalidate();
-		getConfiguration();
 	}
 
 	/**
