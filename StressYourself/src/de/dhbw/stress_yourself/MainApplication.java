@@ -8,6 +8,12 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.outcome.Outcome;
+import de.dhbw.stress_yourself.params.ModuleInformation;
+import de.dhbw.stress_yourself.params.Parameter;
+import de.dhbw.stress_yourself.params.UserData;
+import de.dhbw.stress_yourself.reflection.Reflection;
+
 /**
  * The MainApplication Class is used to manage and load all gui classes
  * containing the modules.
@@ -36,8 +42,8 @@ public class MainApplication {
 	public MainApplication() {
 		params = new Parameter();
 		users = new UserData();
-		admin = new Admin(users, params);
-		login = new Login(users);
+		admin = new Admin(this, users, params);
+		login = new Login(this, users);
 		outcome = new Outcome(params);
 
 		initialize();
@@ -48,6 +54,7 @@ public class MainApplication {
 			public void run() {
 				try {
 					MainApplication window = new MainApplication();
+					
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,26 +63,47 @@ public class MainApplication {
 		});
 	}
 
+	/**
+	 *  Initialize the frame and add the login
+	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(200, 0, 900, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		getAvaiableModules();
 		getConfiguration();
-
-		// admin.getAdminPanel();
-		frame.setContentPane(login.getLoginPanel());
-
-		// initModules();
-		// nextModule();
-
+		
+		startLoginPanel();
+	}
+	
+	/**
+	 *  Removes all other panels and loads LoginPanel
+	 */
+	public void startLoginPanel(){
+		frame.getContentPane().removeAll();
+		frame.getContentPane().invalidate();
+		frame.getContentPane().add(login.getLoginPanel());
+		frame.getContentPane().revalidate();
+	}
+	
+	/**
+	 *  Removes all other panels and loads AdminPanel
+	 */
+	public void startAdminPanel(){
+		frame.getContentPane().removeAll();
+		frame.getContentPane().invalidate();
+		frame.getContentPane().add(admin.getAdminPanel());
+		frame.getContentPane().revalidate();
 	}
 
+	/**
+	 *  The the actual configuration
+	 */
 	public void getConfiguration() {
-		// doesn't work right now, because of admin part
-		// configuration = params.getConfiguration();
-		configuration = params.getAvailableModules();
+		configuration = params.getConfiguration();
+		for(int i = 0; i< configuration.size(); i++){
+			System.out.println("configuration  " + configuration.get(i).getClassName());
+		}
 	}
 
 	/**
@@ -88,12 +116,11 @@ public class MainApplication {
 	 * @param time
 	 *            The time for the Test
 	 * @return boolean Bool if the module was sucessfully loaded
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	public boolean startModule(Class<?> clazz, int difficulty, String time) {
+	public boolean startModule(Class<?> clazz, Integer difficulty, Integer time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
-		runningModuleObject = Reflection.createClassInstance(clazz, this);
+		runningModuleObject = Reflection.createClassInstance(clazz, new Object[] {this, difficulty, time});
 
 		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
 			panel = (JPanel) Reflection.runMethod(
@@ -108,8 +135,6 @@ public class MainApplication {
 
 	/**
 	 * Inits the Modules by getting the url and the names of the modules
-	 * 
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void getAvaiableModules() {
 		LinkedList<String> classes = new LinkedList<String>();
@@ -131,7 +156,6 @@ public class MainApplication {
 	 * @param name
 	 *            Name of the class
 	 * @return ModuleInformation Object
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public ModuleInformation getModuleInformation(URL url, String classname) {
 		String name = null;
@@ -144,7 +168,7 @@ public class MainApplication {
 				.getClassMethods(runningModuleClass);
 
 		runningModuleObject = Reflection.createClassInstance(
-				runningModuleClass, this);
+				runningModuleClass, new Object[] {this, new Integer(0), new Integer(0)});
 
 		if (runningModuleMethodsMap.containsKey("getModuleName")) {
 			name = (String) Reflection.runMethod(
@@ -163,14 +187,14 @@ public class MainApplication {
 					runningModuleMethodsMap.get("getModuleDescription"),
 					runningModuleObject, (Object[]) null);
 		}
+		
+		System.out.println(name);
 
 		return new ModuleInformation(classname, name, area, description);
 	}
 
 	/**
 	 * Changes the current module with the next module in the classes list
-	 * 
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void nextModule() {
 		frame.getContentPane().removeAll();
@@ -182,21 +206,20 @@ public class MainApplication {
 			System.out.println(configuration.get(index).getName());
 			index++;
 
-			int difficulty = 0;
-			String time = "";
+			Integer difficulty = new Integer(0);
+			Integer time = new Integer(20000);
 			startModule(runningModuleClass, difficulty, time);
 		} else {
 			// Test finished, time to call the evaluation!
-			createOutcome();
+			createOutcomeGUI();
 		}
 	}
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
-	 * 
-	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
-	public void createOutcome() {
+	public void createOutcomeGUI() {
+		outcome.createOutcome();
 		panel = outcome.getOutcomeGUI();
 		frame.getContentPane().add(panel);
 		frame.getContentPane().revalidate();

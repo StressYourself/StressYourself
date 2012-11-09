@@ -1,4 +1,4 @@
-package de.dhbw.stress_yourself;
+package de.dhbw.stress_yourself.params;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -21,14 +21,17 @@ import org.jdom2.output.Format;
 /**
  * class manages the user data
  * 
- * @author LukasBuchert
- * 
+ * @author LukasBuchert <Lukas.Buchert@gmx.de>
  */
 public class UserData {
 
 	private final String filename = "config/userdata.xml";
 	private LinkedList<User> users = new LinkedList<User>();
 	private User currentUser;
+
+	public enum UserType {
+		NOT, USER, ADMIN;
+	}
 
 	public UserData() {
 		readXML();
@@ -39,62 +42,84 @@ public class UserData {
 	}
 
 	/**
+	 * get current user type as Integer
 	 * 
-	 * @return a - for admin, u - for user
+	 * @return 
+	 * 		0 - NOT 
+	 * 		1 - USER 
+	 * 		2 - ADMIN
 	 */
-	public String getCurrentUserType() {
+	public int getCurrentUserTypeOrdinal() {
+		return this.currentUser.getUserTypeOrdinal();
+	}
+
+	public UserType getCurrentUserType() {
 		return this.currentUser.getUserType();
 	}
 
 	/**
+	 * checks if the user exists in this user - password constellation
 	 * 
 	 * @param username
 	 *            name of user
 	 * @param password
 	 *            users password
-	 * 
-	 * @return false - if sum of all parameters dosen't exist true - if
-	 *         parameter matches
+	 * @return 
+	 * 		NOT - if it doesn't exist 
+	 * 		USER - if normal user 
+	 * 		ADMIN - if admin
 	 */
-	public int existsUser(String username, String password) {
-		int result = 0;
+	public UserType existsUser(String username, String password) {
+		UserType user = UserType.NOT;
 		for (int i = 0; i < users.size(); i++) {
 			if (users.get(i).equals(username, password)) {
-				String type = users.get(i).getUserType();
-				if(type == "u"){
-					result = 1;
-				} else if(type == "a"){
-					result = 2;
-				}
+				currentUser = users.get(i);
+				user = users.get(i).getUserType();
 				break;
 			}
 		}
-		return result;
+		return user;
 	}
 
 	/**
+	 * saves a new user
+	 * 
+	 * @param username
+	 *            name of user
+	 * @param password
+	 *            password of user
 	 * @param type
-	 *            a - for admin, u - for user
+	 *            user type ADMIN or USER
+	 * @return false - if user already exists / couldn't save
 	 */
-	public boolean saveUser(String username, String password, String type) {
+	public boolean saveUser(String username, String password, UserType type) {
 		boolean back = false;
-		if (type.equals("a") || type.equals("u")) {
-			for (int i = 0; i < users.size(); i++) {
-				if (users.get(i).equalsLightly(username)) {
-					back = true;
-					break;
-				}
+
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).equalsLightly(username)) {
+				back = true;
+				break;
 			}
-			if (!back) {
-				users.addLast(new User(username, createMD5(password), type));
-			} else {
-				back = false;
-			}
+		}
+		if (!back) {
+			users.addLast(new User(username, createMD5(password), type));
+			back = true;
+		} else {
+			back = false;
 
 		}
 		return back;
 	}
 
+	/**
+	 * changes the password of user with username
+	 * 
+	 * @param username
+	 *            name of user
+	 * @param newPassword
+	 *            new password of user
+	 * @return false - if user doesn't exist / password isn't changed
+	 */
 	public boolean changePassword(String username, String newPassword) {
 		boolean back = false;
 		for (int i = 0; i < users.size(); i++) {
@@ -108,54 +133,73 @@ public class UserData {
 		return back;
 	}
 
+	/**
+	 * deletes the user with this name
+	 * 
+	 * @param username
+	 *            name of the user to delete
+	 * @return false - if user try to delete himself / user doesn't exist / user
+	 *         isn't deleted
+	 */
 	public boolean deleteUser(String username) {
-		// user couldn't delete himself
 		boolean back = false;
-		if (!currentUser.equalsLightly(username)) {
+		if (currentUser != null) {
+			if (!currentUser.equalsLightly(username)) {
 
-			for (int i = 0; i < users.size(); i++) {
+				for (int i = 0; i < users.size(); i++) {
 
-				if (users.get(i).equalsLightly(username) == true) {
-					users.remove(i);
-					back = true;
-					break;
+					if (users.get(i).equalsLightly(username)) {
+						users.remove(i);
+						back = true;
+						break;
+					}
 				}
 			}
-
 		}
 		return back;
 
 	}
 
+	/**
+	 * get all users with name and type
+	 * 
+	 * @return [i][j] i = nth user, j = 0 user name, j = 1 user type as Integer
+	 */
 	public String[][] getUsers() {
 		String[][] returnArray = new String[users.size()][2];
 		for (int i = 0; i < users.size(); i++) {
 			User tmp = users.get(i);
-			returnArray[i][0] = tmp.name;
-			returnArray[i][1] = tmp.type;
+			returnArray[i][0] = tmp.getUserName();
+			returnArray[i][1] = Integer.toString(tmp.getUserTypeOrdinal());
 		}
 		return returnArray;
 	}
 
 	/**
-	 * called while leaving the admin-page saves all Changes in XML
+	 * saves the user list users in the xml data
 	 */
 	public void saveChangesInXML() {
 		resetXML();
 		for (int i = 0; i < users.size(); i++) {
 			User tmp = users.get(i);
 			addUserXML(tmp.getUserName(), tmp.getUserPassword(),
-					tmp.getUserType());
+					tmp.getUserTypeOrdinal());
 		}
 
 	}
 
+	/**
+	 * Class that store information about specific user object
+	 * 
+	 * @author LukasBuchert <Lukas.Buchert@gmx.de>
+	 * 
+	 */
 	private class User {
 		private String name;
 		private String password;
-		private String type;
+		private UserType type;
 
-		public User(String name, String password, String type) {
+		public User(String name, String password, UserType type) {
 			this.name = name;
 			this.password = password;
 			this.type = type;
@@ -173,7 +217,11 @@ public class UserData {
 			return this.password;
 		}
 
-		public String getUserType() {
+		public int getUserTypeOrdinal() {
+			return this.type.ordinal();
+		}
+
+		public UserType getUserType() {
 			return this.type;
 		}
 
@@ -189,7 +237,9 @@ public class UserData {
 		}
 	}
 
-	// methods for Interface XML
+	/**
+	 * resets the XML data
+	 */
 	private void resetXML() {
 		try {
 			SAXBuilder builder = new SAXBuilder();
@@ -207,13 +257,23 @@ public class UserData {
 		}
 	}
 
-	private void addUserXML(String name, String password, String type) {
+	/**
+	 * adds a user in the xml
+	 * 
+	 * @param name
+	 *            name of user that should be added in xml
+	 * @param password
+	 *            password of user
+	 * @param type
+	 *            type of user as Integer 1 - USER 2 - ADMIN
+	 */
+	private void addUserXML(String name, String password, int type) {
 		Element nameElement = new Element("name");
 		Element passwordElement = new Element("password");
 		Element typeElement = new Element("type");
 		nameElement.addContent(name);
 		passwordElement.addContent(password);
-		typeElement.addContent(type);
+		typeElement.addContent(Integer.toString(type));
 		Element user = new Element("user");
 		user.addContent(nameElement);
 		user.addContent(passwordElement);
@@ -233,6 +293,9 @@ public class UserData {
 
 	}
 
+	/**
+	 * read the userdata.xml into the user list users
+	 */
 	private void readXML() {
 
 		Document list = null;
@@ -249,7 +312,8 @@ public class UserData {
 				User tmp = new User(
 						userList.get(i).getChild("name").getValue(), userList
 								.get(i).getChild("password").getValue(),
-						userList.get(i).getChild("type").getValue());
+						UserType.values()[Integer.valueOf(userList.get(i)
+								.getChild("type").getValue())]);
 
 				users.addLast(tmp);
 
@@ -263,6 +327,14 @@ public class UserData {
 
 	}
 
+	/**
+	 * creates an MD5 hash of password
+	 * 
+	 * @author FlorianAlbert <floria-albert@gmx.de>
+	 * @param password
+	 *            that should be hashed
+	 * @return hashed password
+	 */
 	private String createMD5(String password) {
 		String hashword = null;
 		try {
