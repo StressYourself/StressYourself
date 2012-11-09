@@ -129,8 +129,8 @@ public class Admin {
 	
 	/**
 	 * Actionlistener for all buttons
-	 * 	- checks which button is the caller and calls a
-	 * 	  specific function
+	 * 			- checks which button is the caller and calls a
+	 * 	 		  specific function
 	 */
 	private ActionListener selectBtnFunction = new ActionListener() {
 		
@@ -138,7 +138,6 @@ public class Admin {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			
 			//Click on button "Activate Module"
 			if(e.getSource().equals(btnActivateModule)) {
@@ -158,7 +157,8 @@ public class Admin {
 			//Click on button "Deactivate Module"
 			} else if(e.getSource().equals(btnDeactivateModule)) {
 				if(!lActiveModules.isSelectionEmpty()) {
-					dlAvailableModules.addElement(lActiveModules.getSelectedValue().substring(0, lActiveModules.getSelectedValue().indexOf(" ;")));
+					dlAvailableModules.addElement(lActiveModules.getSelectedValue().substring(
+														0, lActiveModules.getSelectedValue().indexOf(" ;")));
 					
 					index = lActiveModules.getSelectedIndex();
 					
@@ -205,8 +205,6 @@ public class Admin {
 								dlUsers.remove(y);
 							}
 						}
-						
-					} else {
 					}
 				}
 				
@@ -249,50 +247,57 @@ public class Admin {
 		
 	/**
 	 * Constructor - creates an object of the class Admin
-	 * @param users - stores information about registrate users
-	 * @param params - stores the saved configuration and modulinformation
+	 * 				 and gets information about users, parameters and mainapplication
+	 * 
+	 * @param users 
+	 * 				stores information about registrate users
+	 * @param params 
+	 * 				stores the saved configuration and modulinformation
+	 * @param main 
+	 * 				stores information about the mainapplication
 	 */
 	public Admin(MainApplication main, UserData users, Parameter params){
 		this.main = main;
 		this.users = users;
 		this.params = params;
-
 	}
 
 	/**
-	 * creates a JPanel
-	 * the content is: Usermanagement / Testmanagement
-	 * @return - JPanel
+	 * Creates a JPanel with the contents Usermanagement and Testmanagement
+	 * 
+	 * @return 
+	 * 			JPanel with the named contents on it
 	 */
 	public JPanel getAdminPanel(){
-
+		
 		initComponents();
+		initColors();
+		createUserManagementPanel();
+		createTestManagementPanel();
+		createStatusPanel();
+		createUsersPanel(); 
+		
 		aPanel.setLayout(null);
 		aPanel.setBounds(0,0,900, 700);
 		
 		lblUserManagement.setBounds(PANELX, 0, 150, COMPONENTHEIGHT);
 		lblTestManagement.setBounds(PANELX, 210, 150, COMPONENTHEIGHT);
 		
-		initColors();
-		
-		createUserManagementPanel();
-		createTestManagementPanel();
-		createStatusPanel();
-		createUsersPanel();
-		
+		//Add components to the panel which is returned
 		aPanel.add(pnlStatus);
-		
 		aPanel.add(pnlUsers);
-	
 		aPanel.add(lblUserManagement);
 		aPanel.add(pnlUserManagement);
-		
 		aPanel.add(lblTestManagement);
 		aPanel.add(pnlTestManagement);
 
 		return aPanel;
 	}
 	
+	/**
+	 * Creates a JPanel with scrollpane on it with 
+	 * the names of the registered users
+	 */
 	private void createUsersPanel() {
 		pnlUsers.setBackground(backgroundColor);
 		pnlUsers.setLayout(null);
@@ -311,10 +316,11 @@ public class Admin {
 	}
 	
 	/**
-	 * Creates the status panel with label 
-	 * and button "Back"
+	 * Creates the status panel with the button
+	 * save and go back on it
 	 */
 	private void createStatusPanel() {
+		
 		//Creates the panel "Status"
 		pnlStatus.setLayout(null);
 		pnlStatus.setBounds(PANELX, 590, 580, 55);
@@ -330,6 +336,7 @@ public class Admin {
 	 * Initialize all used colors 
 	 */
 	private void initColors() {
+		
 		//Initialize colors
 		backgroundColor = new Color(aPanel.getBackground().getRed()-9,
 				  aPanel.getBackground().getGreen()-9,
@@ -338,13 +345,14 @@ public class Admin {
 	
 	/**
 	 * Creates the panel "User Management"
-	 * with all components
+	 * with all components which are needed to manage
+	 * users
 	 */
 	private void createUserManagementPanel(){
+		
 		//Creates the panel "User Management"
 		pnlUserManagement.setLayout(null);
 		pnlUserManagement.setBounds(PANELX, 20, 300, 180);
-		
 		pnlUserManagement.setBackground(backgroundColor);
 		
 		lblUsername.setBounds(5, 5, LABELWIDTH, COMPONENTHEIGHT);
@@ -381,14 +389,14 @@ public class Admin {
 		btnDeleteUser.setBounds(75, 150, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnDeleteUser.addActionListener(selectBtnFunction);
 		pnlUserManagement.add(btnDeleteUser);
-	
 	}
 	
 	/**
 	 * Creates the panel "Test Management" with all components
-	 * and fills the scrollpanes with information
+	 * which are needed to manage test routines
 	 */
 	private void createTestManagementPanel(){
+		
 		//Creates the panel "Test Management"
 		pnlTestManagement.setLayout(null);
 		pnlTestManagement.setBounds(PANELX, 230, 580, 350);
@@ -404,6 +412,7 @@ public class Admin {
 		btnTimeDown.setBounds(235, 100, 20, 20);
 		btnTimeDown.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnTimeDown);
+		
 		tfTime.setBounds(260, 100, 45, 20);
 		tfTime.setDocument(new SetMaxText(3));
 		tfTime.setEnabled(false);
@@ -454,18 +463,14 @@ public class Admin {
 		pnlTestManagement.add(rbMedium);
 		pnlTestManagement.add(rbHard);
 		
-		//btnSaveConfig.setBounds(215, 305, BUTTONWIDTH, COMPONENTHEIGHT);
-		//btnSaveConfig.addActionListener(selectBtnFunction);
-		//pnlTestManagement.add(btnSaveConfig);
-		
-		//Adds items into the scrollpanes
-		
+		//Fills the used lists for the scrollpanes with information
 		try {
 			for (int i = 0; i < params.getAvailableModules().size(); i++) {
 				exists = false;
 				for (int b=0; b < params.getConfiguration().size(); b++) {
 					
-					if (params.getConfiguration().get(b).getName().equals(params.getAvailableModules().get(i).getName())) {
+					if (params.getConfiguration().get(b).getName().equals(
+													params.getAvailableModules().get(i).getName())) {
 						exists = true;
 						break;
 					}
@@ -475,9 +480,9 @@ public class Admin {
 					exists = false;
 				}
 			}
-			
 			for (int i = 0; i < params.getConfiguration().size();i++) {
-				dlActiveModules.add(i, params.getConfiguration().get(i).getName()+" ; "+params.getConfiguration().get(i).getTime());
+				dlActiveModules.add(i, params.getConfiguration().get(i).getName()+" ; "+
+														params.getConfiguration().get(i).getTime());
 			}
 		}catch(IndexOutOfBoundsException e) {
 			 
@@ -503,8 +508,9 @@ public class Admin {
 	/**
 	 * Moves the selected module 1 place up or down depending
 	 * on the param direction
-	 * @param direction
-	 * 			- up = 1 // down = 0
+	 * 
+	 * @param direction 
+	 * 					value for: up = 1 // down = 0
 	 */
 	private void moveModule(int direction) {
 		if (!lActiveModules.isSelectionEmpty()) {
@@ -529,7 +535,7 @@ public class Admin {
 	}
 	
 	/**
-	 * class SetMaxText
+	 * Class SetMaxText
 	 * 		- with this class you are able to
 	 * 		  set the maxlength of an JTextField / JPasswordField
 	 * 		  in a very easy way.
@@ -538,7 +544,8 @@ public class Admin {
 	@SuppressWarnings("serial")
 	public class SetMaxText extends PlainDocument {
 	  private int limit;
-	  // optional uppercase conversion
+	 
+	  //Optional uppercase conversion
 	  private boolean toUppercase = false;
 	  
 	  SetMaxText(int limit) {
@@ -565,8 +572,12 @@ public class Admin {
 	}
 	
 	/**
-	 * Creates an user/admin
-	 * @return true if user was created / false is some param is not ok
+	 * Creates an user or admin
+	 * User or admin will be saved after closing the programm.
+	 * If the programm chrashes the changes are lost.
+	 * 
+	 * @return 
+	 * 			true if user or admin was created / false if some param is not ok
 	 */
 	private boolean createUser() {
 		if(rbAdmin.isSelected()) {
@@ -579,18 +590,24 @@ public class Admin {
 	}
 	
 	/**
-	 * Deletes a user/admin
-	 * @return true if the user is marked as deleted. Will be saved after regular closing 
-	 * 			of the programm
+	 * Deletes a user or admin
+	 * User or admin will be deleted after closing the programm.
+	 * If the programm chrashes the changes are lost!
+	 * 
+	 * @return 
+	 * 			true if the user is marked as deleted. 
 	 */
 	private boolean deleteUser(String username) {
 		return users.deleteUser(tmpUsername);
 	}
 	
 	/**
-	 * Changes the password of an user/admin
-	 * @return true if the password was changed !the password isn't written in xml yet!
-	 * 			if the programm chrashes the changes are lost!
+	 * Changes the password of an user or admin.
+	 * Password will be saved after returning closing the programm.
+	 * If the programm chrashes the changes are lost!
+	 * 
+	 * @return 
+	 * 			true if the password was changed in temp user information.
 	 */
 	private boolean changePassword() {
 		String username = tfUsername.getText();
@@ -600,26 +617,28 @@ public class Admin {
 	
 	/**
 	 * Save configuration temporarely
+	 * Will be saved after closing the programm.
+	 * If the programm chrashes the configuratin will be lost!
 	 */
 	public void saveConfTmp() {
 		newConfig = false;
+		
 		//Creates new config
 		llConfig = new LinkedList<ModuleInformation>();
 		for(int i = 0; i < dlActiveModules.size(); i++) {
 			for(int x = 0; x < params.getAvailableModules().size(); x++) {
-				if(dlActiveModules.getElementAt(i).substring(0, dlActiveModules.getElementAt(i).indexOf(" ;")).equals(params.getAvailableModules().get(x).getName())) {
-					params.getAvailableModules().get(x).setTime(Integer.parseInt(dlActiveModules.getElementAt(i).substring(dlActiveModules.getElementAt(i).indexOf("; ")+2,dlActiveModules.getElementAt(i).length())));
+				
+				//Fills a LinkedList with configuration
+				if(dlActiveModules.getElementAt(i).substring(
+											0, dlActiveModules.getElementAt(i).indexOf(" ;")).equals(
+											params.getAvailableModules().get(x).getName())) {
+					params.getAvailableModules().get(x).setTime(
+										Integer.parseInt(dlActiveModules.getElementAt(i).substring(
+										dlActiveModules.getElementAt(i).indexOf("; ")+2,
+										dlActiveModules.getElementAt(i).length())));
 					llConfig.add(params.getAvailableModules().get(x));
-					System.out.println("Available-name  "+params.getAvailableModules().get(x).getName());
-					System.out.println("llConfig- classname + time "+llConfig.getLast().getClassName()+" : "+llConfig.getLast().getTime());
 				}
 			}
-//			  OLD
-//			llConfig.add(new ModuleInformation(dlActiveModules.getElementAt(i).substring(
-//					0, dlActiveModules.getElementAt(i).indexOf(" ;")),
-//					Integer.parseInt(dlActiveModules.getElementAt(i).substring(
-//					dlActiveModules.getElementAt(i).indexOf("; ")+2,
-//					dlActiveModules.getElementAt(i).length()))));
 		}
 		if (rbEasy.isSelected()) {
 			difficulty = 1;
@@ -642,14 +661,16 @@ public class Admin {
 				}
 			}
 		}
-		
-		if (!newConfig) {
-		} else if (newConfig){
-			
+		 if (newConfig){
 			params.overwriteConfiguration(llConfig, difficulty);
 		}
 	}
 	
+	/**
+	 * Initialize the components so that if an admin
+	 * calls the admin area twice the components
+	 * are reloaded
+	 */
 	private void initComponents() {
 		aPanel = new JPanel();
 		pnlStatus = new JPanel();
