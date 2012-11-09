@@ -94,6 +94,7 @@ public class MainApplication {
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(admin.getAdminPanel());
 		frame.getContentPane().revalidate();
+		getConfiguration();
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class MainApplication {
 	public void getConfiguration() {
 		configuration = params.getConfiguration();
 		for(int i = 0; i< configuration.size(); i++){
-			System.out.println("configuration  " + configuration.get(i).getName());
+			System.out.println("configuration  " + configuration.get(i).getClassName());
 		}
 	}
 
