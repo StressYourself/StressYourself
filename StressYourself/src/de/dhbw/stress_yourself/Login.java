@@ -9,8 +9,10 @@ import javax.swing.border.EmptyBorder;
 import de.dhbw.stress_yourself.params.UserData;
 
 /**
+ * The Login Class is used to manage the Login. It distinguish between the users
+ * and the admins.
  * 
- * @author Christoph Schollmeyer <email>
+ * @author Christoph Schollmeyer <chr.schollmeyer@web.de>
  */
 public class Login {
 
@@ -32,7 +34,7 @@ public class Login {
 	 * defines the GUI for the Login
 	 * 
 	 */
-	private class LoginGUI extends JPanel implements ActionListener {
+	private class LoginGUI extends JPanel implements ActionListener, KeyListener {
 
 		private static final long serialVersionUID = 1L;
 		private JButton submit;
@@ -66,19 +68,29 @@ public class Login {
 			add(text2);
 			add(new JLabel());
 			add(submit);
+			
+			text1.addKeyListener(this);
+			text2.addKeyListener(this);
 			add(label3);
 			
 			submit.addActionListener(this);
+			
 		}
-
+		
 		/**
-		 * Gets the Text from the TextFields
+		 * Gets the username and the password. Then he checks if the user exists, with
+		 * the specified password.
+		 * 
+		 * @param username
+		 * 			The name what the user prefers to use
+		 * @param password
+		 * 			The word which is used to pass
 		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String username = text1.getText();
-			String password = text2.getText();
+		public void login(String username, String password) {
+			username = text1.getText();
+			password = text2.getText();
 			int result = users.existsUser(username, password);
+
 			if (result == 0) {
 				text1.setText("");
 				text2.setText("");
@@ -90,6 +102,37 @@ public class Login {
 				// admin - launch the admin panel
 				main.startAdminPanel();
 			}
+		}
+
+		/**
+		 * submits the Login when the Button is pressed
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			login(text1.getText(), text2.getText());
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/**
+		 * submits the Login when the ENTER-Key is pressed
+		 */
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				login(text1.getText(), text2.getText());
+			}
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }
