@@ -44,7 +44,7 @@ public class Parameter {
 	public String getPackageName() {
 		return packageName;
 	}
-	
+
 	public String getOutcomePath() {
 		return outcomePath;
 	}
@@ -111,7 +111,7 @@ public class Parameter {
 		resetXML();
 		for (int i = 0; i < configuration.size(); i++) {
 			ModuleInformation tmp = configuration.get(i);
-			addModuleXML(tmp.getName(), tmp.getTime());
+			addModuleXML(tmp.getClassName(), tmp.getName(), tmp.getTime());
 		}
 	}
 
@@ -158,13 +158,16 @@ public class Parameter {
 		}
 	}
 
-	private void addModuleXML(String name, int time) {
+	private void addModuleXML(String classname, String name, int time) {
 		Element nameElement = new Element("name");
+		Element classnameElement = new Element("classname");
 		Element timeElement = new Element("time");
 		nameElement.addContent(name);
+		classnameElement.addContent(classname);
 		timeElement.addContent(Integer.toString(time));
 		Element module = new Element("module");
 		module.addContent(nameElement);
+		module.addContent(classnameElement);
 		module.addContent(timeElement);
 
 		try {
@@ -196,7 +199,7 @@ public class Parameter {
 
 			for (int i = 1; i < moduleList.size(); i++) {
 
-				ModuleInformation tmp = new ModuleInformation(moduleList.get(i)
+				ModuleInformation tmp = new ModuleInformation(moduleList.get(i).getChild("classname").getValue(), moduleList.get(i)
 						.getChild("name").getValue(),
 						Integer.valueOf(moduleList.get(i).getChild("time")
 								.getValue()));

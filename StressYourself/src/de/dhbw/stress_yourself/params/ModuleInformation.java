@@ -30,7 +30,8 @@ public class ModuleInformation {
 		this.time = time;
 	}
 
-	public ModuleInformation(String name, int time) {
+	public ModuleInformation(String classname, String name, int time) {
+		this.classname = classname;
 		this.name = name;
 		this.time = time;
 	}

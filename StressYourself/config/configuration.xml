@@ -3,14 +3,7 @@
   <difficulty>1</difficulty>
   <module>
     <name>CaptchaCharSequenceModule</name>
-    <time>120</time>
-  </module>
-  <module>
-    <name>CaptchaCirclesModule</name>
-    <time>120</time>
-  </module>
-  <module>
-    <name>KeyPress</name>
+    <classname>de.dhbw.stress_yourself.modules.CaptchaCharSequenceModule</classname>
     <time>60</time>
   </module>
 </configuration>
