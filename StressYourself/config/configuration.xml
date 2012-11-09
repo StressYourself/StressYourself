@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <difficulty>1</difficulty>
+  <difficulty>3</difficulty>
   <module>
     <name>CaptchaCharSequenceModule</name>
     <classname>de.dhbw.stress_yourself.modules.CaptchaCharSequenceModule</classname>

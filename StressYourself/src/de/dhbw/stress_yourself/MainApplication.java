@@ -210,14 +210,15 @@ public class MainApplication {
 			startModule(runningModuleClass, difficulty, time);
 		} else {
 			// Test finished, time to call the evaluation!
-			createOutcome();
+			createOutcomeGUI();
 		}
 	}
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
 	 */
-	public void createOutcome() {
+	public void createOutcomeGUI() {
+		outcome.createOutcome();
 		panel = outcome.getOutcomeGUI();
 		frame.getContentPane().add(panel);
 		frame.getContentPane().revalidate();
