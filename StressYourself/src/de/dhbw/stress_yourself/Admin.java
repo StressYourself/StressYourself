@@ -22,6 +22,7 @@ import javax.swing.text.PlainDocument;
 
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
+import de.dhbw.stress_yourself.params.Parameter.difficultyType;
 import de.dhbw.stress_yourself.params.UserData;
 import de.dhbw.stress_yourself.params.UserData.UserType;
 
@@ -122,7 +123,7 @@ public class Admin {
 	private String tmpModule;
 	private int selIndex;
 	private int movement;
-	private int difficulty;
+	private difficultyType difficulty;
 	private boolean newConfig;
 	private boolean exists;
 	private String tmpUsername;
@@ -449,13 +450,13 @@ public class Admin {
 		
 		//Select the radiobutton depending on the configuration
 		switch(params.getDifficulty()) {
-		case 1 :
+		case EASY :
 			rbEasy.setSelected(true);
 			break;
-		case 2 :
+		case MEDIUM :
 			rbMedium.setSelected(true);
 			break;
-		case 3 :
+		case HARD :
 			rbHard.setSelected(true);
 			break;
 		default :
@@ -644,11 +645,11 @@ public class Admin {
 			}
 		}
 		if (rbEasy.isSelected()) {
-			difficulty = 1;
+			difficulty = difficultyType.EASY;
 		} else if (rbMedium.isSelected()) {
-			difficulty = 2;
+			difficulty = difficultyType.MEDIUM;
 		} else if (rbHard.isSelected()) {
-			difficulty = 3;
+			difficulty = difficultyType.HARD;
 		}
 		
 		//Checks whether the config is new

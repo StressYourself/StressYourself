@@ -33,9 +33,13 @@ public class Parameter {
 
 	private LinkedList<ModuleInformation> availableModules = new LinkedList<ModuleInformation>();
 
-	private int difficulty;
+	private difficultyType difficulty;
 
 	private boolean checkStatus = false;
+
+	public enum difficultyType {
+		EASY, MEDIUM, HARD
+	}
 
 	public String getPathToJar() {
 		return pathToJar;
@@ -49,7 +53,11 @@ public class Parameter {
 		return outcomePath;
 	}
 
-	public int getDifficulty() {
+	public int getDifficultyOrdinal() {
+		return difficulty.ordinal();
+	}
+
+	public difficultyType getDifficulty() {
 		return difficulty;
 	}
 
@@ -111,7 +119,7 @@ public class Parameter {
 	 *            new difficulty
 	 */
 	public void overwriteConfiguration(
-			LinkedList<ModuleInformation> configuration, int difficulty) {
+			LinkedList<ModuleInformation> configuration, difficultyType difficulty) {
 		this.configuration = configuration;
 		this.difficulty = difficulty;
 	}
@@ -183,7 +191,7 @@ public class Parameter {
 			oldList.removeContent(0);
 			Element configElement = new Element("configuration");
 			Element diffElement = new Element("difficulty");
-			diffElement.addContent(Integer.toString(difficulty));
+			diffElement.addContent(Integer.toString(difficulty.ordinal()));
 			configElement.addContent(diffElement);
 			oldList.addContent(configElement);
 			XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
@@ -194,10 +202,14 @@ public class Parameter {
 			jdome.printStackTrace();
 		}
 	}
+
 	/**
 	 * adds new module to the xml data
-	 * @param name name of module
-	 * @param time time of last configuration
+	 * 
+	 * @param name
+	 *            name of module
+	 * @param time
+	 *            time of last configuration
 	 */
 	private void addModuleXML(String name, int time) {
 		Element nameElement = new Element("name");
@@ -221,6 +233,7 @@ public class Parameter {
 		}
 
 	}
+
 	/**
 	 * reads the stored configuration into the configuration list
 	 */
@@ -235,7 +248,7 @@ public class Parameter {
 
 			List<Element> moduleList = list.getRootElement().getChildren();
 
-			difficulty = Integer.valueOf(moduleList.get(0).getValue());
+			difficulty = difficultyType.values()[Integer.valueOf(moduleList.get(0).getValue())];
 
 			for (int i = 1; i < moduleList.size(); i++) {
 
