@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <difficulty>1</difficulty>
-  <module><name>KeyPress</name>
-    <time>120</time>
-  </module>
   <module>
     <name>CaptchaCharSequenceModule</name>
-    <time>120</time>
+    <time>150</time>
+  </module>
+  <module>
+    <name>KeyPress</name>
+    <time>90</time>
   </module>
   <module>
     <name>CaptchaCirclesModule</name>
-    <time>120</time>
+    <time>240</time>
   </module>
 </configuration>
