@@ -2,7 +2,7 @@
 <configuration>
   <difficulty>1</difficulty>
   <module>
-    <name>CaptchaCharSequenceModule</name>
+    <name>KeyPress</name>
     <time>60</time>
   </module>
   <module>
