@@ -89,7 +89,6 @@ public class MainApplication {
 	 *  Removes all other panels and loads AdminPanel
 	 */
 	public void startAdminPanel(){
-		admin = new Admin(this, users, params);
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(admin.getAdminPanel());
@@ -211,14 +210,15 @@ public class MainApplication {
 			startModule(runningModuleClass, difficulty, time);
 		} else {
 			// Test finished, time to call the evaluation!
-			createOutcome();
+			createOutcomeGUI();
 		}
 	}
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
 	 */
-	public void createOutcome() {
+	public void createOutcomeGUI() {
+		outcome.createOutcome();
 		panel = outcome.getOutcomeGUI();
 		frame.getContentPane().add(panel);
 		frame.getContentPane().revalidate();
