@@ -1,7 +1,6 @@
 package de.dhbw.stress_yourself;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -41,16 +40,14 @@ import de.dhbw.stress_yourself.params.UserData;
 public class Admin {
 	
 	//Panels
-	private static JPanel aPanel = new JPanel();
-	private JPanel pnlUserManagement = new JPanel();
-	private JPanel pnlTestManagement = new JPanel();
-	private JPanel pnlStatus = new JPanel();
-	private JPanel pnlUsers = new JPanel();
+	private static JPanel aPanel;
+	private JPanel pnlUserManagement;
+	private JPanel pnlTestManagement;
+	private JPanel pnlStatus;
+	private JPanel pnlUsers;
 	
 	//Color
 	private Color backgroundColor; 
-	private Color cGreen;
-	private Color cRed;
 	
 	//Constants
 	private final int COMPONENTHEIGHT = 20;
@@ -80,13 +77,13 @@ public class Admin {
 	private JTextField tfTime = new JTextField();
 	
 	//Lists
-	private DefaultListModel<String> dlActiveModules = new DefaultListModel<String>();
-	private DefaultListModel<String> dlAvailableModules = new DefaultListModel<String>();
-	private DefaultListModel<String> dlUsers = new DefaultListModel<String>();
-	private JList<String> lActiveModules;
-	private JList<String> lAvailableModules;
-	private JList<String> lUsers;
-	private LinkedList<ModuleInformation> llConfig = new LinkedList<ModuleInformation>();
+	private DefaultListModel<String> dlActiveModules;
+	private DefaultListModel<String> dlAvailableModules;
+	private DefaultListModel<String> dlUsers;
+	private static JList<String> lActiveModules;
+	private static JList<String> lAvailableModules;
+	private static JList<String> lUsers;
+	private LinkedList<ModuleInformation> llConfig;
 	
 	//Scrollpane
 	private JScrollPane spActiveModules;
@@ -101,7 +98,6 @@ public class Admin {
 	private JLabel lblSetTime = new JLabel("Set Time (sec):");
 	private JLabel lblActiveModules = new JLabel("Active Modules:");
 	private JLabel lblAvailableModules = new JLabel("Available Modules:");
-	private JLabel lblStatus = new JLabel("  Status:");
 	private JLabel lblRegUsers = new JLabel("Registered Users");
 	
 	//Radiobuttons
@@ -125,7 +121,6 @@ public class Admin {
 	private String tmpModule;
 	private int selIndex;
 	private int movement;
-	private String place;
 	private int difficulty;
 	private boolean newConfig;
 	private boolean exists;
@@ -145,13 +140,8 @@ public class Admin {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			
-			//Initialize Status-Label
-			lblStatus.setText("  Status:");
-			lblStatus.setBackground(backgroundColor);
-			
 			//Click on button "Activate Module"
 			if(e.getSource().equals(btnActivateModule)) {
-				if(tfTime.getText().length() > 0) {
 					if(!lAvailableModules.isSelectionEmpty()) {
 						dlActiveModules.addElement(lAvailableModules.getSelectedValue()+" ; "+tfTime.getText());
 						
@@ -163,17 +153,7 @@ public class Admin {
 						
 						lActiveModules.revalidate();
 						spActiveModules.revalidate();
-						
-						lblStatus.setText(lblStatus.getText()+" Module activated");
-						lblStatus.setBackground(cGreen);
-					} else {
-						lblStatus.setText(lblStatus.getText()+" No module selected");
-						lblStatus.setBackground(cRed);
 					}
-				} else {
-					lblStatus.setText(lblStatus.getText()+" No time set");
-					lblStatus.setBackground(cRed);
-				}
 				
 			//Click on button "Deactivate Module"
 			} else if(e.getSource().equals(btnDeactivateModule)) {
@@ -190,54 +170,22 @@ public class Admin {
 					lActiveModules.revalidate();
 					spActiveModules.revalidate();
 					
-					lblStatus.setText(lblStatus.getText()+" Module deactivated");
-					lblStatus.setBackground(cGreen);
-				} else {
-					lblStatus.setText(lblStatus.getText()+" No module selected");
-					lblStatus.setBackground(cRed);
 				}
 				
 			//Click on button "Change Password"
 			} else if(e.getSource().equals(btnChangePassword)) {
 				if(tfUsername.getText().length() != 0 && pfPassword.getPassword().length != 0) {
-					if(changePassword()) {
-						lblStatus.setText(lblStatus.getText() + " Password changed");
-						lblStatus.setBackground(cGreen);
-					} else {
-						lblStatus.setText(lblStatus.getText() + "User doesn't exist");
-						lblStatus.setBackground(cRed);
-					}
-				} else {
-					if(tfUsername.getText().length() == 0) {
-						lblStatus.setText(lblStatus.getText() + " Username empty");
-						lblStatus.setBackground(cRed);
-					} else {
-						lblStatus.setText(lblStatus.getText() + " Password empty");
-						lblStatus.setBackground(cRed);
-					}
+					changePassword();
 				}
 				
 			//Click on button "Create User"
 			} else if(e.getSource().equals(btnCreateUser)) {
 				if(tfUsername.getText().length() != 0 && pfPassword.getPassword().length != 0) {
 					if(createUser()) {
-						lblStatus.setText(lblStatus.getText() + " User Created");
-						lblStatus.setBackground(cGreen);
 						dlUsers.addElement(tfUsername.getText());
-					} else {
-						lblStatus.setText(lblStatus.getText() + " User already exists");
-						lblStatus.setBackground(cRed);
 					}
-				} else {
-					if(tfUsername.getText().length() == 0) {
-						lblStatus.setText(lblStatus.getText() + " Username empty");
-						lblStatus.setBackground(cRed);
-					} else {
-						lblStatus.setText(lblStatus.getText() + " Password empty");
-						lblStatus.setBackground(cRed);
-					}
+					
 				}
-				
 			//Click on button "Delete User"	
 			} else if(e.getSource().equals(btnDeleteUser)) {
 				del = false;
@@ -248,14 +196,10 @@ public class Admin {
 					tmpUsername = lUsers.getSelectedValue();
 					del = true;
 				} else if (lUsers.isSelectionEmpty() && tfUsername.getText().length() == 0) {
-					lblStatus.setText(lblStatus.getText()+" Username empty");
-					lblStatus.setBackground(cRed);
 					del = false;
 				}
 				if (del) {
 					if (deleteUser(tmpUsername)) {
-						lblStatus.setText(lblStatus.getText() + " User Deleted");
-						lblStatus.setBackground(cGreen);
 						for(int y=0; y<dlUsers.getSize();y++) {
 							if(tmpUsername.equals(dlUsers.elementAt(y))){
 								dlUsers.remove(y);
@@ -263,8 +207,6 @@ public class Admin {
 						}
 						
 					} else {
-						lblStatus.setText(lblStatus.getText() + " Failed");
-						lblStatus.setBackground(cRed);
 					}
 				}
 				
@@ -284,19 +226,13 @@ public class Admin {
 			} else if(e.getSource().equals(btnTimeDown)) {
 				if(Integer.parseInt(tfTime.getText()) > 60) {
 					tfTime.setText(String.valueOf(Integer.parseInt(tfTime.getText())-30));
-				} else {
-					lblStatus.setText(lblStatus.getText()+" Minimum time reached");
-					lblStatus.setBackground(cRed);
 				}
 				
 			//Click on button "+"
 			} else if(e.getSource().equals(btnTimeUp)) {
 				if(Integer.parseInt(tfTime.getText()) < 990) {
 					tfTime.setText(String.valueOf(Integer.parseInt(tfTime.getText())+30));
-				} else {
-					lblStatus.setText(lblStatus.getText()+" Maximum time reached");
-					lblStatus.setBackground(cRed);
-				}
+				} 
 			
 			//Click on button "Quit Admin Area And Save All Changes"
 			}else if(e.getSource().equals(btnBack)) {
@@ -330,6 +266,7 @@ public class Admin {
 	 */
 	public JPanel getAdminPanel(){
 
+		initComponents();
 		aPanel.setLayout(null);
 		aPanel.setBounds(0,0,900, 700);
 		
@@ -382,13 +319,8 @@ public class Admin {
 		pnlStatus.setLayout(null);
 		pnlStatus.setBounds(PANELX, 590, 580, 55);
 		pnlStatus.setBackground(backgroundColor);
-		lblStatus.setOpaque(true);
-		lblStatus.setBackground(backgroundColor);
-		lblStatus.setBounds(25, 10, 250, 35);
-		lblStatus.setFont(new Font(null, 0, 14));
-		pnlStatus.add(lblStatus);
 		
-		btnBack.setBounds(280, 20, (BUTTONWIDTH*2)-20, COMPONENTHEIGHT);
+		btnBack.setBounds(145, 20, (BUTTONWIDTH*2), COMPONENTHEIGHT);
 		btnBack.addActionListener(selectBtnFunction);
 		pnlStatus.add(btnBack);
 		
@@ -402,8 +334,6 @@ public class Admin {
 		backgroundColor = new Color(aPanel.getBackground().getRed()-9,
 				  aPanel.getBackground().getGreen()-9,
 				  aPanel.getBackground().getBlue()-9);
-		cGreen = new Color(1,200,1);
-		cRed = new Color(200,1,1);
 	}
 	
 	/**
@@ -524,9 +454,9 @@ public class Admin {
 		pnlTestManagement.add(rbMedium);
 		pnlTestManagement.add(rbHard);
 		
-		btnSaveConfig.setBounds(215, 305, BUTTONWIDTH, COMPONENTHEIGHT);
-		btnSaveConfig.addActionListener(selectBtnFunction);
-		pnlTestManagement.add(btnSaveConfig);
+		//btnSaveConfig.setBounds(215, 305, BUTTONWIDTH, COMPONENTHEIGHT);
+		//btnSaveConfig.addActionListener(selectBtnFunction);
+		//pnlTestManagement.add(btnSaveConfig);
 		
 		//Adds items into the scrollpanes
 		
@@ -550,8 +480,7 @@ public class Admin {
 				dlActiveModules.add(i, params.getConfiguration().get(i).getName()+" ; "+params.getConfiguration().get(i).getTime());
 			}
 		}catch(IndexOutOfBoundsException e) {
-			lblStatus.setText(lblStatus.getText()+" One list is empty");
-			lblStatus.setBackground(cRed);
+			 
 		} 
 		
 		lblActiveModules.setBounds(375, 5, 200, COMPONENTHEIGHT);
@@ -584,24 +513,18 @@ public class Admin {
 		
 			if(direction == 0) {
 				movement = 2;
-				place = "last";
 			} else if(direction == 1) {
 				movement = -1;
-				place = "first";
 			}
 		
 			try {
 				dlActiveModules.add(selIndex+movement, tmpModule);
 				dlActiveModules.remove(lActiveModules.getSelectedIndex());
 			} catch(IndexOutOfBoundsException ioob) {
-				lblStatus.setText(lblStatus.getText()+" Already on "+place+" position");
-				lblStatus.setBackground(cRed);
 			}
 			lActiveModules.revalidate();
 			spActiveModules.revalidate();
 		} else if (lActiveModules.isSelectionEmpty()) {
-			lblStatus.setBackground(cRed);
-			lblStatus.setText(lblStatus.getText()+" No module selected");
 		}
 	}
 	
@@ -712,13 +635,26 @@ public class Admin {
 		}
 		
 		if (!newConfig) {
-			lblStatus.setText(lblStatus.getText()+" Nothing changed");
-			lblStatus.setBackground(cRed);
 		} else if (newConfig){
 			params.overwriteConfiguration(llConfig, difficulty);
-			lblStatus.setText(lblStatus.getText()+" Configuration saved");
-			lblStatus.setBackground(cGreen);
 		}
+	}
+	
+	private void initComponents() {
+		aPanel = new JPanel();
+		pnlStatus = new JPanel();
+		pnlTestManagement = new JPanel();
+		pnlUserManagement = new JPanel();
+		pnlUsers = new JPanel();
+		dlActiveModules = new DefaultListModel<String>();
+		dlAvailableModules = new DefaultListModel<String>();
+		dlUsers = new DefaultListModel<String>();
+		tfUsername.setText("");
+		llConfig = new LinkedList<ModuleInformation>();
+		lActiveModules = null;
+		lAvailableModules = null;
+		lActiveModules = new JList<String>(dlActiveModules);
+		lAvailableModules = new JList<String>(dlAvailableModules);
 	}
 
 	
@@ -736,6 +672,7 @@ public class Admin {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
