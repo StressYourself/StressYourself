@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.outcome.Outcome;
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.UserData;
