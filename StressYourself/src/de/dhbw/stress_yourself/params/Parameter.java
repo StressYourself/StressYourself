@@ -16,7 +16,7 @@ import org.jdom2.output.XMLOutputter;
 /**
  * class manages the information about the modules
  * 
- * @author LukasBuchert <email>
+ * @author LukasBuchert <Lukas.Buchert@gmx.de>
  */
 public class Parameter {
 
@@ -54,7 +54,9 @@ public class Parameter {
 	}
 
 	/**
-	 * used by Admin, MainApplication and Outcome
+	 * returns the current configuration
+	 * 
+	 * @return configuration list
 	 */
 	@SuppressWarnings("unchecked")
 	public LinkedList<ModuleInformation> getConfiguration() {
@@ -63,7 +65,9 @@ public class Parameter {
 	}
 
 	/**
-	 * used by Admin
+	 * returns list with all available modules
+	 * 
+	 * @return available module list
 	 */
 	@SuppressWarnings("unchecked")
 	public LinkedList<ModuleInformation> getAvailableModules() {
@@ -71,7 +75,16 @@ public class Parameter {
 	}
 
 	/**
-	 * used by MainApplication
+	 * add a new available module to the list
+	 * 
+	 * @param name
+	 *            name of module
+	 * @param classname
+	 *            classname of module
+	 * @param area
+	 *            area of module
+	 * @param description
+	 *            description of module
 	 */
 	public void addModuleInformation(String name, String classname,
 			String area, String description) {
@@ -79,12 +92,23 @@ public class Parameter {
 				description));
 	}
 
+	/**
+	 * adds a moduleInformation object to the available module list
+	 * 
+	 * @param mi
+	 *            ModuleInformation object that should be added
+	 */
 	public void addModuleInformation(ModuleInformation mi) {
 		availableModules.addLast(mi);
 	}
 
 	/**
-	 * used by Admin for storing the new configuration
+	 * overwrites the whole configuration
+	 * 
+	 * @param configuration
+	 *            new configuration list
+	 * @param difficulty
+	 *            new difficulty
 	 */
 	public void overwriteConfiguration(
 			LinkedList<ModuleInformation> configuration, int difficulty) {
@@ -93,7 +117,12 @@ public class Parameter {
 	}
 
 	/**
-	 * used by MainApplication to store the points
+	 * store point for the module with this name
+	 * 
+	 * @param moduleName
+	 *            name of module
+	 * @param points
+	 *            point of test between 0-100
 	 */
 	public void addResult(String moduleName, int points) {
 		for (int i = 0; i < configuration.size(); i++) {
@@ -105,18 +134,22 @@ public class Parameter {
 	}
 
 	/**
-	 * used by MainApplication when Admin is closed
+	 * saves the new configuration in the xml data, with order, time and module
+	 * names
 	 */
 	public void saveChangesInXML() {
 		resetXML();
 		for (int i = 0; i < configuration.size(); i++) {
 			ModuleInformation tmp = configuration.get(i);
-			addModuleXML( tmp.getName(), tmp.getTime());
+			addModuleXML(tmp.getName(), tmp.getTime());
 		}
 	}
 
-	// some private functions for the implementation
-
+	/**
+	 * check's and synchronizes the configuration list with the availableModules
+	 * list after the check, the configuration is a subset of avialableModules
+	 * list and contains a synchronized data
+	 */
 	private void check() {
 		if (!checkStatus) {
 			boolean exists;
@@ -124,7 +157,8 @@ public class Parameter {
 				exists = false;
 				for (int j = 0; j < availableModules.size(); j++) {
 					if (configuration.get(i).equals(availableModules.get(j))) {
-						configuration.get(i).synchronize(availableModules.get(j));
+						configuration.get(i).synchronize(
+								availableModules.get(j));
 						exists = true;
 						break;
 					}
@@ -138,7 +172,9 @@ public class Parameter {
 		}
 	}
 
-	// methods for Interface XML
+	/**
+	 * resets the xml data
+	 */
 	private void resetXML() {
 		try {
 			SAXBuilder builder = new SAXBuilder();
@@ -158,7 +194,11 @@ public class Parameter {
 			jdome.printStackTrace();
 		}
 	}
-
+	/**
+	 * adds new module to the xml data
+	 * @param name name of module
+	 * @param time time of last configuration
+	 */
 	private void addModuleXML(String name, int time) {
 		Element nameElement = new Element("name");
 		Element timeElement = new Element("time");
@@ -181,7 +221,9 @@ public class Parameter {
 		}
 
 	}
-
+	/**
+	 * reads the stored configuration into the configuration list
+	 */
 	private void readXML() {
 
 		Document list = null;

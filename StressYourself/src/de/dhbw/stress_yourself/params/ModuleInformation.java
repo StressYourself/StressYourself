@@ -3,7 +3,7 @@ package de.dhbw.stress_yourself.params;
 /**
  * Class stores specific information about module
  * 
- * @author LukasBuchert <email>
+ * @author LukasBuchert <Lukas.Buchert@gmx.de>
  */
 public class ModuleInformation {
 

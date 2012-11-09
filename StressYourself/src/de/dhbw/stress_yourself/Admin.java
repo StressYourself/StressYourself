@@ -23,6 +23,7 @@ import javax.swing.text.PlainDocument;
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.UserData;
+import de.dhbw.stress_yourself.params.UserData.UserType;
 
 /**
  * Class Admin creates a JPanel with configuration components on it
@@ -115,7 +116,7 @@ public class Admin {
 	private MainApplication main;
 	private UserData users;
 	private Parameter params;
-	private String type;
+	private UserType type;
 	
 	//Tempvars
 	private String tmpModule;
@@ -583,10 +584,10 @@ public class Admin {
 	 */
 	private boolean createUser() {
 		if(rbAdmin.isSelected()) {
-			type = "a";
+			type = UserType.ADMIN;
 		}
 		else {
-			type = "u";
+			type = UserType.USER;
 		}
 		return users.saveUser(tfUsername.getText(), String.valueOf(pfPassword.getPassword()), type);
 	}
