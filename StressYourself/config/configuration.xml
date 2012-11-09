@@ -3,18 +3,10 @@
   <difficulty>1</difficulty>
   <module>
     <name>CaptchaCharSequenceModule</name>
-    <time>150</time>
-  </module>
-  <module>
-    <name>KeyPress</name>
-    <time>90</time>
+    <time>60</time>
   </module>
   <module>
     <name>CaptchaCirclesModule</name>
-    <time>240</time>
-  </module>
-  <module>
-    <name>KeyPress</name>
     <time>60</time>
   </module>
 </configuration>

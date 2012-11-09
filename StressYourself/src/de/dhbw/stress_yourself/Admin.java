@@ -240,6 +240,8 @@ public class Admin {
 				
 				//launch the login
 				main.startLoginPanel();
+				//getConfiguratiob
+				main.getConfiguration();
 			}
 		}
 		
