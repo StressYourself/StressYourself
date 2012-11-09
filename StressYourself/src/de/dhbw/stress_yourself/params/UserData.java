@@ -44,7 +44,10 @@ public class UserData {
 	/**
 	 * get current user type as Integer
 	 * 
-	 * @return 0 - NOT 1 - USER 2 - ADMIN
+	 * @return 
+	 * 		0 - NOT 
+	 * 		1 - USER 
+	 * 		2 - ADMIN
 	 */
 	public int getCurrentUserTypeOrdinal() {
 		return this.currentUser.getUserTypeOrdinal();
@@ -61,7 +64,10 @@ public class UserData {
 	 *            name of user
 	 * @param password
 	 *            users password
-	 * @return NOT - if it doesn't exist USER - if normal user ADMIN - if admin
+	 * @return 
+	 * 		NOT - if it doesn't exist 
+	 * 		USER - if normal user 
+	 * 		ADMIN - if admin
 	 */
 	public UserType existsUser(String username, String password) {
 		UserType user = UserType.NOT;
