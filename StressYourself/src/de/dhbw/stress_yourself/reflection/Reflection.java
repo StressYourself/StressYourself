@@ -92,6 +92,7 @@ public class Reflection {
 
 		Class<?> clazz = null;
 		try {
+			//System.out.println(name);
 			clazz = urlcl.loadClass(name);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Class not found " + e);

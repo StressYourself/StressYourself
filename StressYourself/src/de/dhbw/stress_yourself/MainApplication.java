@@ -72,7 +72,6 @@ public class MainApplication {
 		getAvaiableModules();
 		getConfiguration();
 		
-
 		startLoginPanel();
 	}
 	
@@ -90,6 +89,7 @@ public class MainApplication {
 	 *  Removes all other panels and loads AdminPanel
 	 */
 	public void startAdminPanel(){
+		admin = new Admin(this, users, params);
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(admin.getAdminPanel());
@@ -100,9 +100,10 @@ public class MainApplication {
 	 *  The the actual configuration
 	 */
 	public void getConfiguration() {
-		// doesn't work right now, because of admin part
-		// configuration = params.getConfiguration();
-		configuration = params.getAvailableModules();
+		configuration = params.getConfiguration();
+		for(int i = 0; i< configuration.size(); i++){
+			System.out.println("configuration  " + configuration.get(i).getClassName());
+		}
 	}
 
 	/**
