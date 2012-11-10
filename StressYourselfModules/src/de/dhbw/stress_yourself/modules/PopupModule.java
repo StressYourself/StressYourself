@@ -110,7 +110,7 @@ public class PopupModule extends ModuleClass {
 				buttonCount++;
 				break;
 			case 1:// nextModuleButton
-				sendResult();
+				sendResult(0);
 				tellFinished();
 				break;
 			}
@@ -126,7 +126,7 @@ public class PopupModule extends ModuleClass {
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
-				sendResult();
+				sendResult(0);
 				tellFinished();
 			}
 		}
