@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.outcome.Outcome;
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.UserData;
@@ -89,7 +90,6 @@ public class MainApplication {
 	 *  Removes all other panels and loads AdminPanel
 	 */
 	public void startAdminPanel(){
-		admin = new Admin(this, users, params);
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(admin.getAdminPanel());
@@ -211,14 +211,23 @@ public class MainApplication {
 			startModule(runningModuleClass, difficulty, time);
 		} else {
 			// Test finished, time to call the evaluation!
-			createOutcome();
+			createOutcomeGUI();
 		}
+	}
+	
+	/**
+	 * Function to get the result from the modules and save it to the config
+	 */
+	public void sendModuleResult(String moduleName, Integer points){
+		System.out.println("sendModuleResult called " + moduleName + "  " + points);
+		params.addResult(moduleName, points.intValue());
 	}
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
 	 */
-	public void createOutcome() {
+	public void createOutcomeGUI() {
+		outcome.createOutcome();
 		panel = outcome.getOutcomeGUI();
 		frame.getContentPane().add(panel);
 		frame.getContentPane().revalidate();

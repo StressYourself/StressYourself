@@ -22,7 +22,9 @@ import javax.swing.text.PlainDocument;
 
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
+import de.dhbw.stress_yourself.params.Parameter.difficultyType;
 import de.dhbw.stress_yourself.params.UserData;
+import de.dhbw.stress_yourself.params.UserData.UserType;
 
 /**
  * Class Admin creates a JPanel with configuration components on it
@@ -115,13 +117,13 @@ public class Admin {
 	private MainApplication main;
 	private UserData users;
 	private Parameter params;
-	private String type;
+	private UserType type;
 	
 	//Tempvars
 	private String tmpModule;
 	private int selIndex;
 	private int movement;
-	private int difficulty;
+	private difficultyType difficulty;
 	private boolean newConfig;
 	private boolean exists;
 	private String tmpUsername;
@@ -448,6 +450,7 @@ public class Admin {
 		
 		//Select the radiobutton depending on the configuration
 		switch(params.getDifficulty()) {
+<<<<<<< HEAD
 		case 0 :
 			rbEasy.setSelected(true);
 			break;
@@ -455,6 +458,15 @@ public class Admin {
 			rbMedium.setSelected(true);
 			break;
 		case 2 :
+=======
+		case EASY :
+			rbEasy.setSelected(true);
+			break;
+		case MEDIUM :
+			rbMedium.setSelected(true);
+			break;
+		case HARD :
+>>>>>>> master
 			rbHard.setSelected(true);
 			break;
 		default :
@@ -583,10 +595,10 @@ public class Admin {
 	 */
 	private boolean createUser() {
 		if(rbAdmin.isSelected()) {
-			type = "a";
+			type = UserType.ADMIN;
 		}
 		else {
-			type = "u";
+			type = UserType.USER;
 		}
 		return users.saveUser(tfUsername.getText(), String.valueOf(pfPassword.getPassword()), type);
 	}
@@ -643,11 +655,19 @@ public class Admin {
 			}
 		}
 		if (rbEasy.isSelected()) {
+<<<<<<< HEAD
 			difficulty = 0;
 		} else if (rbMedium.isSelected()) {
 			difficulty = 1;
 		} else if (rbHard.isSelected()) {
 			difficulty = 2;
+=======
+			difficulty = difficultyType.EASY;
+		} else if (rbMedium.isSelected()) {
+			difficulty = difficultyType.MEDIUM;
+		} else if (rbHard.isSelected()) {
+			difficulty = difficultyType.HARD;
+>>>>>>> master
 		}
 		
 		//Checks whether the config is new
