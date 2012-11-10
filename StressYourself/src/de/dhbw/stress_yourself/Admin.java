@@ -38,7 +38,7 @@ import de.dhbw.stress_yourself.params.UserData;
  * @author Florian Albert <floria-albert@gmx.de>
  */
 public class Admin {
-	
+		
 	//Panels
 	private static JPanel aPanel;
 	private JPanel pnlUserManagement;
@@ -448,13 +448,13 @@ public class Admin {
 		
 		//Select the radiobutton depending on the configuration
 		switch(params.getDifficulty()) {
-		case 1 :
+		case 0 :
 			rbEasy.setSelected(true);
 			break;
-		case 2 :
+		case 1 :
 			rbMedium.setSelected(true);
 			break;
-		case 3 :
+		case 2 :
 			rbHard.setSelected(true);
 			break;
 		default :
@@ -643,11 +643,11 @@ public class Admin {
 			}
 		}
 		if (rbEasy.isSelected()) {
-			difficulty = 1;
+			difficulty = 0;
 		} else if (rbMedium.isSelected()) {
-			difficulty = 2;
+			difficulty = 1;
 		} else if (rbHard.isSelected()) {
-			difficulty = 3;
+			difficulty = 2;
 		}
 		
 		//Checks whether the config is new
