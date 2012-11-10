@@ -19,7 +19,6 @@ public abstract class ModuleClass {
 
 	private int diff;
 	private int time;
-	private int result = 0;
 	private Object mainClass = null;
 	private Timer nextTaskTimer;
 	private Timer nextModuleTimer;
@@ -53,6 +52,11 @@ public abstract class ModuleClass {
 		
 	}
 	
+	public void stopNextTaskTimer() {
+		nextTaskTimer.cancel();
+		nextTaskTimer.purge();
+	}
+	
 	abstract class NextTask extends TimerTask{}
 	
 	public void setNextModuleTimer(int time, TimerTask timer) {
@@ -72,9 +76,8 @@ public abstract class ModuleClass {
 
 	public abstract JPanel getModuleJPanel();
 
-	public void sendResult() {
+	public void sendResult(int result) {
 		System.out.println("sending Result " + result);
-
 	}
 
 	/**
