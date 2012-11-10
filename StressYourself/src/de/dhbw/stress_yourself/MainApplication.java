@@ -214,6 +214,14 @@ public class MainApplication {
 			createOutcomeGUI();
 		}
 	}
+	
+	/**
+	 * Function to get the result from the modules and save it to the config
+	 */
+	public void sendModuleResult(String moduleName, Integer points){
+		System.out.println("sendModuleResult called " + moduleName + "  " + points);
+		params.addResult(moduleName, points.intValue());
+	}
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome

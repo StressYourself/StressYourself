@@ -3,10 +3,6 @@
   <difficulty>0</difficulty>
   <module>
     <name>CaptchaCirclesModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCharSequenceModule</name>
-    <time>60</time>
+    <time>120</time>
   </module>
 </configuration>

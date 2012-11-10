@@ -76,8 +76,34 @@ public abstract class ModuleClass {
 
 	public abstract JPanel getModuleJPanel();
 
+	
+	/**
+	 * Function to send the result of the module to the MainClass
+	 * 
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
 	public void sendResult(int result) {
-		System.out.println("sending Result " + result);
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Method nextModule = null;
+		try {
+			nextModule = clazz.getMethod("sendModuleResult",new Class[] {String.class, Integer.class});
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			nextModule.invoke(mainClass, new Object[]{ getModuleName(), new Integer(result)});
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
