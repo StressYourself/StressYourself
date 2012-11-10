@@ -450,15 +450,6 @@ public class Admin {
 		
 		//Select the radiobutton depending on the configuration
 		switch(params.getDifficulty()) {
-<<<<<<< HEAD
-		case 0 :
-			rbEasy.setSelected(true);
-			break;
-		case 1 :
-			rbMedium.setSelected(true);
-			break;
-		case 2 :
-=======
 		case EASY :
 			rbEasy.setSelected(true);
 			break;
@@ -466,7 +457,6 @@ public class Admin {
 			rbMedium.setSelected(true);
 			break;
 		case HARD :
->>>>>>> master
 			rbHard.setSelected(true);
 			break;
 		default :
@@ -655,19 +645,11 @@ public class Admin {
 			}
 		}
 		if (rbEasy.isSelected()) {
-<<<<<<< HEAD
-			difficulty = 0;
-		} else if (rbMedium.isSelected()) {
-			difficulty = 1;
-		} else if (rbHard.isSelected()) {
-			difficulty = 2;
-=======
 			difficulty = difficultyType.EASY;
 		} else if (rbMedium.isSelected()) {
 			difficulty = difficultyType.MEDIUM;
 		} else if (rbHard.isSelected()) {
 			difficulty = difficultyType.HARD;
->>>>>>> master
 		}
 		
 		//Checks whether the config is new
