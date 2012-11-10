@@ -40,7 +40,7 @@ import de.dhbw.stress_yourself.params.UserData.UserType;
  * @author Florian Albert <floria-albert@gmx.de>
  */
 public class Admin {
-	
+		
 	//Panels
 	private static JPanel aPanel;
 	private JPanel pnlUserManagement;
