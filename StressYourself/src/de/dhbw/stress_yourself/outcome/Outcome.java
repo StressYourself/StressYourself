@@ -1,4 +1,4 @@
-package de.dhbw.stress_yourself;
+package de.dhbw.stress_yourself.outcome;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -8,6 +8,7 @@ import de.dhbw.stress_yourself.params.Parameter;
 public class Outcome {
 
 	private Parameter params;
+	private String path;
 
 	public Outcome(Parameter params) {
 		this.params = params;
@@ -21,20 +22,13 @@ public class Outcome {
 	}
 
 	public boolean createOutcome() {
-		String path = params.getOutcomePath();
-		if (!createCSV(path) || !createPDF(path)) {
+		path = params.getOutcomePath();
+		CSV csv = new CSV(params);
+		PDF pdf = new PDF(params);
+		if (!csv.createCSV(path) || !pdf.createPDF(path)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
-	public boolean createCSV(String path) {
-		return false;
-	}
-
-	public boolean createPDF(String path) {
-		return false;
-	}
-
 }

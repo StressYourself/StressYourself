@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.outcome.Outcome;
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.UserData;
@@ -72,7 +73,6 @@ public class MainApplication {
 		getAvaiableModules();
 		getConfiguration();
 		
-
 		startLoginPanel();
 	}
 	
@@ -100,9 +100,10 @@ public class MainApplication {
 	 *  The the actual configuration
 	 */
 	public void getConfiguration() {
-		// doesn't work right now, because of admin part
-		// configuration = params.getConfiguration();
-		configuration = params.getAvailableModules();
+		configuration = params.getConfiguration();
+		for(int i = 0; i< configuration.size(); i++){
+			System.out.println("configuration  " + configuration.get(i).getClassName());
+		}
 	}
 
 	/**
@@ -210,14 +211,15 @@ public class MainApplication {
 			startModule(runningModuleClass, difficulty, time);
 		} else {
 			// Test finished, time to call the evaluation!
-			createOutcome();
+			createOutcomeGUI();
 		}
 	}
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
 	 */
-	public void createOutcome() {
+	public void createOutcomeGUI() {
+		outcome.createOutcome();
 		panel = outcome.getOutcomeGUI();
 		frame.getContentPane().add(panel);
 		frame.getContentPane().revalidate();
