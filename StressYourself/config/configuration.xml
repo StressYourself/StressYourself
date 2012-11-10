@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <difficulty>1</difficulty>
+  <difficulty>0</difficulty>
   <module>
-    <name>Continue Sequence Module</name>
-    <time>60</time>
+    <name>CaptchaCirclesModule</name>
+    <time>120</time>
   </module>
 </configuration>

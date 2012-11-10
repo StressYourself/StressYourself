@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.outcome.Outcome;
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.UserData;
@@ -212,6 +213,14 @@ public class MainApplication {
 			// Test finished, time to call the evaluation!
 			createOutcomeGUI();
 		}
+	}
+	
+	/**
+	 * Function to get the result from the modules and save it to the config
+	 */
+	public void sendModuleResult(String moduleName, Integer points){
+		System.out.println("sendModuleResult called " + moduleName + "  " + points);
+		params.addResult(moduleName, points.intValue());
 	}
 
 	/**

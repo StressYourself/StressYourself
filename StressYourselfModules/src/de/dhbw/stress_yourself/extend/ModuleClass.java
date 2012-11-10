@@ -19,7 +19,6 @@ public abstract class ModuleClass {
 
 	private int diff;
 	private int time;
-	private int result = 0;
 	private Object mainClass = null;
 	private Timer nextTaskTimer;
 	private Timer nextModuleTimer;
@@ -53,6 +52,11 @@ public abstract class ModuleClass {
 		
 	}
 	
+	public void stopNextTaskTimer() {
+		nextTaskTimer.cancel();
+		nextTaskTimer.purge();
+	}
+	
 	abstract class NextTask extends TimerTask{}
 	
 	public void setNextModuleTimer(int time, TimerTask timer) {
@@ -72,9 +76,34 @@ public abstract class ModuleClass {
 
 	public abstract JPanel getModuleJPanel();
 
-	public void sendResult() {
-		System.out.println("sending Result " + result);
+	
+	/**
+	 * Function to send the result of the module to the MainClass
+	 * 
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public void sendResult(int result) {
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
 
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Method nextModule = null;
+		try {
+			nextModule = clazz.getMethod("sendModuleResult",new Class[] {String.class, Integer.class});
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			nextModule.invoke(mainClass, new Object[]{ getModuleName(), new Integer(result)});
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
