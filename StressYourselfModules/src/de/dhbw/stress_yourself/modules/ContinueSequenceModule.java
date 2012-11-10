@@ -1,17 +1,13 @@
 package de.dhbw.stress_yourself.modules;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.border.EmptyBorder;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
@@ -26,7 +22,7 @@ public class ContinueSequenceModule extends ModuleClass {
 	private final String moduleArea = "Logic";
 	private final String moduleDescription = "The tested person has to contiue sequences"
 			+ " of alphabetic characters and numbers";
-	
+
 	private int points = 0;
 
 	public ContinueSequenceModule(Object o, Integer difficulty, Integer time) {
@@ -60,16 +56,31 @@ public class ContinueSequenceModule extends ModuleClass {
 		return new ModuleGUI();
 	}
 
-	private void calculateResult(){
-		int border = 10; // Highest Points that could be reached / depending on time and difficulty
-		int newResult = (points / border) * 100;
-		if (newResult > 100){
-			newResult = 100;
+	private void calculateResult() {
+		int border; // Highest Points that could be reached / depending on time
+					// and difficulty
+		switch (getDifficulty()) {
+		case 0:
+			border = getTime() / 10000;
+			break;
+		case 1:
+			border = getTime() / 15000;
+			break;
+		case 2:
+			border = getTime() / 30000;
+			break;
+		default:
+			border = 1;
 		}
-		// result = newResult; // needs access to result
-	}
+		float subres = (points / border) * 100;
+		int res = (int) subres;
+		if (res > 100) {
+			res = 100;
 
-	
+		}
+		sendResult(res);
+
+	}
 
 	class ModuleGUI extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -91,54 +102,55 @@ public class ContinueSequenceModule extends ModuleClass {
 			init();
 			fill();
 			setVisible(true);
+			setNextModuleTimer(getTime(), new NextModule());
 		}
 
 		private void init() {
 			final int diff = 40;
 			int xstart = 50;
 			int ystart = 100;
-			//x1.setText("x111");
+			// x1.setText("x111");
 			x1.setBounds(xstart, ystart, 30, 20);
 			this.add(x1);
 			xstart = xstart + diff;
-			//x2.setText("x222");
+			// x2.setText("x222");
 			x2.setBounds(xstart, ystart, 30, 20);
 			this.add(x2);
 			xstart = xstart + diff;
-			//x3.setText("x333");
+			// x3.setText("x333");
 			x3.setBounds(xstart, ystart, 30, 20);
 			this.add(x3);
 			xstart = xstart + diff;
-			//x4.setText("x444");
+			// x4.setText("x444");
 			x4.setBounds(xstart, ystart, 30, 20);
 			this.add(x4);
 			xstart = xstart + diff;
-			//x5.setText("x555");
+			// x5.setText("x555");
 			x5.setBounds(xstart, ystart, 30, 20);
 			this.add(x5);
 			xstart = xstart + diff;
-			//x6.setText("x666");
+			// x6.setText("x666");
 			x6.setBounds(xstart, ystart, 30, 20);
 			this.add(x6);
 			xstart = xstart + diff;
-			//x7.setText("x777");
+			// x7.setText("x777");
 			x7.setBounds(xstart, ystart, 30, 20);
 			this.add(x7);
 			xstart = xstart + diff;
-			//x8.setText("x888");
+			// x8.setText("x888");
 			x8.setBounds(xstart, ystart, 30, 20);
 			this.add(x8);
 			xstart = xstart + diff;
-			//x9.setText("x999");
+			// x9.setText("x999");
 			x9.setBounds(xstart, ystart, 50, 20);
 			this.add(x9);
 			submit.setText("submit");
 			submit.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (x9.getText().equals(solution)){
-						points ++;
-						// for debugging 
+					if (x9.getText().equals(solution)) {
+						points++;
+						// for debugging
 						System.out.println("Get new point! points: " + points);
 					}
 					x9.setText("");
@@ -149,8 +161,8 @@ public class ContinueSequenceModule extends ModuleClass {
 			this.add(submit);
 
 		}
-		
-		private void fill(){
+
+		private void fill() {
 			String[] tmp = getSequence(getDifficulty());
 			x1.setText(tmp[0]);
 			x2.setText(tmp[1]);
@@ -163,6 +175,14 @@ public class ContinueSequenceModule extends ModuleClass {
 			solution = tmp[8];
 		}
 
+	}
+
+	public class NextModule extends TimerTask {
+		@Override
+		public void run() {
+			calculateResult();
+			tellFinished();
+		}
 	}
 
 	// sequence producer
@@ -189,7 +209,7 @@ public class ContinueSequenceModule extends ModuleClass {
 		}
 		return back;
 	}
-	
+
 	private char getChar(int number) {
 		while (number < 0) {
 			number = number + 26;
@@ -375,7 +395,7 @@ public class ContinueSequenceModule extends ModuleClass {
 
 		return sequence;
 	}
-	
+
 	private int[] sequenceTwoD2() {
 		int[] sequence = new int[9];
 
@@ -392,7 +412,7 @@ public class ContinueSequenceModule extends ModuleClass {
 
 		return sequence;
 	}
-	
+
 	private int[] sequenceOneA2() {
 
 		int[] sequence = new int[9];
