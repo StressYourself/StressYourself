@@ -102,4 +102,10 @@ public class OperandModule extends ModuleClass {
 			}
 		}
 	}
+
+	@Override
+	public void setTimerIntervall() {
+		// TODO Auto-generated method stub
+		
+	}
 }
