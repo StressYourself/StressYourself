@@ -1,21 +1,15 @@
 package de.dhbw.stress_yourself.modules;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.TimerTask;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,16 +28,13 @@ public class OperandModule extends ModuleClass {
 	private final String moduleArea = "Example Area";
 	private final String moduleDescription = "Example Description";
 
-	private final String[] arithmeticOperators = { "+", "-", "*", "/",
-			"%" };
-	private final String[] compareOperators = { "==", "!=", "<", ">",
-			"<=", ">=" };
+	private final String[] arithmeticOperators = { "+", "-", "*", "/", "%" };
+	private final String[] compareOperators = { "==", "!=", "<", ">", "<=",
+			">=" };
 	private final String[] incdecOperators = { "++", "--" };
-	private final String[] logicalOperators = { "&&", "&", "||", "|",
-			"^" };
+	private final String[] logicalOperators = { "&&", "&", "||", "|", "^" };
 
 	private int nextTaskIntervall = 10000;
-
 
 	private int testCounter;
 	private int testCount;
@@ -141,19 +132,18 @@ public class OperandModule extends ModuleClass {
 		String solution = "";
 		do {
 			switch (difficulty) {
-			case 1:
+			case 0:
 				result = generateEasyCalculation();
 				break;
-			case 2:
+			case 1:
 				result = generateMediumCalculation();
 				break;
-			case 3:
+			case 2:
 				result = generateHardCalculation();
 				break;
 			}
-			result = "7*5==40-5";
 			solution = String.valueOf(evaluateTest(result));
-			System.out.println("Solution " + solution);
+			// System.out.println("Solution " + solution);
 		} while ((solution != "false") && (solution != "true"));
 		return result;
 	}
@@ -162,7 +152,7 @@ public class OperandModule extends ModuleClass {
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
 		try {
-			System.out.println("eval " + test);
+			// System.out.println("eval " + test);
 			return engine.eval(test);
 		} catch (ScriptException e) {
 			System.err.println("Couldn't evaluate the String " + e);
@@ -178,6 +168,10 @@ public class OperandModule extends ModuleClass {
 
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
+		private String runningTest = "";
+		private JRadioButton radioTrue;
+		private JRadioButton radioFalse;
+		private ButtonGroup radioGroup;
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -187,33 +181,39 @@ public class OperandModule extends ModuleClass {
 		}
 
 		public JPanel createTestPanel(ActionListener al) {
+			runningTest = generateTest(getDifficulty());
 			JPanel testPanel = new JPanel();
-			JLabel operandTest = new JLabel(generateTest(getDifficulty()));
-			JRadioButton radioTrue = new JRadioButton("true");
-			JRadioButton radioFalse = new JRadioButton("false");
-			JButton checkButton = new JButton();
-			
-			
+			JLabel operandTest = new JLabel(runningTest);
+			radioTrue = new JRadioButton("true");
+			radioFalse = new JRadioButton("false");
+			radioGroup = new ButtonGroup();
+			radioGroup.add(radioTrue);
+			radioGroup.add(radioFalse);
+
+			JButton checkButton = new JButton("Check");
+
 			testPanel.setLayout(null);
 			testPanel.setBounds(0, 0, 900, 700);
-			
+
 			operandTest.setBounds(300, 200, 600, 30);
 			testPanel.add(operandTest);
-			
-			radioTrue.setBounds(500, 250, 200, 30);
+
+			radioTrue.setBounds(300, 250, 75, 30);
 			testPanel.add(radioTrue);
-			
-			radioFalse.setBounds(300, 250, 200, 30);
+
+			radioFalse.setBounds(400, 250, 75, 30);
 			testPanel.add(radioFalse);
-			
-			checkButton.setBounds(400, 300, 100, 30);
-			registerButton(checkButton);
+
+			checkButton.setBounds(350, 300, 100, 30);
+			if(!buttons.contains(checkButton)){
+				registerButton(checkButton);
+			}
 			checkButton.addActionListener(al);
 			testPanel.add(checkButton);
 			return testPanel;
 		}
-		
-		public void addTestPanel(){
+
+		public void addTestPanel() {
 			this.removeAll();
 			this.invalidate();
 			this.add(createTestPanel(this));
@@ -283,8 +283,6 @@ public class OperandModule extends ModuleClass {
 		 */
 
 		public void startTest() {
-			setNextTaskTimer(nextTaskIntervall, nextTaskIntervall,
-					new NextTask());
 			setNextModuleTimer(getTime(), new NextModule());
 		}
 
@@ -293,39 +291,21 @@ public class OperandModule extends ModuleClass {
 			switch (buttons.indexOf(e.getSource())) {
 			case 0:
 				startTest();
-				System.out.println("add test panel");
 				addTestPanel();
 				break;
 			case 1:
-				System.out.println("add test panel");
+				System.out.println("check clicked");
+				boolean result = (boolean) evaluateTest(runningTest);
+				if (result && radioTrue.isSelected()) {
+					System.out.println("+ 1 Point");
+				} else if (!result && radioFalse.isSelected()) {
+					System.out.println("+ 0 Point");
+				}
 				addTestPanel();
 				break;
 			default:
+				System.out.println(e.getSource());
 				break;
-			}
-		}
-
-		/**
-		 * An instance of this class will be created and run as a kind of event
-		 * every time the timer for the next task counted down to the end.
-		 */
-
-		public class NextTask extends TimerTask {
-			@Override
-			public void run() {
-				if (testCounter >= 1) {
-					System.out.println("create new test panel");
-					addTestPanel();
-					testCounter--;
-				} else {
-					System.out.println("sendResult nexttask");
-					stopNextTaskTimer();
-					result = (solvedCorrectly / testCount) * 100;
-					System.out.println(result + "+" + solvedCorrectly + "/"
-							+ testCount);
-					sendResult(result);
-					tellFinished();
-				}
 			}
 		}
 
@@ -337,7 +317,7 @@ public class OperandModule extends ModuleClass {
 			@Override
 			public void run() {
 				System.out.println("sendResult nextmodule");
-				stopNextTaskTimer();
+				// stopNextTaskTimer();
 				result = (solvedCorrectly / testCount) * 100;
 				System.out.println(result + "+" + solvedCorrectly + "/"
 						+ testCount);

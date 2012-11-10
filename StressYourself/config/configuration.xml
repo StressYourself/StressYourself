@@ -2,14 +2,6 @@
 <configuration>
   <difficulty>0</difficulty>
   <module>
-    <name>Continue Sequence Module</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>PopupModule</name>
-    <time>60</time>
-  </module>
-  <module>
     <name>OperandModule</name>
     <time>60</time>
   </module>
