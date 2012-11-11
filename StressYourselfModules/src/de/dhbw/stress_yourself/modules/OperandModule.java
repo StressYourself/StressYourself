@@ -259,16 +259,10 @@ public class OperandModule extends ModuleClass {
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
-				calculateResult();
+				result = calculateResult(numberOfTests, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}
-		}
-
-		private void calculateResult() {
-			double pointsPerTest = 100 / numberOfTests;
-			double points = pointsPerTest * solvedCorrectly;
-			result = (int) points;
 		}
 
 		@Override
@@ -283,7 +277,7 @@ public class OperandModule extends ModuleClass {
 				System.out.println("solvedCorrectly " + solvedCorrectly);
 				testCounter--;
 				if (testCounter == 0) {
-					calculateResult();
+					result = calculateResult(numberOfTests, solvedCorrectly);
 					sendResult(result);
 					tellFinished();
 				}
