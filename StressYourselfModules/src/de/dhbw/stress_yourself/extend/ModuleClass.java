@@ -42,7 +42,6 @@ public abstract class ModuleClass {
 	}
 
 	/**
-	 * Creates the panel introducing the next module (description etc.)
 	 * 
 	 * @param numberOfTests
 	 * @param solvedCorrectly
@@ -56,6 +55,7 @@ public abstract class ModuleClass {
 	}
 
 	/**
+	 * Creates the panel introducing the next module (description etc.)
 	 * 
 	 * @param nextTaskIntervall
 	 * @param taskcount
