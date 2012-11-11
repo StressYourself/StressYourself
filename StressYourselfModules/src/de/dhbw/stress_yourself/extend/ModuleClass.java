@@ -43,6 +43,19 @@ public abstract class ModuleClass {
 
 	/**
 	 * 
+	 * @param numberOfTests
+	 * @param solvedCorrectly
+	 * @return
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public int calculateResult(int numberOfTests, int solvedCorrectly) {
+		double pointsPerTest = 100 / numberOfTests;
+		double points = pointsPerTest * solvedCorrectly;
+		return (int) points;
+	}
+
+	/**
+	 * 
 	 * @param nextTaskIntervall
 	 * @param taskcount
 	 * @param al
