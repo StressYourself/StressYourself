@@ -5,4 +5,12 @@
     <name>OperandModule</name>
     <time>60</time>
   </module>
+  <module>
+    <name>CaptchaCharSequenceModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>CaptchaCirclesModule</name>
+    <time>60</time>
+  </module>
 </configuration>
