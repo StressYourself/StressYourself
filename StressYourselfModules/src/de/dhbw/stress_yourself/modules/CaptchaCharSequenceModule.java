@@ -182,6 +182,8 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 						isValidSequence(captchaText.getText(), c.getSequence());
 						thisPanel.remove(c);
 						c = createCaptcha();
+						captchaText.setText("");
+						captchaText.requestFocus();
 						thisPanel.revalidate();
 						testCounter--;
 					} else {
