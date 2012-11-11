@@ -201,15 +201,12 @@ public class MainApplication {
 		frame.getContentPane().invalidate();
 
 		if (index < configuration.size()) {
+			System.out.println(configuration.get(index).getName());
 			runningModuleClass = Reflection.getClass(url,
 					configuration.get(index).getClassName());
-			System.out.println(configuration.get(index).getName());
+			startModule(runningModuleClass, params.getDifficultyOrdinal(), new Integer(configuration.get(index).getTime()*1000));
 			index++;
-
-			Integer difficulty = new Integer(0);
-			Integer time = new Integer(20000);
-			startModule(runningModuleClass, difficulty, time);
-		} else {
+			} else {
 			// Test finished, time to call the evaluation!
 			createOutcomeGUI();
 		}
