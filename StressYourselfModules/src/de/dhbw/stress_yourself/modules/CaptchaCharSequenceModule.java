@@ -2,7 +2,6 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import java.util.Random;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
