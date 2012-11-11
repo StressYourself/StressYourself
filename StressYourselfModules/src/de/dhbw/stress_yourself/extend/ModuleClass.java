@@ -42,12 +42,13 @@ public abstract class ModuleClass {
 	}
 
 	/**
+	 * Creates the panel introducing the next module (description etc.)
 	 * 
 	 * @param nextTaskIntervall
 	 * @param taskcount
 	 * @param al
 	 * @return
-	 * @author Moritz Herbert <email>
+	 * @author Moritz Herbert <moritz.herbert@gmx.de>
 	 */
 	public JPanel getIntroductionPanel(int nextTaskIntervall, int taskcount,
 			ActionListener al) {
