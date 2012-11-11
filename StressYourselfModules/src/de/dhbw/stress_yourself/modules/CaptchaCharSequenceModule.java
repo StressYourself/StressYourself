@@ -22,7 +22,6 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * 
  * @author Moritz Herbert <moritz.herbert@gmx.de>
  */
-
 public class CaptchaCharSequenceModule extends ModuleClass {
 
 	private final String moduleName = "CaptchaCharSequenceModule";
@@ -45,7 +44,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	 * also sets the amount of tasks that can be solved in the given time and
 	 * the counter which is responsible for counting down the remaining tasks.
 	 */
-
 	public void setTimerIntervall() {
 		switch (getDifficulty()) {
 		case (0):
@@ -109,7 +107,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	 * this class is responsible for building the JPanel which will be inserted
 	 * in the main JFrame.
 	 */
-
 	class ModuleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
@@ -133,7 +130,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * 
 		 * @return The created captcha canvas.
 		 */
-
 		public RandomSequence createCaptcha() {
 			RandomSequence captcha = new RandomSequence(getDifficulty());
 
@@ -151,7 +147,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * @param button
 		 *            The button, which has to be registered
 		 */
-
 		public void registerButton(JButton button) {
 			buttons.add(button);
 		}
@@ -161,7 +156,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * before the module starts. a click on the startTasksButton button
 		 * starts the module and calls startTask()
 		 */
-
 		public void init() {
 			introductionPanel = getIntroductionPanel(nextTaskIntervall,
 					captchaCount, this);
@@ -171,7 +165,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		/**
 		 * This method generates the GUI displaying the module tasks
 		 */
-
 		public void startTask() {
 			c = createCaptcha();
 
@@ -183,8 +176,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 			nextCaptchaButton.addActionListener(this);
 			this.add(nextCaptchaButton);
 
-			setNextTaskTimer(nextTaskIntervall, nextTaskIntervall,
-					new NextTask());
 			setNextModuleTimer(getTime(), new NextModule());
 		}
 
@@ -198,15 +189,12 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 				break;
 			case 1:// nextCaptchaButton
 				if (captchaCounter >= 1) {
-					resetNextTaskTimer(nextTaskIntervall, nextTaskIntervall,
-							new NextTask());
 					isValidSequence(captchaText.getText(), c.getSequence());
 					thisPanel.remove(c);
 					c = createCaptcha();
 					thisPanel.revalidate();
 					captchaCounter--;
 				} else {
-					stopNextTaskTimer();
 					result = (solvedCorrectly / captchaCount) * 100;
 					System.out.println(result);
 					sendResult(result);
@@ -218,36 +206,11 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 
 		/**
 		 * An instance of this class will be created and run as a kind of event
-		 * every time the timer for the next task counted down to the end.
-		 */
-
-		public class NextTask extends TimerTask {
-			@Override
-			public void run() {
-				if (captchaCounter >= 1) {
-					thisPanel.remove(c);
-					c = createCaptcha();
-					thisPanel.revalidate();
-					captchaCounter--;
-				} else {
-					stopNextTaskTimer();
-					result = (solvedCorrectly / captchaCount) * 100;
-					sendResult(result);
-					tellFinished();
-				}
-
-			}
-		}
-
-		/**
-		 * An instance of this class will be created and run as a kind of event
 		 * every time the timer for the next module counted down to the end.
 		 */
-
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
-				stopNextTaskTimer();
 				result = (solvedCorrectly / captchaCount) * 100;
 				sendResult(result);
 				tellFinished();

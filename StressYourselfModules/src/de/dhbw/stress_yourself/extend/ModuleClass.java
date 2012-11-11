@@ -1,6 +1,5 @@
 package de.dhbw.stress_yourself.extend;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,7 +23,6 @@ public abstract class ModuleClass {
 	private int time;
 	private int timePerModule;
 	private Object mainClass = null;
-	private Timer nextTaskTimer;
 	private Timer nextModuleTimer;
 
 	public ModuleClass(Object o, int difficulty, int time) {
@@ -43,6 +41,14 @@ public abstract class ModuleClass {
 		return time;
 	}
 
+	/**
+	 * 
+	 * @param nextTaskIntervall
+	 * @param taskcount
+	 * @param al
+	 * @return
+	 * @author Moritz Herbert <email>
+	 */
 	public JPanel getIntroductionPanel(int nextTaskIntervall, int taskcount,
 			ActionListener al) {
 		JPanel introductionPanel = new JPanel();
@@ -83,24 +89,6 @@ public abstract class ModuleClass {
 		return timePerModule;
 	}
 
-	public void setNextTaskTimer(int time, int intervall, TimerTask timer) {
-		nextTaskTimer = new Timer();
-		nextTaskTimer.schedule(timer, time, intervall);
-	}
-
-	public void resetNextTaskTimer(int time, int intervall, TimerTask timer) {
-		nextTaskTimer.cancel();
-		nextTaskTimer.purge();
-		nextTaskTimer = new Timer();
-		nextTaskTimer.schedule(timer, time, intervall);
-
-	}
-
-	public void stopNextTaskTimer() {
-		nextTaskTimer.cancel();
-		nextTaskTimer.purge();
-	}
-
 	abstract class NextTask extends TimerTask {
 	}
 
@@ -113,8 +101,6 @@ public abstract class ModuleClass {
 		nextModuleTimer.cancel();
 		nextModuleTimer.purge();
 	}
-
-	public abstract void setTimerIntervall();
 
 	abstract class NextModule extends TimerTask {
 	}

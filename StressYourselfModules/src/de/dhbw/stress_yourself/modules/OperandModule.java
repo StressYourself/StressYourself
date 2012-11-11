@@ -1,7 +1,7 @@
 package de.dhbw.stress_yourself.modules;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
@@ -172,7 +172,7 @@ public class OperandModule extends ModuleClass {
 	 * this class is responsible for building the JPanel which will be inserted
 	 * in the main JFrame.
 	 */
-	class ModuleGUI extends JPanel implements MouseListener {
+	class ModuleGUI extends JPanel implements ActionListener {
 
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
@@ -186,10 +186,11 @@ public class OperandModule extends ModuleClass {
 			buttons = new ArrayList<JButton>();
 			setLayout(null);
 			setBounds(0, 0, 900, 700);
-			this.add(createIntroductionPanel(this));
+			this.add(getIntroductionPanel(timePerOperandTest, numberOfTests,
+					this));
 		}
 
-		public JPanel createTestPanel(MouseListener ml) {
+		public JPanel createTestPanel(ActionListener al) {
 			runningTest = generateTest(getDifficulty());
 			JPanel testPanel = new JPanel();
 			JLabel operandTest = new JLabel(runningTest);
@@ -213,8 +214,8 @@ public class OperandModule extends ModuleClass {
 
 			checkButton.setBounds(350, 300, 100, 30);
 			registerButton(checkButton);
-			if (checkButton.getMouseListeners().length < 2) {
-				checkButton.addMouseListener(ml);
+			if (checkButton.getActionListeners().length < 1) {
+				checkButton.addActionListener(al);
 			}
 
 			testPanel.add(checkButton);
@@ -227,50 +228,6 @@ public class OperandModule extends ModuleClass {
 			this.add(createTestPanel(this));
 			this.revalidate();
 			this.repaint();
-		}
-
-		/**
-		 * Function to create the Introduction Panel
-		 * 
-		 * @param al
-		 *            ActionListener for the startTestButton
-		 * @return JPanel Returns the introduction JPanel
-		 * @author Tobias Roeding <tobias@roeding.eu>
-		 */
-		public JPanel createIntroductionPanel(MouseListener ml) {
-			JPanel introductionPanel = new JPanel();
-			introductionPanel.setLayout(null);
-			JLabel moduleDescriptionLabel = new JLabel(getModuleDescription());
-			JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
-					+ String.valueOf(numberOfTests / 1000) + "seconds");
-			JLabel moduleDesIntervallLabel = new JLabel(
-					"Maximum time per Task: " + String.valueOf(testCounter)
-							+ "seconds");
-			JLabel taskCountLabel = new JLabel(numberOfTests
-					+ " tasks can be solved");
-			JButton startTestButton = new JButton("start");
-
-			introductionPanel.setLayout(null);
-			introductionPanel.setBounds(0, 0, 800, 600);
-
-			moduleDescriptionLabel.setBounds(300, 50, 300, 100);
-			introductionPanel.add(moduleDescriptionLabel);
-
-			moduleTimeLabel.setBounds(300, 155, 300, 30);
-			introductionPanel.add(moduleTimeLabel);
-
-			moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
-			introductionPanel.add(moduleDesIntervallLabel);
-
-			taskCountLabel.setBounds(300, 225, 300, 30);
-			introductionPanel.add(taskCountLabel);
-
-			startTestButton.setBounds(400, 260, 75, 30);
-			introductionPanel.add(startTestButton);
-			registerButton(startTestButton);
-			startTestButton.addMouseListener(ml);
-
-			return introductionPanel;
 		}
 
 		/**
@@ -308,12 +265,15 @@ public class OperandModule extends ModuleClass {
 			}
 		}
 
+		private void calculateResult() {
+			double pointsPerTest = 100 / numberOfTests;
+			double points = pointsPerTest * solvedCorrectly;
+			result = (int) points;
+		}
+
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (e.getSource().equals(buttons.get(0))) {
-				startTest();
-				addTestPanel();
-			} else {
+		public void actionPerformed(ActionEvent e) {
+			if (buttons.contains(e.getSource())) {
 				boolean evaluationResult = (boolean) evaluateTest(runningTest);
 				if (evaluationResult && radioTrue.isSelected()) {
 					solvedCorrectly += 1;
@@ -328,35 +288,10 @@ public class OperandModule extends ModuleClass {
 					tellFinished();
 				}
 				addTestPanel();
+			} else {
+				startTest();
+				addTestPanel();
 			}
 		}
-
-		private void calculateResult() {
-			double pointsPerTest = 100 / numberOfTests;
-			double points = pointsPerTest * solvedCorrectly;
-			result = (int) points;
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-		}
-	}
-
-	@Override
-	public void setTimerIntervall() {
-		// TODO Auto-generated method stub
-
 	}
 }

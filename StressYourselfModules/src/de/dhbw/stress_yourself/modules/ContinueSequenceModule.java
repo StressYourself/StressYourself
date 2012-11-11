@@ -26,12 +26,6 @@ public class ContinueSequenceModule extends ModuleClass {
 
 	public ContinueSequenceModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setTimerIntervall();
-	}
-
-	@Override
-	public void setTimerIntervall() {
-		// this module has no timer for the tasks
 	}
 
 	@Override

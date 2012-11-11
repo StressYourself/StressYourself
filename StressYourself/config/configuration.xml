@@ -2,7 +2,7 @@
 <configuration>
   <difficulty>0</difficulty>
   <module>
-    <name>Continue Sequence Module</name>
+    <name>OperandModule</name>
     <time>60</time>
   </module>
 </configuration>
