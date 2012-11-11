@@ -179,12 +179,10 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
+			if (!buttons.contains(e.getSource())) {
+				thisPanel.removeAll();
 				startTask();
-				break;
-			default:
-				break;
+				thisPanel.repaint();
 			}
 
 		}

@@ -175,26 +175,27 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
+			if (buttons.contains(e.getSource())) {
+				switch (buttons.indexOf(e.getSource())) {
+				case 0:
+					if (testCounter >= 1) {
+						isValidSequence(captchaText.getText(), c.getSequence());
+						thisPanel.remove(c);
+						c = createCaptcha();
+						thisPanel.revalidate();
+						testCounter--;
+					} else {
+						result = calculateResult(numberOfTests, solvedCorrectly);
+						System.out.println(result);
+						sendResult(result);
+						tellFinished();
+					}
+					break;
+				}
+			} else {
 				thisPanel.removeAll();
 				startTask();
 				thisPanel.repaint();
-				break;
-			case 1:// nextCaptchaButton
-				if (testCounter >= 1) {
-					isValidSequence(captchaText.getText(), c.getSequence());
-					thisPanel.remove(c);
-					c = createCaptcha();
-					thisPanel.revalidate();
-					testCounter--;
-				} else {
-					result = calculateResult(numberOfTests, solvedCorrectly);
-					System.out.println(result);
-					sendResult(result);
-					tellFinished();
-				}
-				break;
 			}
 		}
 

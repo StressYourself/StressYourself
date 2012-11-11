@@ -90,14 +90,14 @@ public abstract class ModuleClass {
 	 * @return
 	 * @author Moritz Herbert <moritz.herbert@gmx.de>
 	 */
-	public JPanel getIntroductionPanel(int nextTaskIntervall, int taskcount,
+	public JPanel getIntroductionPanel(int timePerTask, int taskcount,
 			ActionListener al) {
 		JPanel introductionPanel = new JPanel();
 		JLabel moduleDescriptionLabel = new JLabel(getModuleDescription());
 		JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
 				+ String.valueOf(getTime() / 1000) + "seconds");
 		JLabel moduleDesIntervallLabel = new JLabel("Maximum time per Task: "
-				+ String.valueOf(nextTaskIntervall / 1000) + "seconds");
+				+ String.valueOf(timePerTask / 1000) + "seconds");
 		JLabel taskCountLabel = new JLabel(taskcount + " tasks can be solved");
 		JButton startTasksButton = new JButton("start");
 		introductionPanel.setLayout(null);
