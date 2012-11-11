@@ -22,7 +22,7 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * @author Christoph Schollmeyer <chr.schollmeyer@web.de>
  */
 
-public class KeyPress extends ModuleClass {
+public class KeyPressModule extends ModuleClass {
 
 	private final String moduleName = "KeyPress";
 	private final String moduleArea = "Reaction";
@@ -30,7 +30,7 @@ public class KeyPress extends ModuleClass {
 
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
 	
-	public KeyPress(Object o, Integer difficulty, Integer time) {
+	public KeyPressModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
 		setTimerIntervall();
 	}
