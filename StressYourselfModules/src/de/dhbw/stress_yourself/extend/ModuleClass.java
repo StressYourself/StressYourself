@@ -114,8 +114,6 @@ public abstract class ModuleClass {
 		nextModuleTimer.purge();
 	}
 
-	public abstract void setTimerIntervall();
-
 	abstract class NextModule extends TimerTask {
 	}
 

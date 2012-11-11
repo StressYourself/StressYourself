@@ -6,7 +6,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -16,12 +15,11 @@ import javax.swing.border.EmptyBorder;
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
 /**
- * Module which gives characters or numbers on the screen and the user
- * should press the keys on the keyboard as fast as he can.
+ * Module which gives characters or numbers on the screen and the user should
+ * press the keys on the keyboard as fast as he can.
  * 
  * @author Christoph Schollmeyer <chr.schollmeyer@web.de>
  */
-
 public class KeyPressModule extends ModuleClass {
 
 	private final String moduleName = "KeyPress";
@@ -29,10 +27,9 @@ public class KeyPressModule extends ModuleClass {
 	private final String moduleDescription = "Example Description";
 
 	private ArrayList<Boolean> results = new ArrayList<Boolean>();
-	
+
 	public KeyPressModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setTimerIntervall();
 	}
 
 	@Override
@@ -54,28 +51,16 @@ public class KeyPressModule extends ModuleClass {
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
-	
-	@Override
-	public void setTimerIntervall() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+
 	class ModuleGUI extends JPanel implements KeyListener {
-		
+
 		private static final long serialVersionUID = 1L;
 		private final String character = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 		private JTextField keyField;
 		private JLabel scoreLabel;
 		private int score;
-		
+
 		private JTextPane pane = new JTextPane();
-		private JButton button = new JButton("next module");
-		
-		/**
-		 * 
-		 */
 		
 		public ModuleGUI() {
 			setLayout(null);
@@ -84,7 +69,7 @@ public class KeyPressModule extends ModuleClass {
 			setVisible(true);
 			keyGame();
 		}
-		
+
 		private void init() {
 			setBorder(new EmptyBorder(10, 10, 10, 10));
 			setLayout(new GridLayout(2, 1));
@@ -98,26 +83,20 @@ public class KeyPressModule extends ModuleClass {
 			pane.setText("CaptchaCirclesModules");
 			pane.setBounds(50, 50, 175, 30);
 			this.add(pane);
-			//setTimer();
+			// setTimer();
 		}
-		
-		private void keyGame() {	
+
+		private void keyGame() {
 			int rnd = new Random().nextInt(35);
-			keyField.setText(character.substring(rnd, rnd + 1));	
+			keyField.setText(character.substring(rnd, rnd + 1));
 		}
-		
-		
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -126,15 +105,12 @@ public class KeyPressModule extends ModuleClass {
 				scoreLabel.setText("" + ++score);
 				keyGame();
 				results.add(true);
-				}
-			else{
+			} else {
 				results.add(false);
 			}
-			
+
 		}
-		
+
 	}
 
-
-	
 }

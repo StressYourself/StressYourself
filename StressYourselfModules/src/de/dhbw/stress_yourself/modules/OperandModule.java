@@ -214,7 +214,7 @@ public class OperandModule extends ModuleClass {
 
 			checkButton.setBounds(350, 300, 100, 30);
 			registerButton(checkButton);
-			if (checkButton.getActionListeners().length < 2) {
+			if (checkButton.getActionListeners().length < 1) {
 				checkButton.addActionListener(al);
 			}
 
@@ -293,11 +293,5 @@ public class OperandModule extends ModuleClass {
 				addTestPanel();
 			}
 		}
-	}
-
-	@Override
-	public void setTimerIntervall() {
-		// TODO Auto-generated method stub
-
 	}
 }
