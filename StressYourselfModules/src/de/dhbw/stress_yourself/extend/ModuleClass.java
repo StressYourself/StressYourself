@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -19,6 +21,7 @@ public abstract class ModuleClass {
 
 	private int diff;
 	private int time;
+	private int timePerModule;
 	private Object mainClass = null;
 	private Timer nextTaskTimer;
 	private Timer nextModuleTimer;
@@ -37,6 +40,14 @@ public abstract class ModuleClass {
 	
 	public int getTime() {
 		return time;
+	}
+	
+	public void setTimePerModule(int timePerModule){
+		this.timePerModule = timePerModule;
+	}
+	
+	public int getTimePerModule(){
+		return timePerModule;
 	}
 	
 	public void setNextTaskTimer(int time, int intervall, TimerTask timer) {
@@ -75,6 +86,8 @@ public abstract class ModuleClass {
 	public abstract String getModuleDescription();
 
 	public abstract JPanel getModuleJPanel();
+	
+	
 
 	
 	/**

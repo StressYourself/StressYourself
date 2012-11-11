@@ -2,7 +2,7 @@
 <configuration>
   <difficulty>0</difficulty>
   <module>
-    <name>CaptchaCirclesModule</name>
-    <time>120</time>
+    <name>OperandModule</name>
+    <time>60</time>
   </module>
 </configuration>
