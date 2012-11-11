@@ -21,7 +21,6 @@ public abstract class ModuleClass {
 
 	private int diff;
 	private int time;
-	private int timePerModule;
 	private Object mainClass = null;
 	private Timer nextModuleTimer;
 
@@ -32,6 +31,14 @@ public abstract class ModuleClass {
 		this.diff = difficulty;
 		this.time = time;
 	}
+	
+	public abstract String getModuleName();
+
+	public abstract String getModuleArea();
+
+	public abstract String getModuleDescription();
+
+	public abstract JPanel getModuleJPanel();
 
 	public int getDifficulty() {
 		return diff;
@@ -40,13 +47,32 @@ public abstract class ModuleClass {
 	public int getTime() {
 		return time;
 	}
+	
+	abstract class NextTask extends TimerTask {
+	}
+
+	public void setNextModuleTimer(int time, TimerTask timer) {
+		nextModuleTimer = new Timer();
+		nextModuleTimer.schedule(timer, time);
+	}
+
+	public void stopNextModuleTimer() {
+		nextModuleTimer.cancel();
+		nextModuleTimer.purge();
+	}
+
+	abstract class NextModule extends TimerTask {
+	}
 
 	/**
-	 * Creates the panel introducing the next module (description etc.)
+	 * Calculates the Points the users gets for this module
 	 * 
 	 * @param numberOfTests
+	 *            The number of tests, which are possible in the given time
+	 *            period
 	 * @param solvedCorrectly
-	 * @return
+	 *            The number of tests the user solved correctly
+	 * @return int The points the user gets for this module
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public int calculateResult(int numberOfTests, int solvedCorrectly) {
@@ -94,38 +120,6 @@ public abstract class ModuleClass {
 
 		return introductionPanel;
 	}
-
-	public void setTimePerModule(int timePerModule) {
-		this.timePerModule = timePerModule;
-	}
-
-	public int getTimePerModule() {
-		return timePerModule;
-	}
-
-	abstract class NextTask extends TimerTask {
-	}
-
-	public void setNextModuleTimer(int time, TimerTask timer) {
-		nextModuleTimer = new Timer();
-		nextModuleTimer.schedule(timer, time);
-	}
-
-	public void stopNextModuleTimer() {
-		nextModuleTimer.cancel();
-		nextModuleTimer.purge();
-	}
-
-	abstract class NextModule extends TimerTask {
-	}
-
-	public abstract String getModuleName();
-
-	public abstract String getModuleArea();
-
-	public abstract String getModuleDescription();
-
-	public abstract JPanel getModuleJPanel();
 
 	/**
 	 * Function to send the result of the module to the MainClass
