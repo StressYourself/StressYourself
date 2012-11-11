@@ -20,8 +20,7 @@ public class ContinueSequenceModule extends ModuleClass {
 
 	private final String moduleName = "Continue Sequence Module";
 	private final String moduleArea = "Logic";
-	private final String moduleDescription = "The tested person has to contiue sequences"
-			+ " of alphabetic characters and numbers";
+	private final String moduleDescription = "Continue a sequence of numbers or characters";
 
 	private int points = 0;
 
@@ -32,8 +31,7 @@ public class ContinueSequenceModule extends ModuleClass {
 
 	@Override
 	public void setTimerIntervall() {
-		// TODO set different times for the test
-
+		// this module has no timer for the tasks
 	}
 
 	@Override
@@ -56,23 +54,12 @@ public class ContinueSequenceModule extends ModuleClass {
 		return new ModuleGUI();
 	}
 
+	/**
+	 * calculates the result by using the max points and the reached points
+	 */
 	private void calculateResult() {
-		int border; // Highest Points that could be reached / depending on time
-					// and difficulty
-		switch (getDifficulty()) {
-		case 0:
-			border = getTime() / 10000;
-			break;
-		case 1:
-			border = getTime() / 15000;
-			break;
-		case 2:
-			border = getTime() / 30000;
-			break;
-		default:
-			border = 1;
-		}
-		float subres = (points / border) * 100;
+
+		float subres = ((float) points / (float) calculateMaxPoints()) * 100f;
 		int res = (int) subres;
 		if (res > 100) {
 			res = 100;
@@ -82,6 +69,33 @@ public class ContinueSequenceModule extends ModuleClass {
 
 	}
 
+	/**
+	 * calculates the max points against the time
+	 * 
+	 * @return max points
+	 */
+	private int calculateMaxPoints() {
+		int maxPoints = 0;
+		switch (getDifficulty()) {
+		case 0:
+			maxPoints = getTime() / 10000;
+			break;
+		case 1:
+			maxPoints = getTime() / 15000;
+			break;
+		case 2:
+			maxPoints = getTime() / 30000;
+			break;
+		}
+		return maxPoints;
+	}
+
+	/**
+	 * class is the GUI that's thrown back
+	 * 
+	 * @author Lukas Buchert <Lukas.Buchert@gmx.de>
+	 * 
+	 */
 	class ModuleGUI extends JPanel {
 		private static final long serialVersionUID = 1L;
 		private JLabel x1 = new JLabel();
@@ -99,49 +113,42 @@ public class ContinueSequenceModule extends ModuleClass {
 		public ModuleGUI() {
 			setLayout(null);
 			setBounds(0, 0, 800, 600);
-			init();
-			fill();
+			this.add(createIntroductionPanel());
 			setVisible(true);
-			setNextModuleTimer(getTime(), new NextModule());
+
 		}
 
+		/**
+		 * initializes the GUI
+		 */
 		private void init() {
 			final int diff = 40;
 			int xstart = 50;
 			int ystart = 100;
-			// x1.setText("x111");
 			x1.setBounds(xstart, ystart, 30, 20);
 			this.add(x1);
 			xstart = xstart + diff;
-			// x2.setText("x222");
 			x2.setBounds(xstart, ystart, 30, 20);
 			this.add(x2);
 			xstart = xstart + diff;
-			// x3.setText("x333");
 			x3.setBounds(xstart, ystart, 30, 20);
 			this.add(x3);
 			xstart = xstart + diff;
-			// x4.setText("x444");
 			x4.setBounds(xstart, ystart, 30, 20);
 			this.add(x4);
 			xstart = xstart + diff;
-			// x5.setText("x555");
 			x5.setBounds(xstart, ystart, 30, 20);
 			this.add(x5);
 			xstart = xstart + diff;
-			// x6.setText("x666");
 			x6.setBounds(xstart, ystart, 30, 20);
 			this.add(x6);
 			xstart = xstart + diff;
-			// x7.setText("x777");
 			x7.setBounds(xstart, ystart, 30, 20);
 			this.add(x7);
 			xstart = xstart + diff;
-			// x8.setText("x888");
 			x8.setBounds(xstart, ystart, 30, 20);
 			this.add(x8);
 			xstart = xstart + diff;
-			// x9.setText("x999");
 			x9.setBounds(xstart, ystart, 50, 20);
 			this.add(x9);
 			submit.setText("submit");
@@ -150,8 +157,6 @@ public class ContinueSequenceModule extends ModuleClass {
 				public void actionPerformed(ActionEvent e) {
 					if (x9.getText().equals(solution)) {
 						points++;
-						// for debugging
-						System.out.println("Get new point! points: " + points);
 					}
 					x9.setText("");
 					fill();
@@ -159,9 +164,12 @@ public class ContinueSequenceModule extends ModuleClass {
 			});
 			submit.setBounds(xstart - 60, ystart + 50, 120, 30);
 			this.add(submit);
-
+			setVisible(true);
 		}
 
+		/**
+		 * fill / refills the sequence
+		 */
 		private void fill() {
 			String[] tmp = getSequence(getDifficulty());
 			x1.setText(tmp[0]);
@@ -175,9 +183,68 @@ public class ContinueSequenceModule extends ModuleClass {
 			solution = tmp[8];
 		}
 
+		/**
+		 * Function to create the Introduction Panel
+		 * 
+		 * @return JPanel Returns the introduction JPanel
+		 * @author Tobias Roeding <tobias@roeding.eu>
+		 * @author Lukas Buchert <lukas.buchert@gmx.de>
+		 */
+		private JPanel createIntroductionPanel() {
+			JPanel introductionPanel = new JPanel();
+			introductionPanel.setLayout(null);
+			JLabel moduleDescriptionLabel = new JLabel(getModuleDescription());
+			JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
+					+ String.valueOf(getTime() / 1000) + "seconds");
+			JLabel moduleDesIntervallLabel = new JLabel(
+					"There is no maximum time per task");
+			JLabel taskCountLabel = new JLabel(calculateMaxPoints()
+					+ " tasks can be solved");
+			JButton startTestButton = new JButton("start");
+
+			introductionPanel.setLayout(null);
+			introductionPanel.setBounds(0, 0, 800, 600);
+
+			moduleDescriptionLabel.setBounds(300, 50, 300, 100);
+			introductionPanel.add(moduleDescriptionLabel);
+
+			moduleTimeLabel.setBounds(300, 155, 300, 30);
+			introductionPanel.add(moduleTimeLabel);
+
+			moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
+			introductionPanel.add(moduleDesIntervallLabel);
+
+			taskCountLabel.setBounds(300, 225, 300, 30);
+			introductionPanel.add(taskCountLabel);
+
+			startTestButton.setBounds(400, 260, 75, 30);
+			introductionPanel.add(startTestButton);
+			startTestButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					removeIntroductionPanel();
+					setLayout(null);
+					init();
+					fill();
+					setNextModuleTimer(getTime(), new NextModule());
+				}
+			});
+
+			return introductionPanel;
+		}
+
+		private void removeIntroductionPanel() {
+			this.setVisible(false);
+			this.removeAll();
+			this.invalidate();
+		}
+
 	}
 
-	public class NextModule extends TimerTask {
+	/**
+	 * class for the timer
+	 */
+	private class NextModule extends TimerTask {
 		@Override
 		public void run() {
 			calculateResult();
@@ -193,6 +260,13 @@ public class ContinueSequenceModule extends ModuleClass {
 
 	private boolean alpha;
 
+	/**
+	 * returns a alphabetic or numeral sequence
+	 * 
+	 * @param difficulty
+	 *            current difficulty
+	 * @return sequence as String array
+	 */
 	private String[] getSequence(int difficulty) {
 		int[] tmp = takeSequence(difficulty);
 		String[] back = new String[tmp.length];
@@ -210,6 +284,13 @@ public class ContinueSequenceModule extends ModuleClass {
 		return back;
 	}
 
+	/**
+	 * returns a character with this number
+	 * 
+	 * @param number
+	 *            of a character
+	 * @return character with this number
+	 */
 	private char getChar(int number) {
 		while (number < 0) {
 			number = number + 26;
@@ -218,11 +299,29 @@ public class ContinueSequenceModule extends ModuleClass {
 		return alphabet[number % 26];
 	}
 
+	/**
+	 * 
+	 * @param low
+	 *            from
+	 * @param high
+	 *            until
+	 * @return random Integer between low and high including both
+	 */
 	private int random(int low, int high) {
 		high++;
 		return (int) (Math.random() * (high - low) + low);
 	}
 
+	/**
+	 * 
+	 * @param operation
+	 *            that should be used
+	 * @param input
+	 *            basis that is computed
+	 * @param number
+	 *            number that is computed with
+	 * @return result of the calculation
+	 */
 	private int takeFunction(int operation, int input, int number) {
 		switch (operation) {
 		case 1:
@@ -242,6 +341,13 @@ public class ContinueSequenceModule extends ModuleClass {
 
 	}
 
+	/**
+	 * takes a random sequence against the difficulty
+	 * 
+	 * @param difficulty
+	 *            the current difficulty
+	 * @return a Sequence as Integer array
+	 */
 	private int[] takeSequence(int difficulty) {
 		int function = random(1, 2);
 		alpha = false;
@@ -316,6 +422,8 @@ public class ContinueSequenceModule extends ModuleClass {
 	private int functionMultiplication(int input, int number) {
 		return input * number;
 	}
+
+	// methods to create the different sequences
 
 	private int[] sequenceOneD0() {
 		int[] sequence = new int[9];
