@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -23,48 +22,42 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * 
  * @author Moritz Herbert <moritz.herbert@gmx.de>
  */
-
 public class CaptchaCharSequenceModule extends ModuleClass {
 
 	private final String moduleName = "CaptchaCharSequenceModule";
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
 
-	private int captchaCounter;
-	private int captchaCount;
-	private int nextTaskIntervall = 14000;
+	private int testCounter;
+	private int numberOfTests;
+	private int timePerTest;
 	private int solvedCorrectly = 0;
 	private int result;
 
 	public CaptchaCharSequenceModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setTimerIntervall();
+		initTestValues();
 	}
 
 	/**
-	 * This method set the timer intervall in dependency of the difficulty. It
+	 * This method set the time per task in dependency of the difficulty. It
 	 * also sets the amount of tasks that can be solved in the given time and
 	 * the counter which is responsible for counting down the remaining tasks.
 	 */
-
-	public void setTimerIntervall() {
+	public void initTestValues() {
 		switch (getDifficulty()) {
-		case (0):
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCounter += 1;
-			captchaCount = captchaCounter;
+		case 0:
+			timePerTest = 14000;
 			break;
-		case (1):
-			nextTaskIntervall = 12000;
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCount = captchaCounter;
+		case 1:
+			timePerTest = 12000;
 			break;
-		case (2):
-			nextTaskIntervall = 10000;
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCount = captchaCounter;
+		case 2:
+			timePerTest = 10000;
 			break;
 		}
+		numberOfTests = (getTime() / timePerTest);
+		testCounter = numberOfTests;
 	}
 
 	public JPanel getModuleJPanel() {
@@ -108,25 +101,15 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	 * this class is responsible for building the JPanel which will be inserted
 	 * in the main JFrame.
 	 */
-
 	class ModuleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
-		private JLabel moduleDescriptionLabel = new JLabel(
-				getModuleDescription());
-		private JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
-				+ String.valueOf(getTime() / 1000) + "seconds");
-		private JLabel moduleDesIntervallLabel = new JLabel(
-				"Maximum time per Task: "
-						+ String.valueOf(nextTaskIntervall / 1000) + "seconds");
-		private JLabel taskCountLabel = new JLabel(captchaCount
-				+ " tasks can be solved");
+
 		private JTextField captchaText = new JTextField();
 		private JButton nextCaptchaButton = new JButton("check");
 		private RandomSequence c;
 		private JPanel thisPanel = this;
-		private JPanel introductionPanel = new JPanel();
-		private JButton startTasksButton = new JButton("start");
+		private JPanel introductionPanel = null;
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -141,7 +124,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * 
 		 * @return The created captcha canvas.
 		 */
-
 		public RandomSequence createCaptcha() {
 			RandomSequence captcha = new RandomSequence(getDifficulty());
 
@@ -150,14 +132,15 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 			this.add(captcha);
 			return captcha;
 		}
-		
-		/**
-		 * Adds a button to a ArrayList needed to say which part of the switch-case block
-		 * in the actionPerformed Method is used for which button.
-		 * @param button
-		 * 		The button, which has to be registered
-		 */
 
+		/**
+		 * Adds a button to a ArrayList needed to say which part of the
+		 * switch-case block in the actionPerformed Method is used for which
+		 * button.
+		 * 
+		 * @param button
+		 *            The button, which has to be registered
+		 */
 		public void registerButton(JButton button) {
 			buttons.add(button);
 		}
@@ -167,34 +150,15 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * before the module starts. a click on the startTasksButton button
 		 * starts the module and calls startTask()
 		 */
-
 		public void init() {
-			introductionPanel.setLayout(null);
-			introductionPanel.setBounds(0, 0, 800, 600);
-			this.add(introductionPanel);
-
-			moduleDescriptionLabel.setBounds(300, 50, 300, 100);
-			introductionPanel.add(moduleDescriptionLabel);
-
-			moduleTimeLabel.setBounds(300, 155, 300, 30);
-			introductionPanel.add(moduleTimeLabel);
-
-			moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
-			introductionPanel.add(moduleDesIntervallLabel);
-
-			taskCountLabel.setBounds(300, 225, 300, 30);
-			introductionPanel.add(taskCountLabel);
-
-			startTasksButton.setBounds(400, 260, 75, 30);
-			introductionPanel.add(startTasksButton);
-			registerButton(startTasksButton);
-			startTasksButton.addActionListener(this);
+			introductionPanel = getIntroductionPanel(timePerTest,
+					numberOfTests, this);
+			thisPanel.add(introductionPanel);
 		}
 
 		/**
 		 * This method generates the GUI displaying the module tasks
 		 */
-
 		public void startTask() {
 			c = createCaptcha();
 
@@ -206,59 +170,34 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 			nextCaptchaButton.addActionListener(this);
 			this.add(nextCaptchaButton);
 
-			setNextTaskTimer(nextTaskIntervall, nextTaskIntervall,
-					new NextTask());
 			setNextModuleTimer(getTime(), new NextModule());
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
+			if (buttons.contains(e.getSource())) {
+				switch (buttons.indexOf(e.getSource())) {
+				case 0:
+					if (testCounter >= 1) {
+						isValidSequence(captchaText.getText(), c.getSequence());
+						thisPanel.remove(c);
+						c = createCaptcha();
+						captchaText.setText("");
+						captchaText.requestFocus();
+						thisPanel.revalidate();
+						testCounter--;
+					} else {
+						result = calculateResult(numberOfTests, solvedCorrectly);
+						System.out.println(result);
+						sendResult(result);
+						tellFinished();
+					}
+					break;
+				}
+			} else {
 				thisPanel.removeAll();
 				startTask();
 				thisPanel.repaint();
-				break;
-			case 1:// nextCaptchaButton
-				if (captchaCounter >= 1) {
-					resetNextTaskTimer(nextTaskIntervall, nextTaskIntervall,
-							new NextTask());
-					isValidSequence(captchaText.getText(), c.getSequence());
-					thisPanel.remove(c);
-					c = createCaptcha();
-					thisPanel.revalidate();
-					captchaCounter--;
-				} else {
-					stopNextTaskTimer();
-					result = (solvedCorrectly / captchaCount) * 100;
-					System.out.println(result);
-					sendResult(result);
-					tellFinished();
-				}
-				break;
-			}
-		}
-
-		/**
-		 * An instance of this class will be created and run as a kind of event
-		 * every time the timer for the next task counted down to the end.
-		 */
-
-		public class NextTask extends TimerTask {
-			@Override
-			public void run() {
-				if (captchaCounter >= 1) {
-					thisPanel.remove(c);
-					c = createCaptcha();
-					thisPanel.revalidate();
-					captchaCounter--;
-				} else {
-					stopNextTaskTimer();
-					result = (solvedCorrectly / captchaCount) * 100;
-					sendResult(result);
-					tellFinished();
-				}
-
 			}
 		}
 
@@ -266,12 +205,10 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * An instance of this class will be created and run as a kind of event
 		 * every time the timer for the next module counted down to the end.
 		 */
-
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
-				stopNextTaskTimer();
-				result = (solvedCorrectly / captchaCount) * 100;
+				result = calculateResult(numberOfTests, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}

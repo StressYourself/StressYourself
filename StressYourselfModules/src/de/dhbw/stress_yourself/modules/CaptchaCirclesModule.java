@@ -8,13 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
@@ -25,22 +23,21 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * 
  * @author Moritz Herbert <moritz.herbert@gmx.de>
  */
-
 public class CaptchaCirclesModule extends ModuleClass {
 
 	private final String moduleName = "CaptchaCirclesModule";
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
-	private int nextTaskIntervall = 5000;
 
-	private int captchaCounter;
-	private int captchaCount;
+	private int testCounter;
+	private int numberOfTests;
+	private int timePerTest;
 	private int solvedCorrectly = 0;
 	private int result;
 
 	public CaptchaCirclesModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setTimerIntervall();
+		initTestValues();
 	}
 
 	/**
@@ -49,23 +46,20 @@ public class CaptchaCirclesModule extends ModuleClass {
 	 * the counter which is responsible for counting down the remaining tasks.
 	 */
 
-	public void setTimerIntervall() {
+	public void initTestValues() {
 		switch (getDifficulty()) {
-		case (0):
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCount = captchaCounter;
+		case 0:
+			timePerTest = 5000;
 			break;
-		case (1):
-			nextTaskIntervall = 4000;
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCount = captchaCounter;
+		case 1:
+			timePerTest = 4000;
 			break;
-		case (2):
-			nextTaskIntervall = 3000;
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCount = captchaCounter;
+		case 2:
+			timePerTest = 3000;
 			break;
 		}
+		numberOfTests = (getTime() / timePerTest);
+		testCounter = numberOfTests;
 	}
 
 	public JPanel getModuleJPanel() {
@@ -119,24 +113,13 @@ public class CaptchaCirclesModule extends ModuleClass {
 	 * this class is responsible for building the JPanel which will be inserted
 	 * in the main JFrame.
 	 */
-
 	class ModuleGUI extends JPanel implements ActionListener, MouseListener {
 
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
-		private RandomCircles captcha;
-		private JLabel moduleDescriptionLabel = new JLabel(
-				getModuleDescription());
-		private JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
-				+ String.valueOf(getTime() / 1000) + "seconds");
-		private JLabel moduleDesIntervallLabel = new JLabel(
-				"Maximum time per Task: "
-						+ String.valueOf(nextTaskIntervall / 1000) + "seconds");
-		private JLabel taskCountLabel = new JLabel(captchaCount
-				+ " tasks can be solved");
+		private RandomCircles captcha = null;
 		private JPanel introductionPanel = new JPanel();
 		private JPanel thisPanel = this;
-		private JButton startTasksButton = new JButton("start");
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -151,24 +134,22 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 * 
 		 * @return The created captcha canvas.
 		 */
-
 		public RandomCircles createCaptcha() {
 			RandomCircles c = new RandomCircles(getDifficulty());
-			System.out.println(c.getOpenCircleRadius() + "---");
 			c.setBounds(300, 100, 300, 100);
 			c.setBackground(Color.darkGray);
 			c.addMouseListener(this);
-			this.add(c);
 			return c;
 		}
-		
-		/**
-		 * Adds a button to a ArrayList needed to say which part of the switch-case block
-		 * in the actionPerformed Method is used for which button.
-		 * @param button
-		 * 		The button, which has to be registered
-		 */
 
+		/**
+		 * Adds a button to a ArrayList needed to say which part of the
+		 * switch-case block in the actionPerformed Method is used for which
+		 * button.
+		 * 
+		 * @param button
+		 *            The button, which has to be registered
+		 */
 		public void registerButton(JButton button) {
 			buttons.add(button);
 		}
@@ -178,80 +159,54 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 * before the module starts. a click on the startTasksButton button
 		 * starts the module and calls startTask()
 		 */
-
 		public void init() {
-			introductionPanel.setLayout(null);
-			introductionPanel.setBounds(0, 0, 800, 600);
-			this.add(introductionPanel);
-
-			moduleDescriptionLabel.setBounds(300, 50, 300, 100);
-			introductionPanel.add(moduleDescriptionLabel);
-
-			moduleTimeLabel.setBounds(300, 155, 300, 30);
-			introductionPanel.add(moduleTimeLabel);
-
-			moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
-			introductionPanel.add(moduleDesIntervallLabel);
-
-			taskCountLabel.setBounds(300, 225, 300, 30);
-			introductionPanel.add(taskCountLabel);
-
-			startTasksButton.setBounds(400, 260, 75, 30);
-			introductionPanel.add(startTasksButton);
-			registerButton(startTasksButton);
-			startTasksButton.addActionListener(this);
+			introductionPanel = getIntroductionPanel(timePerTest,
+					numberOfTests, this);
+			thisPanel.add(introductionPanel);
 		}
 
 		/**
 		 * This method generates the GUI displaying the module tasks
 		 */
-
 		public void startTask() {
+			thisPanel.remove(introductionPanel);
 			captcha = createCaptcha();
-			setNextTaskTimer(nextTaskIntervall, nextTaskIntervall,
-					new NextTask());
+			thisPanel.add(captcha);
 			setNextModuleTimer(getTime(), new NextModule());
+			thisPanel.revalidate();
+			thisPanel.repaint();
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
+			if (!buttons.contains(e.getSource())) {
 				thisPanel.removeAll();
 				startTask();
 				thisPanel.repaint();
-				break;
-			default:
-				break;
 			}
 
 		}
 
 		/**
-		 * These method handles the mouse event needed for the module.
-		 * It calls the validation method and created a new captcha canvas on the panel
-		 * or sends the result to the main application and tells the main application,
-		 * that the modules has finished, if all tasks are passed.
+		 * These method handles the mouse event needed for the module. It calls
+		 * the validation method and created a new captcha canvas on the panel
+		 * or sends the result to the main application and tells the main
+		 * application, that the modules has finished, if all tasks are passed.
 		 */
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (captchaCounter >= 1) {
-				resetNextTaskTimer(nextTaskIntervall, nextTaskIntervall,
-						new NextTask());
-
+			if (testCounter >= 1) {
 				isValidCircle(e.getX(), e.getY(),
 						captcha.getOpenCircleCoordinates(),
 						captcha.getOpenCircleRadius());
-				thisPanel.remove(captcha);
+				thisPanel.removeAll();
 				captcha = createCaptcha();
+				thisPanel.add(captcha);
 				thisPanel.revalidate();
-				captchaCounter--;
+				thisPanel.repaint();
+				testCounter--;
 			} else {
-				stopNextTaskTimer();
-				result = (solvedCorrectly / captchaCount) * 100;
-				System.out.println(result + "+" + solvedCorrectly + "/"
-						+ captchaCount);
+				result = calculateResult(numberOfTests, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}
@@ -259,26 +214,18 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 
 		/**
@@ -289,16 +236,15 @@ public class CaptchaCirclesModule extends ModuleClass {
 		public class NextTask extends TimerTask {
 			@Override
 			public void run() {
-				if (captchaCounter >= 1) {
-					thisPanel.remove(captcha);
+				if (testCounter >= 1) {
+					thisPanel.removeAll();
 					captcha = createCaptcha();
+					thisPanel.add(captcha);
 					thisPanel.revalidate();
-					captchaCounter--;
+					thisPanel.repaint();
+					testCounter--;
 				} else {
-					stopNextTaskTimer();
-					result = (solvedCorrectly / captchaCount) * 100;
-					System.out.println(result + "+" + solvedCorrectly + "/"
-							+ captchaCount);
+					result = calculateResult(numberOfTests, solvedCorrectly);
 					sendResult(result);
 					tellFinished();
 				}
@@ -313,10 +259,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
-				stopNextTaskTimer();
-				result = (solvedCorrectly / captchaCount) * 100;
-				System.out.println(result + "+" + solvedCorrectly + "/"
-						+ captchaCount);
+				result = calculateResult(numberOfTests, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}
@@ -410,6 +353,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 				}
 				x += incrementationStep;
 			}
+			System.out.println("captcha fertig");
 		}
 	}
 }

@@ -12,7 +12,6 @@ import javax.swing.JTextPane;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
-
 public class PopupModule extends ModuleClass {
 
 	private final String moduleName = "PopupModule";
@@ -27,15 +26,15 @@ public class PopupModule extends ModuleClass {
 		super(o, difficulty.intValue(), time.intValue());
 		setTimerIntervall();
 	}
-	
+
 	public void setTimerIntervall() {
-		switch(getDifficulty()) {
-		case(0):
+		switch (getDifficulty()) {
+		case (0):
 			break;
-		case(1):
+		case (1):
 			nextButtonIntervall = 4000;
 			break;
-		case(2):
+		case (2):
 			nextButtonIntervall = 3000;
 			break;
 		}
@@ -97,7 +96,6 @@ public class PopupModule extends ModuleClass {
 			registerButton(nextModuleButton);
 			nextModuleButton.addActionListener(this);
 			this.add(nextModuleButton);
-			setNextTaskTimer(nextButtonIntervall, nextButtonIntervall, new NextTask());
 			setNextModuleTimer(getTime(), new NextModule());
 		}
 
@@ -105,7 +103,6 @@ public class PopupModule extends ModuleClass {
 		public void actionPerformed(ActionEvent e) {
 			switch (buttons.indexOf(e.getSource())) {
 			case 0:// nextCaptchaButton
-				resetNextTaskTimer(nextButtonIntervall, nextButtonIntervall, new NextTask());
 				this.revalidate();
 				buttonCount++;
 				break;
@@ -115,14 +112,14 @@ public class PopupModule extends ModuleClass {
 				break;
 			}
 		}
-		
+
 		public class NextTask extends TimerTask {
 			@Override
 			public void run() {
 				thisPanel.revalidate();
 			}
 		}
-		
+
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
@@ -132,3 +129,4 @@ public class PopupModule extends ModuleClass {
 		}
 	}
 }
+
