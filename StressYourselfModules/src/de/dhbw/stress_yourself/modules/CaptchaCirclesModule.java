@@ -8,13 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
@@ -25,7 +23,6 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * 
  * @author Moritz Herbert <moritz.herbert@gmx.de>
  */
-
 public class CaptchaCirclesModule extends ModuleClass {
 
 	private final String moduleName = "CaptchaCirclesModule";
@@ -122,7 +119,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 	 * this class is responsible for building the JPanel which will be inserted
 	 * in the main JFrame.
 	 */
-
 	class ModuleGUI extends JPanel implements ActionListener, MouseListener {
 
 		private static final long serialVersionUID = 1L;
@@ -144,7 +140,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 * 
 		 * @return The created captcha canvas.
 		 */
-
 		public RandomCircles createCaptcha() {
 			RandomCircles c = new RandomCircles(getDifficulty());
 			c.setBounds(300, 100, 300, 100);
@@ -161,7 +156,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 * @param button
 		 *            The button, which has to be registered
 		 */
-
 		public void registerButton(JButton button) {
 			buttons.add(button);
 		}
@@ -171,7 +165,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 * before the module starts. a click on the startTasksButton button
 		 * starts the module and calls startTask()
 		 */
-
 		public void init() {
 			introductionPanel = getIntroductionPanel(nextTaskIntervall,
 					captchaCount, this);
@@ -181,7 +174,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 		/**
 		 * This method generates the GUI displaying the module tasks
 		 */
-
 		public void startTask() {
 			thisPanel.remove(introductionPanel);
 			captcha = createCaptcha();
@@ -209,7 +201,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 * or sends the result to the main application and tells the main
 		 * application, that the modules has finished, if all tasks are passed.
 		 */
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (captchaCounter >= 1) {
