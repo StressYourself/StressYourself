@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <difficulty>0</difficulty>
+  <difficulty>1</difficulty>
   <module>
+<<<<<<< HEAD
     <name>KeyPress</name>
+=======
+    <name>Continue Sequence Module</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>CaptchaCharSequenceModule</name>
+>>>>>>> master
     <time>60</time>
   </module>
 </configuration>

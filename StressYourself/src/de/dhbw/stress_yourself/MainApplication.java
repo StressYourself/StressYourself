@@ -44,7 +44,7 @@ public class MainApplication {
 		users = new UserData();
 		admin = new Admin(this, users, params);
 		login = new Login(this, users);
-		outcome = new Outcome(params);
+		outcome = new Outcome(params,users);
 
 		initialize();
 	}
