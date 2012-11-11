@@ -106,7 +106,6 @@ public class KeyPressModule extends ModuleClass {
 		}
 
 		public void startTask() {
-			keyField.setEditable(false);
 			keyField.setBounds(415, 315, 50, 50);
 			keyField.setFont(new Font("Arial", Font.PLAIN, 30));
 			this.addKeyListener(this);
@@ -130,9 +129,16 @@ public class KeyPressModule extends ModuleClass {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyField.getText())) {
-				solvedCorrectly++;
-				System.out.println(solvedCorrectly);
-				getNewRandomKey();
+				if (testCounter >= 1) {
+					solvedCorrectly++;
+					System.out.println(solvedCorrectly);
+					getNewRandomKey();
+					testCounter--;
+				} else {
+					result = calculateResult(numberOfTests, solvedCorrectly);
+					sendResult(result);
+					tellFinished();
+				}
 			}
 		}
 
