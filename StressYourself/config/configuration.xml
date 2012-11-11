@@ -5,8 +5,4 @@
     <name>Continue Sequence Module</name>
     <time>60</time>
   </module>
-  <module>
-    <name>CaptchaCirclesModule</name>
-    <time>60</time>
-  </module>
 </configuration>
