@@ -1,7 +1,7 @@
 package de.dhbw.stress_yourself.modules;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
@@ -9,7 +9,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,21 +33,32 @@ public class OperandModule extends ModuleClass {
 	private final String[] incdecOperators = { "++", "--" };
 	private final String[] logicalOperators = { "&&", "&", "||", "|", "^" };
 
-	private int nextTaskIntervall = 10000;
+	private int timePerOperandTest = 0;
 
 	private int testCounter;
-	private int testCount;
+	private int numberOfTests;
 	private int solvedCorrectly = 0;
 	private int result;
 
 	public OperandModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setTimerIntervall();
+		initTestValues();
 	}
 
-	public void setTimerIntervall() {
-		testCounter = getTime() / nextTaskIntervall;
-		testCount = testCounter;
+	public void initTestValues() {
+		switch (getDifficulty()) {
+		case 0:
+			timePerOperandTest = 5000;
+			break;
+		case 1:
+			timePerOperandTest = 7000;
+			break;
+		case 2:
+			timePerOperandTest = 9000;
+			break;
+		}
+		numberOfTests = (getTime() / timePerOperandTest);
+		testCounter = numberOfTests;
 	}
 
 	public JPanel getModuleJPanel() {
@@ -143,7 +153,6 @@ public class OperandModule extends ModuleClass {
 				break;
 			}
 			solution = String.valueOf(evaluateTest(result));
-			// System.out.println("Solution " + solution);
 		} while ((solution != "false") && (solution != "true"));
 		return result;
 	}
@@ -152,7 +161,6 @@ public class OperandModule extends ModuleClass {
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
 		try {
-			// System.out.println("eval " + test);
 			return engine.eval(test);
 		} catch (ScriptException e) {
 			System.err.println("Couldn't evaluate the String " + e);
@@ -164,7 +172,7 @@ public class OperandModule extends ModuleClass {
 	 * this class is responsible for building the JPanel which will be inserted
 	 * in the main JFrame.
 	 */
-	class ModuleGUI extends JPanel implements ActionListener {
+	class ModuleGUI extends JPanel implements MouseListener {
 
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
@@ -172,6 +180,7 @@ public class OperandModule extends ModuleClass {
 		private JRadioButton radioTrue;
 		private JRadioButton radioFalse;
 		private ButtonGroup radioGroup;
+		private JButton checkButton = new JButton("Check");
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -180,7 +189,7 @@ public class OperandModule extends ModuleClass {
 			this.add(createIntroductionPanel(this));
 		}
 
-		public JPanel createTestPanel(ActionListener al) {
+		public JPanel createTestPanel(MouseListener ml) {
 			runningTest = generateTest(getDifficulty());
 			JPanel testPanel = new JPanel();
 			JLabel operandTest = new JLabel(runningTest);
@@ -189,8 +198,6 @@ public class OperandModule extends ModuleClass {
 			radioGroup = new ButtonGroup();
 			radioGroup.add(radioTrue);
 			radioGroup.add(radioFalse);
-
-			JButton checkButton = new JButton("Check");
 
 			testPanel.setLayout(null);
 			testPanel.setBounds(0, 0, 900, 700);
@@ -205,10 +212,11 @@ public class OperandModule extends ModuleClass {
 			testPanel.add(radioFalse);
 
 			checkButton.setBounds(350, 300, 100, 30);
-			if(!buttons.contains(checkButton)){
-				registerButton(checkButton);
+			registerButton(checkButton);
+			if (checkButton.getMouseListeners().length < 2) {
+				checkButton.addMouseListener(ml);
 			}
-			checkButton.addActionListener(al);
+
 			testPanel.add(checkButton);
 			return testPanel;
 		}
@@ -229,16 +237,16 @@ public class OperandModule extends ModuleClass {
 		 * @return JPanel Returns the introduction JPanel
 		 * @author Tobias Roeding <tobias@roeding.eu>
 		 */
-		public JPanel createIntroductionPanel(ActionListener al) {
+		public JPanel createIntroductionPanel(MouseListener ml) {
 			JPanel introductionPanel = new JPanel();
 			introductionPanel.setLayout(null);
 			JLabel moduleDescriptionLabel = new JLabel(getModuleDescription());
 			JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
-					+ String.valueOf(testCount / 1000) + "seconds");
+					+ String.valueOf(numberOfTests / 1000) + "seconds");
 			JLabel moduleDesIntervallLabel = new JLabel(
 					"Maximum time per Task: " + String.valueOf(testCounter)
 							+ "seconds");
-			JLabel taskCountLabel = new JLabel(testCount
+			JLabel taskCountLabel = new JLabel(numberOfTests
 					+ " tasks can be solved");
 			JButton startTestButton = new JButton("start");
 
@@ -260,7 +268,7 @@ public class OperandModule extends ModuleClass {
 			startTestButton.setBounds(400, 260, 75, 30);
 			introductionPanel.add(startTestButton);
 			registerButton(startTestButton);
-			startTestButton.addActionListener(al);
+			startTestButton.addMouseListener(ml);
 
 			return introductionPanel;
 		}
@@ -273,9 +281,10 @@ public class OperandModule extends ModuleClass {
 		 * @param button
 		 *            The button, which has to be registered
 		 */
-
 		public void registerButton(JButton button) {
-			buttons.add(button);
+			if (!buttons.contains(button)) {
+				buttons.add(button);
+			}
 		}
 
 		/**
@@ -286,29 +295,6 @@ public class OperandModule extends ModuleClass {
 			setNextModuleTimer(getTime(), new NextModule());
 		}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
-				startTest();
-				addTestPanel();
-				break;
-			case 1:
-				System.out.println("check clicked");
-				boolean result = (boolean) evaluateTest(runningTest);
-				if (result && radioTrue.isSelected()) {
-					System.out.println("+ 1 Point");
-				} else if (!result && radioFalse.isSelected()) {
-					System.out.println("+ 0 Point");
-				}
-				addTestPanel();
-				break;
-			default:
-				System.out.println(e.getSource());
-				break;
-			}
-		}
-
 		/**
 		 * An instance of this class will be created and run as a kind of event
 		 * every time the timer for the next module counted down to the end.
@@ -316,14 +302,61 @@ public class OperandModule extends ModuleClass {
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
-				System.out.println("sendResult nextmodule");
-				// stopNextTaskTimer();
-				result = (solvedCorrectly / testCount) * 100;
-				System.out.println(result + "+" + solvedCorrectly + "/"
-						+ testCount);
+				calculateResult();
 				sendResult(result);
 				tellFinished();
 			}
 		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getSource().equals(buttons.get(0))) {
+				startTest();
+				addTestPanel();
+			} else {
+				boolean evaluationResult = (boolean) evaluateTest(runningTest);
+				if (evaluationResult && radioTrue.isSelected()) {
+					solvedCorrectly += 1;
+				} else if (!evaluationResult && radioFalse.isSelected()) {
+					solvedCorrectly += 1;
+				}
+				System.out.println("solvedCorrectly " + solvedCorrectly);
+				testCounter--;
+				if (testCounter == 0) {
+					calculateResult();
+					sendResult(result);
+					tellFinished();
+				}
+				addTestPanel();
+			}
+		}
+
+		private void calculateResult() {
+			double pointsPerTest = 100 / numberOfTests;
+			double points = pointsPerTest * solvedCorrectly;
+			result = (int) points;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+	}
+
+	@Override
+	public void setTimerIntervall() {
+		// TODO Auto-generated method stub
+
 	}
 }
