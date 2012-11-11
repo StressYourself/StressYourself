@@ -78,6 +78,9 @@ public abstract class ModuleClass {
 	public int calculateResult(int numberOfTests, int solvedCorrectly) {
 		double pointsPerTest = 100 / numberOfTests;
 		double points = pointsPerTest * solvedCorrectly;
+		if(points > 100) {
+			points = 100;
+		}
 		return (int) points;
 	}
 
