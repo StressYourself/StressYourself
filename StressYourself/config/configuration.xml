@@ -2,15 +2,7 @@
 <configuration>
   <difficulty>0</difficulty>
   <module>
-    <name>OperandModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCharSequenceModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCirclesModule</name>
+    <name>Continue Sequence Module</name>
     <time>60</time>
   </module>
 </configuration>
