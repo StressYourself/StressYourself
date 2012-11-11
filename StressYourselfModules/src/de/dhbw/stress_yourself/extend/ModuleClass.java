@@ -42,12 +42,26 @@ public abstract class ModuleClass {
 	}
 
 	/**
+	 * Creates the panel introducing the next module (description etc.)
+	 * 
+	 * @param numberOfTests
+	 * @param solvedCorrectly
+	 * @return
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public int calculateResult(int numberOfTests, int solvedCorrectly) {
+		double pointsPerTest = 100 / numberOfTests;
+		double points = pointsPerTest * solvedCorrectly;
+		return (int) points;
+	}
+
+	/**
 	 * 
 	 * @param nextTaskIntervall
 	 * @param taskcount
 	 * @param al
 	 * @return
-	 * @author Moritz Herbert <email>
+	 * @author Moritz Herbert <moritz.herbert@gmx.de>
 	 */
 	public JPanel getIntroductionPanel(int nextTaskIntervall, int taskcount,
 			ActionListener al) {
