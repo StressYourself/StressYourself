@@ -53,16 +53,19 @@ public class CaptchaCirclesModule extends ModuleClass {
 		switch (getDifficulty()) {
 		case (0):
 			captchaCounter = getTime() / nextTaskIntervall;
+			captchaCounter += 1;
 			captchaCount = captchaCounter;
 			break;
 		case (1):
 			nextTaskIntervall = 4000;
 			captchaCounter = getTime() / nextTaskIntervall;
+			captchaCounter += 1;
 			captchaCount = captchaCounter;
 			break;
 		case (2):
 			nextTaskIntervall = 3000;
 			captchaCounter = getTime() / nextTaskIntervall;
+			captchaCounter += 1;
 			captchaCount = captchaCounter;
 			break;
 		}
@@ -124,19 +127,9 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
-		private RandomCircles captcha;
-		private JLabel moduleDescriptionLabel = new JLabel(
-				getModuleDescription());
-		private JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
-				+ String.valueOf(getTime() / 1000) + "seconds");
-		private JLabel moduleDesIntervallLabel = new JLabel(
-				"Maximum time per Task: "
-						+ String.valueOf(nextTaskIntervall / 1000) + "seconds");
-		private JLabel taskCountLabel = new JLabel(captchaCount
-				+ " tasks can be solved");
+		private RandomCircles captcha = null;
 		private JPanel introductionPanel = new JPanel();
 		private JPanel thisPanel = this;
-		private JButton startTasksButton = new JButton("start");
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -154,11 +147,9 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 		public RandomCircles createCaptcha() {
 			RandomCircles c = new RandomCircles(getDifficulty());
-			System.out.println(c.getOpenCircleRadius() + "---");
 			c.setBounds(300, 100, 300, 100);
 			c.setBackground(Color.darkGray);
 			c.addMouseListener(this);
-			this.add(c);
 			return c;
 		}
 		
@@ -180,26 +171,9 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 */
 
 		public void init() {
-			introductionPanel.setLayout(null);
-			introductionPanel.setBounds(0, 0, 800, 600);
-			this.add(introductionPanel);
-
-			moduleDescriptionLabel.setBounds(300, 50, 300, 100);
-			introductionPanel.add(moduleDescriptionLabel);
-
-			moduleTimeLabel.setBounds(300, 155, 300, 30);
-			introductionPanel.add(moduleTimeLabel);
-
-			moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
-			introductionPanel.add(moduleDesIntervallLabel);
-
-			taskCountLabel.setBounds(300, 225, 300, 30);
-			introductionPanel.add(taskCountLabel);
-
-			startTasksButton.setBounds(400, 260, 75, 30);
-			introductionPanel.add(startTasksButton);
-			registerButton(startTasksButton);
-			startTasksButton.addActionListener(this);
+			introductionPanel = getIntroductionPanel(nextTaskIntervall,
+					captchaCount, this);
+			thisPanel.add(introductionPanel);
 		}
 
 		/**
@@ -207,19 +181,21 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 */
 
 		public void startTask() {
+			thisPanel.remove(introductionPanel);
 			captcha = createCaptcha();
+			thisPanel.add(captcha);
 			setNextTaskTimer(nextTaskIntervall, nextTaskIntervall,
 					new NextTask());
 			setNextModuleTimer(getTime(), new NextModule());
+			thisPanel.revalidate();
+			thisPanel.repaint();
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch (buttons.indexOf(e.getSource())) {
 			case 0:
-				thisPanel.removeAll();
 				startTask();
-				thisPanel.repaint();
 				break;
 			default:
 				break;
@@ -243,14 +219,16 @@ public class CaptchaCirclesModule extends ModuleClass {
 				isValidCircle(e.getX(), e.getY(),
 						captcha.getOpenCircleCoordinates(),
 						captcha.getOpenCircleRadius());
-				thisPanel.remove(captcha);
+				thisPanel.removeAll();
 				captcha = createCaptcha();
+				thisPanel.add(captcha);
 				thisPanel.revalidate();
+				thisPanel.repaint();
 				captchaCounter--;
 			} else {
 				stopNextTaskTimer();
-				result = (solvedCorrectly / captchaCount) * 100;
-				System.out.println(result + "+" + solvedCorrectly + "/"
+				result = (int) (solvedCorrectly / captchaCount) * 100;
+				System.out.println(result + "=" + solvedCorrectly + "/"
 						+ captchaCount);
 				sendResult(result);
 				tellFinished();
@@ -290,14 +268,16 @@ public class CaptchaCirclesModule extends ModuleClass {
 			@Override
 			public void run() {
 				if (captchaCounter >= 1) {
-					thisPanel.remove(captcha);
+					thisPanel.removeAll();
 					captcha = createCaptcha();
+					thisPanel.add(captcha);
 					thisPanel.revalidate();
+					thisPanel.repaint();
 					captchaCounter--;
 				} else {
 					stopNextTaskTimer();
-					result = (solvedCorrectly / captchaCount) * 100;
-					System.out.println(result + "+" + solvedCorrectly + "/"
+					result = (int) (solvedCorrectly / captchaCount) * 100;
+					System.out.println(result + "=" + solvedCorrectly + "/"
 							+ captchaCount);
 					sendResult(result);
 					tellFinished();
@@ -410,6 +390,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 				}
 				x += incrementationStep;
 			}
+			System.out.println("captcha fertig");
 		}
 	}
 }

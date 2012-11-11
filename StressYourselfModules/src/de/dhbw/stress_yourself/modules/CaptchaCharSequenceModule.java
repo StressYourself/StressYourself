@@ -2,6 +2,7 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -57,11 +58,13 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		case (1):
 			nextTaskIntervall = 12000;
 			captchaCounter = getTime() / nextTaskIntervall;
+			captchaCounter += 1;
 			captchaCount = captchaCounter;
 			break;
 		case (2):
 			nextTaskIntervall = 10000;
 			captchaCounter = getTime() / nextTaskIntervall;
+			captchaCounter += 1;
 			captchaCount = captchaCounter;
 			break;
 		}
@@ -112,21 +115,12 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	class ModuleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
-		private JLabel moduleDescriptionLabel = new JLabel(
-				getModuleDescription());
-		private JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
-				+ String.valueOf(getTime() / 1000) + "seconds");
-		private JLabel moduleDesIntervallLabel = new JLabel(
-				"Maximum time per Task: "
-						+ String.valueOf(nextTaskIntervall / 1000) + "seconds");
-		private JLabel taskCountLabel = new JLabel(captchaCount
-				+ " tasks can be solved");
+
 		private JTextField captchaText = new JTextField();
 		private JButton nextCaptchaButton = new JButton("check");
 		private RandomSequence c;
 		private JPanel thisPanel = this;
-		private JPanel introductionPanel = new JPanel();
-		private JButton startTasksButton = new JButton("start");
+		private JPanel introductionPanel = null;
 
 		public ModuleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -150,12 +144,14 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 			this.add(captcha);
 			return captcha;
 		}
-		
+
 		/**
-		 * Adds a button to a ArrayList needed to say which part of the switch-case block
-		 * in the actionPerformed Method is used for which button.
+		 * Adds a button to a ArrayList needed to say which part of the
+		 * switch-case block in the actionPerformed Method is used for which
+		 * button.
+		 * 
 		 * @param button
-		 * 		The button, which has to be registered
+		 *            The button, which has to be registered
 		 */
 
 		public void registerButton(JButton button) {
@@ -169,26 +165,9 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 */
 
 		public void init() {
-			introductionPanel.setLayout(null);
-			introductionPanel.setBounds(0, 0, 800, 600);
-			this.add(introductionPanel);
-
-			moduleDescriptionLabel.setBounds(300, 50, 300, 100);
-			introductionPanel.add(moduleDescriptionLabel);
-
-			moduleTimeLabel.setBounds(300, 155, 300, 30);
-			introductionPanel.add(moduleTimeLabel);
-
-			moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
-			introductionPanel.add(moduleDesIntervallLabel);
-
-			taskCountLabel.setBounds(300, 225, 300, 30);
-			introductionPanel.add(taskCountLabel);
-
-			startTasksButton.setBounds(400, 260, 75, 30);
-			introductionPanel.add(startTasksButton);
-			registerButton(startTasksButton);
-			startTasksButton.addActionListener(this);
+			introductionPanel = getIntroductionPanel(nextTaskIntervall,
+					captchaCount, this);
+			thisPanel.add(introductionPanel);
 		}
 
 		/**

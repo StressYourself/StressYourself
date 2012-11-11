@@ -1,11 +1,14 @@
 package de.dhbw.stress_yourself.extend;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -39,6 +42,40 @@ public abstract class ModuleClass {
 		return time;
 	}
 	
+	public JPanel getIntroductionPanel(int nextTaskIntervall, int taskcount, ActionListener al) {
+		JPanel introductionPanel = new JPanel();
+		JLabel moduleDescriptionLabel = new JLabel(
+				getModuleDescription());
+		JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
+				+ String.valueOf(getTime() / 1000) + "seconds");
+		JLabel moduleDesIntervallLabel = new JLabel(
+				"Maximum time per Task: "
+						+ String.valueOf(nextTaskIntervall / 1000) + "seconds");
+		JLabel taskCountLabel = new JLabel(taskcount
+				+ " tasks can be solved");
+		JButton startTasksButton = new JButton("start");
+		introductionPanel.setLayout(null);
+		introductionPanel.setBounds(0, 0, 800, 600);
+
+		moduleDescriptionLabel.setBounds(300, 50, 300, 100);
+		introductionPanel.add(moduleDescriptionLabel);
+
+		moduleTimeLabel.setBounds(300, 155, 300, 30);
+		introductionPanel.add(moduleTimeLabel);
+
+		moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
+		introductionPanel.add(moduleDesIntervallLabel);
+
+		taskCountLabel.setBounds(300, 225, 300, 30);
+		introductionPanel.add(taskCountLabel);
+
+		startTasksButton.setBounds(400, 260, 75, 30);
+		introductionPanel.add(startTasksButton);
+		startTasksButton.addActionListener(al);
+		
+		return introductionPanel;
+	}
+	
 	public void setNextTaskTimer(int time, int intervall, TimerTask timer) {
 	    nextTaskTimer = new Timer();
 	    nextTaskTimer.schedule( timer, time, intervall );
@@ -64,6 +101,11 @@ public abstract class ModuleClass {
 		nextModuleTimer.schedule(timer, time);
 	}	
 	
+	public void stopNextModuleTimer() {
+		nextModuleTimer.cancel();
+		nextModuleTimer.purge();
+	}
+	
 	public abstract void setTimerIntervall() ;
 	
 	abstract class NextModule extends TimerTask{}
@@ -83,6 +125,7 @@ public abstract class ModuleClass {
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void sendResult(int result) {
+		stopNextModuleTimer();
 		Class<?> clazz = null;
 		try {
 			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
