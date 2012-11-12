@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <difficulty>1</difficulty>
+  <difficulty>0</difficulty>
   <module>
     <name>PopupModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>Continue Sequence Module</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>Operand Module</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>KeyPress</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>CaptchaCirclesModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>CaptchaCharSequenceModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathPotenciesModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathRuleOfThreeModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathEquationSystemsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathSizeUnitsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathSystemsModule</name>
     <time>60</time>
   </module>
 </configuration>

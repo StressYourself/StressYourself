@@ -232,7 +232,6 @@ public class PopupModule extends ModuleClass {
 			public void actionPerformed(ActionEvent e) {
 				if (buttons.contains(e.getSource())) {
 					buttonClicked++;
-					System.out.println("BCL: "+buttonClicked+" BCO: "+buttonCounter);
 					if (buttonClicked >= numberOfButtons) {
 						result = calculateResult(numberOfButtons, buttonClicked);
 						sendResult(result);
