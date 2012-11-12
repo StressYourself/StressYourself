@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.annoyance.Annoyance;
 import de.dhbw.stress_yourself.outcome.Outcome;
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
@@ -27,6 +28,8 @@ public class MainApplication {
 	private Outcome outcome;
 	private Parameter params;
 	private UserData users;
+	private Annoyance annoyance;
+	private Thread aThread;
 
 	private JFrame frame;
 
@@ -40,6 +43,7 @@ public class MainApplication {
 	int index = 0;
 
 	public MainApplication() {
+		annoyance = new Annoyance();
 		params = new Parameter();
 		users = new UserData();
 		admin = new Admin(this, users, params);
@@ -81,12 +85,13 @@ public class MainApplication {
 	 * Discards all Objects and creates new ones to restart the test
 	 */
 	public void restartStressYourself() {
+		annoyance = new Annoyance();
 		params = new Parameter();
 		users = new UserData();
 		admin = new Admin(this, users, params);
 		login = new Login(this, users);
 		outcome = new Outcome(this, params, users);
-		
+
 		runningModuleClass = null;
 		runningModuleObject = null;
 		runningModuleMethodsMap = null;
@@ -120,6 +125,23 @@ public class MainApplication {
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(admin.getAdminPanel());
 		frame.getContentPane().revalidate();
+	}
+
+	/**
+	 * Starts the Annoyance Thread
+	 */
+	public void startAnnoyance() {
+		if (aThread == null && params.getAnnoyanceSetting()) {
+			aThread = new Thread(annoyance);
+			aThread.start();
+		}
+	}
+
+	/**
+	 * Stops the Annoyance Thread
+	 */
+	public void stopAnnoyance() {
+		annoyance.running = false;
 	}
 
 	/**
@@ -237,7 +259,9 @@ public class MainApplication {
 					new Integer(configuration.get(index).getTime() * 1000));
 			index++;
 		} else {
-			// Test finished, time to call the evaluation!
+			// Test finished
+			stopAnnoyance();
+			// Time to call the evaluation!
 			createOutcomeGUI();
 		}
 	}
