@@ -106,7 +106,7 @@ public abstract class ModuleClass {
 				+ String.valueOf(getTime() / 1000) + " seconds");
 		JLabel moduleDesIntervallLabel = new JLabel("Estimated time per Task: "
 				+ String.valueOf(timePerTask / 1000) + " seconds");
-		JLabel taskCountLabel = new JLabel("Estimated tasks which can be solved:" + taskcount);
+		JLabel taskCountLabel = new JLabel("Estimated tasks which can be solved: " + taskcount);
 		JButton startTasksButton = new JButton("Start");
 		introductionPanel.setLayout(null);
 		introductionPanel.setBounds(0, 0, 900, 700);
