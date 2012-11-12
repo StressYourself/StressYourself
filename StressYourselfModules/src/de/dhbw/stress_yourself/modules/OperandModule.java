@@ -2,14 +2,12 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.TimerTask;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -160,15 +158,12 @@ public class OperandModule extends ModuleClass {
 	class ModuleGUI extends JPanel implements ActionListener {
 
 		private static final long serialVersionUID = 1L;
-		private ArrayList<JButton> buttons = null;
 		private String runningTest = "";
 		private JRadioButton radioTrue;
 		private JRadioButton radioFalse;
 		private ButtonGroup radioGroup;
-		private JButton checkButton = new JButton("Check");
 
 		public ModuleGUI() {
-			buttons = new ArrayList<JButton>();
 			setLayout(null);
 			setBounds(0, 0, 900, 700);
 			this.add(getIntroductionPanel(timePerOperandTest, numberOfTests,
@@ -192,18 +187,13 @@ public class OperandModule extends ModuleClass {
 			testPanel.add(operandTest);
 
 			radioTrue.setBounds(300, 250, 75, 30);
+			radioTrue.addActionListener(al);
 			testPanel.add(radioTrue);
 
 			radioFalse.setBounds(400, 250, 75, 30);
+			radioFalse.addActionListener(al);
 			testPanel.add(radioFalse);
 
-			checkButton.setBounds(350, 300, 100, 30);
-			registerButton(checkButton);
-			if (checkButton.getActionListeners().length < 1) {
-				checkButton.addActionListener(al);
-			}
-
-			testPanel.add(checkButton);
 			return testPanel;
 		}
 
@@ -213,20 +203,6 @@ public class OperandModule extends ModuleClass {
 			this.add(createTestPanel(this));
 			this.revalidate();
 			this.repaint();
-		}
-
-		/**
-		 * Adds a button to a ArrayList needed to say which part of the
-		 * switch-case block in the actionPerformed Method is used for which
-		 * button.
-		 * 
-		 * @param button
-		 *            The button, which has to be registered
-		 */
-		public void registerButton(JButton button) {
-			if (!buttons.contains(button)) {
-				buttons.add(button);
-			}
 		}
 
 		/**
@@ -252,14 +228,16 @@ public class OperandModule extends ModuleClass {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (buttons.contains(e.getSource())) {
+			if (e.getSource().equals(radioTrue)
+					|| e.getSource().equals(radioFalse)) {
 				boolean evaluationResult = (boolean) evaluateTest(runningTest);
+
 				if (evaluationResult && radioTrue.isSelected()) {
 					solvedCorrectly += 1;
 				} else if (!evaluationResult && radioFalse.isSelected()) {
 					solvedCorrectly += 1;
 				}
-				System.out.println("solvedCorrectly " + solvedCorrectly);
+
 				testCounter--;
 				if (testCounter == 0) {
 					result = calculateResult(numberOfTests, solvedCorrectly);

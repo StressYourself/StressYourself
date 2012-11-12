@@ -125,10 +125,8 @@ public class KeyPressModule extends ModuleClass {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyField.getText())) {
-				System.out.println("heyy");
 				if (testCounter >= 1) {
 					solvedCorrectly++;
-					System.out.println(solvedCorrectly);
 					getNewRandomKey();
 					this.revalidate();
 					this.repaint();

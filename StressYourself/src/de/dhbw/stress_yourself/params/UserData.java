@@ -25,7 +25,7 @@ import org.jdom2.output.Format;
  */
 public class UserData {
 
-	private final String filename = "config/userdata.xml";
+	private final String filename = "../config/userdata.xml";
 	private LinkedList<User> users = new LinkedList<User>();
 	private User currentUser;
 
