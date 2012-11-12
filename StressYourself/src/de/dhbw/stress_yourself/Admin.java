@@ -737,7 +737,8 @@ public class Admin {
 			}
 		}
 		 if (newConfig){
-			params.overwriteConfiguration(llConfig, difficulty);
+			 // TODO add annoyanceSetting here
+			params.overwriteConfiguration(llConfig, difficulty, false);
 		}
 	}
 	

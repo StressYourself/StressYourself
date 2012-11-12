@@ -25,6 +25,7 @@ public class ContinueSequenceModule extends ModuleClass {
 	private final String moduleDescription = "Continue a sequence of numbers or characters";
 
 	private int points = 0;
+	private int counter = 0;
 
 	public ContinueSequenceModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
@@ -55,8 +56,9 @@ public class ContinueSequenceModule extends ModuleClass {
 	 */
 	private void calculateResult() {
 
-		//float subres = ((float) points / (float) calculateMaxPoints()) * 100f;
-		int res = calculateResult(calculateMaxPoints(),points);
+		// float subres = ((float) points / (float) calculateMaxPoints()) *
+		// 100f;
+		int res = calculateResult(calculateMaxPoints(), points);
 		if (res > 100) {
 			res = 100;
 
@@ -71,19 +73,22 @@ public class ContinueSequenceModule extends ModuleClass {
 	 * @return max points
 	 */
 	private int calculateMaxPoints() {
-		int maxPoints = 0;
+		
+		return getTime() / getTaskTime();
+		
+	}
+
+	private int getTaskTime() {
 		switch (getDifficulty()) {
 		case 0:
-			maxPoints = getTime() / 10000;
-			break;
+			return 10000;
 		case 1:
-			maxPoints = getTime() / 15000;
-			break;
+			return 15000;
 		case 2:
-			maxPoints = getTime() / 30000;
-			break;
+			return 30000;
+		default:
+			return 0;
 		}
-		return maxPoints;
 	}
 
 	/**
@@ -109,16 +114,17 @@ public class ContinueSequenceModule extends ModuleClass {
 		public ModuleGUI() {
 			setLayout(null);
 			setBounds(0, 0, 800, 600);
-			this.add(getIntroductionPanel(0,calculateMaxPoints(),new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					removeIntroductionPanel();
-					setLayout(null);
-					init();
-					fill();
-					setNextModuleTimer(getTime(), new NextModule());
-				}
-			}));
+			this.add(getIntroductionPanel(getTaskTime(), calculateMaxPoints(),
+					new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							removeIntroductionPanel();
+							setLayout(null);
+							init();
+							fill();
+							setNextModuleTimer(getTime(), new NextModule());
+						}
+					}));
 			setVisible(true);
 
 		}
@@ -156,23 +162,23 @@ public class ContinueSequenceModule extends ModuleClass {
 			xstart = xstart + diff;
 			x9.setBounds(xstart, ystart, 50, 20);
 			x9.addKeyListener(new KeyListener() {
-				
+
 				@Override
 				public void keyTyped(KeyEvent e) {
 					// TODO Auto-generated method stub
-					
+
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
 					// TODO Auto-generated method stub
-					
+
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
 					// TODO Auto-generated method stub
-					if(e.getKeyCode() == (char)13) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						submit.doClick();
 					}
 				}
@@ -185,8 +191,15 @@ public class ContinueSequenceModule extends ModuleClass {
 					if (x9.getText().equals(solution)) {
 						points++;
 					}
-					x9.setText("");
-					fill();
+					counter++;
+					if (counter >= calculateMaxPoints()) {
+						calculateResult();
+						tellFinished();
+					} else {
+						x9.setText("");
+						fill();
+					}
+
 				}
 			});
 			submit.setBounds(xstart - 60, ystart + 50, 120, 30);
@@ -209,8 +222,6 @@ public class ContinueSequenceModule extends ModuleClass {
 			x8.setText(tmp[7]);
 			solution = tmp[8];
 		}
-
-		
 
 		private void removeIntroductionPanel() {
 			this.setVisible(false);
