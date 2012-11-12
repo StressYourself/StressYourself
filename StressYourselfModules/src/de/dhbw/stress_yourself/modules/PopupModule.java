@@ -27,7 +27,7 @@ public class PopupModule extends ModuleClass {
 				"this module.";
 		private int timePerButton;
 		private int numberOfButtons;
-		private int buttonCounter;
+		private int buttonCounter = 0;
 		private int buttonClicked = 0;
 		
 		public final int FRAMEWIDTH = 900;
@@ -57,7 +57,6 @@ public class PopupModule extends ModuleClass {
 				break;
 			}
 			numberOfButtons = (getTime() / timePerButton);
-			buttonCounter = 0;
 		}
 		
 		public JPanel getModuleJPanel() {
@@ -110,8 +109,8 @@ public class PopupModule extends ModuleClass {
 			int x = -1;
 			int y = -1;
 			do {
-				x = myRandom( 20, FRAMEWIDTH-20);
-				y = myRandom( 20, FRAMEHEIGHT-20);
+				x = myRandom( 0, FRAMEWIDTH-20);
+				y = myRandom( 0, FRAMEHEIGHT-20);
 			}while(y > FRAMEHEIGHT-20 || x > FRAMEWIDTH-20);
 			
 			Point loc = new Point(x,y);
@@ -119,7 +118,7 @@ public class PopupModule extends ModuleClass {
 		}
 		
 		public int myRandom(int low, int high) {
-			return (int) (Math.random() * (high - low));
+			return (int) (Math.random() * (high - low) + low);
 		}
 		
 		/**
@@ -162,17 +161,21 @@ public class PopupModule extends ModuleClass {
 				
 				JPanel testPanel = new JPanel();
 				
-				for(int i=0;i<5;i++) {
-				runningTest = generateTest();
+				int c = myRandom(1, 10);
+				for(int i=0;i<c;i++) {
+					if(buttonCounter == numberOfButtons) {
+						break;
+					}
+					runningTest = generateTest();
 
-				testPanel.setLayout(null);
-				testPanel.setBounds(0, 0, 900, 700);
+					testPanel.setLayout(null);
+					testPanel.setBounds(0, 0, 900, 700);
 				
-				registerButton(runningTest);
-				if (runningTest.getActionListeners().length < 1) {
-					runningTest.addActionListener(al);
-				}
-				testPanel.add(runningTest);
+					registerButton(runningTest);
+					if (runningTest.getActionListeners().length < 1) {
+						runningTest.addActionListener(al);
+					}
+					testPanel.add(runningTest);
 				}
 				return testPanel;
 			}
@@ -230,7 +233,7 @@ public class PopupModule extends ModuleClass {
 				if (buttons.contains(e.getSource())) {
 					buttonClicked++;
 					System.out.println("BCL: "+buttonClicked+" BCO: "+buttonCounter);
-					if (buttonCounter == numberOfButtons) {
+					if (buttonClicked >= numberOfButtons) {
 						result = calculateResult(numberOfButtons, buttonClicked);
 						sendResult(result);
 						tellFinished();
@@ -238,7 +241,7 @@ public class PopupModule extends ModuleClass {
 					if(buttonClicked == buttonCounter) {
 						addTestPanel();
 					} else {
-						
+						buttons.get(buttons.indexOf(e.getSource())).setVisible(false);
 					}
 					
 				} else {

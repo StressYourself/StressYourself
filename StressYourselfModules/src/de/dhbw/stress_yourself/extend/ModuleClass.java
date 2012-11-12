@@ -76,7 +76,7 @@ public abstract class ModuleClass {
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public int calculateResult(int numberOfTests, int solvedCorrectly) {
-		double pointsPerTest = 100 / numberOfTests;
+		double pointsPerTest = (double)100 / (double)numberOfTests;
 		double points = pointsPerTest * solvedCorrectly;
 		if(points > 100) {
 			points = 100;
