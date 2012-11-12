@@ -259,7 +259,6 @@ public class OperandModule extends ModuleClass {
 				} else if (!evaluationResult && radioFalse.isSelected()) {
 					solvedCorrectly += 1;
 				}
-				System.out.println("solvedCorrectly " + solvedCorrectly);
 				testCounter--;
 				if (testCounter == 0) {
 					result = calculateResult(numberOfTests, solvedCorrectly);
