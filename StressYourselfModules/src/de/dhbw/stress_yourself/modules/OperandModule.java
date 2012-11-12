@@ -23,9 +23,9 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  */
 public class OperandModule extends ModuleClass {
 
-	private final String moduleName = "OperandModule";
-	private final String moduleArea = "Example Area";
-	private final String moduleDescription = "Example Description";
+	private final String moduleName = "Operand Module";
+	private final String moduleArea = "Logic Tests";
+	private final String moduleDescription = "In the operand module, you have to solve various mathematical and logic equations with a solution of true or false.";
 
 	private final String[] arithmeticOperators = { "+", "-", "*", "/", "%" };
 	private final String[] compareOperators = { "==", "!=", "<", ">", "<=",
