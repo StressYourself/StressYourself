@@ -137,45 +137,36 @@ public class MathEquationSystemsModule extends ModuleClass {
 
 			xText.setText("");
 			xText.addKeyListener(new KeyListener() {
-				
+
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
-					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextExerciseButton.doClick();
 					}
 				}
 			});
 			yText.setText("");
 			yText.addKeyListener(new KeyListener() {
-				
+
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextExerciseButton.doClick();
 					}
 				}
@@ -189,7 +180,7 @@ public class MathEquationSystemsModule extends ModuleClass {
 					maxExercises, this);
 			thisPanel.add(introductionPanel);
 		}
-		
+
 		public void startExercise() {
 			initExercise();
 

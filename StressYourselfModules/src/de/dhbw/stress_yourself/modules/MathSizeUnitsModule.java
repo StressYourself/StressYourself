@@ -167,14 +167,10 @@ public class MathSizeUnitsModule extends ModuleClass {
 				
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
 				
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
 				
 				@Override

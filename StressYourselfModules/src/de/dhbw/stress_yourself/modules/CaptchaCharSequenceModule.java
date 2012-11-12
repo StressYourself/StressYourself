@@ -163,25 +163,20 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 */
 		public void startTask() {
 			c = createCaptcha();
-			
+
 			captchaText.addKeyListener(new KeyListener() {
-				
+
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
-					if(e.getKeyCode() == (char)13) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextCaptchaButton.doClick();
 					}
 				}
@@ -212,7 +207,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 						testCounter--;
 					} else {
 						result = calculateResult(numberOfTests, solvedCorrectly);
-						System.out.println(result);
 						sendResult(result);
 						tellFinished();
 					}

@@ -16,7 +16,8 @@ import javax.swing.JTextField;
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
 /**
- * The MathPotenciesModule class builds a module where user has to potencies to the base 2.
+ * The MathPotenciesModule class builds a module where user has to potencies to
+ * the base 2.
  * 
  * @author Philipp Willems
  */
@@ -27,7 +28,7 @@ public class MathPotenciesModule extends ModuleClass {
 	public static final String moduleName = "MathPotenciesModule";
 	public static final String moduleArea = "Math";
 	public static final String moduleDescription = "Calculate the potencies!";
-	
+
 	private static final int TIMEFOREXERCISE = 10000;
 	private static int maxExercises;
 	private int exercisesMade = 0;
@@ -41,11 +42,11 @@ public class MathPotenciesModule extends ModuleClass {
 	public void setMaxExercises(Integer time) {
 		maxExercises = (int) time / TIMEFOREXERCISE * (1 + getDifficulty());
 	}
-	
+
 	public JPanel getModuleJPanel() {
 		return new moduleGUI();
 	}
-	
+
 	@Override
 	public String getModuleName() {
 		return moduleName;
@@ -60,34 +61,33 @@ public class MathPotenciesModule extends ModuleClass {
 	public String getModuleDescription() {
 		return moduleDescription;
 	}
-	
+
 	/**
 	 * Creates an exercise for this module
 	 * 
-	 * @return String[] exercise
-	 * 			exercise[0] is the given potency to calculate
-	 * 			exercise[1] is the solution of the calculation
+	 * @return String[] exercise exercise[0] is the given potency to calculate
+	 *         exercise[1] is the solution of the calculation
 	 * 
 	 * @author Philipp Willems
-	 */	
+	 */
 	public String[] createExercise() {
 		int range = 8;
 		Random r = new Random();
-		
+
 		int power = r.nextInt(range) + 3;
-		
+
 		String[] exercise = new String[2];
-		
+
 		exercise[0] = "Given: 2^" + power;
 		exercise[1] = Integer.toString((int) Math.pow(2, power));
-		
+
 		return exercise;
 	}
-	
-	
+
 	/**
-	 * The moduleGUI class builds the user interface for the module.
-	 * The moduleGUI represents a JPanel in which other components like buttons are added.
+	 * The moduleGUI class builds the user interface for the module. The
+	 * moduleGUI represents a JPanel in which other components like buttons are
+	 * added.
 	 * 
 	 * @author Philipp Willems
 	 */
@@ -111,66 +111,62 @@ public class MathPotenciesModule extends ModuleClass {
 		public void registerButton(JButton button) {
 			buttons.add(button);
 		}
-		
+
 		public void initExercise() {
 			exercise = createExercise();
-			
+
 			solutionText.setText("");
 			solutionText.addKeyListener(new KeyListener() {
-				
+
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextExerciseButton.doClick();
 					}
 				}
 			});
 			givenLabel.setText(exercise[0]);
 		}
-		
+
 		public void init() {
 			introductionPanel = getIntroductionPanel(TIMEFOREXERCISE,
 					maxExercises, this);
 			thisPanel.add(introductionPanel);
 		}
-		
+
 		public void startExercise() {
 			initExercise();
-			
+
 			givenLabel.setBounds(320, 220, 200, 20);
 			solutionLabel.setBounds(320, 245, 100, 20);
 			solutionText.setBounds(430, 245, 100, 20);
-			
+
 			this.add(givenLabel);
 			this.add(solutionLabel);
 			this.add(solutionText);
-			
+
 			registerButton(nextExerciseButton);
 			nextExerciseButton.addActionListener(this);
 			nextExerciseButton.setBounds(320, 270, 140, 30);
 			this.add(nextExerciseButton);
-			
+
 			setNextModuleTimer(getTime(), new NextModule());
 		}
 
 		/**
 		 * Called when a button is pressed
 		 * 
-		 * @param ActionEvent e
-		 *            Event when button is pressed
-		 *            
+		 * @param ActionEvent
+		 *            e Event when button is pressed
+		 * 
 		 * @author Philipp Willems
 		 */
 		@Override
@@ -205,10 +201,10 @@ public class MathPotenciesModule extends ModuleClass {
 		public class NextTask extends TimerTask {
 			@Override
 			public void run() {
-				
+
 			}
 		}
-		
+
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
