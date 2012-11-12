@@ -2,11 +2,23 @@
 <configuration>
   <difficulty>1</difficulty>
   <module>
-    <name>KeyPress</name>
+    <name>MathPotenciesModule</name>
     <time>60</time>
   </module>
   <module>
-    <name>CaptchaCirclesModule</name>
+    <name>MathEquationSystemsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathSizeUnitsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathSystemsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathRuleOfThreeModule</name>
     <time>60</time>
   </module>
 </configuration>

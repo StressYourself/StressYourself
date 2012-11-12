@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -19,12 +21,10 @@ public abstract class ModuleClass {
 
 	private int diff;
 	private int time;
-	private int result = 0;
 	private Object mainClass = null;
-	private Timer nextTaskTimer;
 	private Timer nextModuleTimer;
 
-	public ModuleClass(Object o, int difficulty,int time) {
+	public ModuleClass(Object o, int difficulty, int time) {
 		if (mainClass == null) {
 			mainClass = o;
 		}
@@ -32,49 +32,129 @@ public abstract class ModuleClass {
 		this.time = time;
 	}
 	
-	public int getDifficulty() {
-		return diff;
-	}
-	
-	public int getTime() {
-		return time;
-	}
-	
-	public void setNextTaskTimer(int time, int intervall, TimerTask timer) {
-	    nextTaskTimer = new Timer();
-	    nextTaskTimer.schedule( timer, time, intervall );
-	}
-	
-	public void resetNextTaskTimer(int time, int intervall, TimerTask timer) {
-		nextTaskTimer.cancel();
-		nextTaskTimer.purge();
-	    nextTaskTimer = new Timer();
-		nextTaskTimer.schedule( timer, time, intervall );
-		
-	}
-	
-	abstract class NextTask extends TimerTask{}
-	
-	public void setNextModuleTimer(int time, TimerTask timer) {
-		nextModuleTimer = new Timer();
-		nextModuleTimer.schedule(timer, time);
-	}	
-	
-	public abstract void setTimerIntervall() ;
-	
-	abstract class NextModule extends TimerTask{}
-
-	
-	
 	public abstract String getModuleName();
+
 	public abstract String getModuleArea();
+
 	public abstract String getModuleDescription();
 
 	public abstract JPanel getModuleJPanel();
 
-	public void sendResult() {
-		System.out.println("sending Result " + result);
+	public int getDifficulty() {
+		return diff;
+	}
 
+	public int getTime() {
+		return time;
+	}
+	
+	abstract class NextTask extends TimerTask {
+	}
+
+	public void setNextModuleTimer(int time, TimerTask timer) {
+		nextModuleTimer = new Timer();
+		nextModuleTimer.schedule(timer, time);
+	}
+
+	public void stopNextModuleTimer() {
+		nextModuleTimer.cancel();
+		nextModuleTimer.purge();
+	}
+
+	abstract class NextModule extends TimerTask {
+	}
+
+	/**
+	 * Calculates the Points the users gets for this module
+	 * 
+	 * @param numberOfTests
+	 *            The number of tests, which are possible in the given time
+	 *            period
+	 * @param solvedCorrectly
+	 *            The number of tests the user solved correctly
+	 * @return int The points the user gets for this module
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public int calculateResult(int numberOfTests, int solvedCorrectly) {
+		double pointsPerTest = 100 / numberOfTests;
+		double points = pointsPerTest * solvedCorrectly;
+		if(points > 100) {
+			points = 100;
+		}
+		return (int) points;
+	}
+
+	/**
+	 * Creates the panel introducing the next module (description etc.)
+	 * 
+	 * @param nextTaskIntervall
+	 * @param taskcount
+	 * @param al
+	 * @return
+	 * @author Moritz Herbert <moritz.herbert@gmx.de>
+	 */
+	public JPanel getIntroductionPanel(int timePerTask, int taskcount,
+			ActionListener al) {
+		JPanel introductionPanel = new JPanel();
+		JLabel moduleDescriptionLabel = new JLabel(getModuleDescription());
+		JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
+				+ String.valueOf(getTime() / 1000) + "seconds");
+		JLabel moduleDesIntervallLabel = new JLabel("Maximum time per Task: "
+				+ String.valueOf(timePerTask / 1000) + "seconds");
+		JLabel taskCountLabel = new JLabel(taskcount + " tasks can be solved");
+		JButton startTasksButton = new JButton("start");
+		introductionPanel.setLayout(null);
+		introductionPanel.setBounds(0, 0, 800, 600);
+
+		moduleDescriptionLabel.setBounds(300, 50, 300, 100);
+		introductionPanel.add(moduleDescriptionLabel);
+
+		moduleTimeLabel.setBounds(300, 155, 300, 30);
+		introductionPanel.add(moduleTimeLabel);
+
+		moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
+		introductionPanel.add(moduleDesIntervallLabel);
+
+		taskCountLabel.setBounds(300, 225, 300, 30);
+		introductionPanel.add(taskCountLabel);
+
+		startTasksButton.setBounds(400, 260, 75, 30);
+		introductionPanel.add(startTasksButton);
+		startTasksButton.addActionListener(al);
+
+		return introductionPanel;
+	}
+
+	/**
+	 * Function to send the result of the module to the MainClass
+	 * 
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public void sendResult(int result) {
+		stopNextModuleTimer();
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Method nextModule = null;
+		try {
+			nextModule = clazz.getMethod("sendModuleResult", new Class[] {
+					String.class, Integer.class });
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			nextModule.invoke(mainClass, new Object[] { getModuleName(),
+					new Integer(result) });
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

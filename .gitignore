@@ -1,4 +1,8 @@
 config/*
+configuration.xml
+outcome.csv
+outcome.pdf
+
 .DS_Store
 
 ## Java.gitignore

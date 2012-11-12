@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.outcome.Outcome;
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.UserData;
@@ -43,7 +44,7 @@ public class MainApplication {
 		users = new UserData();
 		admin = new Admin(this, users, params);
 		login = new Login(this, users);
-		outcome = new Outcome(params);
+		outcome = new Outcome(params,users);
 
 		initialize();
 	}
@@ -72,7 +73,6 @@ public class MainApplication {
 		getAvaiableModules();
 		getConfiguration();
 		
-
 		startLoginPanel();
 	}
 	
@@ -100,9 +100,10 @@ public class MainApplication {
 	 *  The the actual configuration
 	 */
 	public void getConfiguration() {
-		// doesn't work right now, because of admin part
-		// configuration = params.getConfiguration();
-		configuration = params.getAvailableModules();
+		configuration = params.getConfiguration();
+		for(int i = 0; i< configuration.size(); i++){
+			System.out.println("configuration  " + configuration.get(i).getClassName());
+		}
 	}
 
 	/**
@@ -200,24 +201,30 @@ public class MainApplication {
 		frame.getContentPane().invalidate();
 
 		if (index < configuration.size()) {
+			System.out.println(configuration.get(index).getName());
 			runningModuleClass = Reflection.getClass(url,
 					configuration.get(index).getClassName());
-			System.out.println(configuration.get(index).getName());
+			startModule(runningModuleClass, params.getDifficultyOrdinal(), new Integer(configuration.get(index).getTime()*1000));
 			index++;
-
-			Integer difficulty = new Integer(0);
-			Integer time = new Integer(20000);
-			startModule(runningModuleClass, difficulty, time);
-		} else {
+			} else {
 			// Test finished, time to call the evaluation!
-			createOutcome();
+			createOutcomeGUI();
 		}
+	}
+	
+	/**
+	 * Function to get the result from the modules and save it to the config
+	 */
+	public void sendModuleResult(String moduleName, Integer points){
+		System.out.println("sendModuleResult called " + moduleName + "  " + points);
+		params.addResult(moduleName, points.intValue());
 	}
 
 	/**
 	 * Generates the Outcome of the Test and creates the GUI for the Outcome
 	 */
-	public void createOutcome() {
+	public void createOutcomeGUI() {
+		outcome.createOutcome();
 		panel = outcome.getOutcomeGUI();
 		frame.getContentPane().add(panel);
 		frame.getContentPane().revalidate();

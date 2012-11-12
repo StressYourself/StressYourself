@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import de.dhbw.stress_yourself.params.UserData;
+import de.dhbw.stress_yourself.params.UserData.UserType;
 
 /**
  * The Login Class is used to manage the Login. It distinguish between the users
@@ -34,7 +35,8 @@ public class Login {
 	 * defines the GUI for the Login
 	 * 
 	 */
-	private class LoginGUI extends JPanel implements ActionListener, KeyListener {
+	private class LoginGUI extends JPanel implements ActionListener,
+			KeyListener {
 
 		private static final long serialVersionUID = 1L;
 		private JButton submit;
@@ -60,7 +62,7 @@ public class Login {
 			text2 = new JPasswordField(8);
 
 			submit = new JButton("Submit");
-			
+
 			label3 = new JLabel("");
 			label4 = new JLabel("");
 
@@ -77,36 +79,41 @@ public class Login {
 			
 			text1.addKeyListener(this);
 			text2.addKeyListener(this);
+
 			submit.addActionListener(this);
-			
+
 		}
-		
+
 		/**
-		 * Gets the username and the password. Then he checks if the user exists, with
-		 * the specified password.
+		 * Gets the username and the password. Then he checks if the user
+		 * exists, with the specified password.
 		 * 
 		 * @param username
-		 * 			The name what the user prefers to use
+		 *            The name what the user prefers to use
 		 * @param password
-		 * 			The word which is used to pass
+		 *            The word which is used to pass
 		 */
 		public void login(String username, String password) {
 			username = text1.getText();
 			password = text2.getText();
-			int result = users.existsUser(username, password);
+			UserType result = users.existsUser(username, password);
 
-			if (result == 0) {
+			switch (result) {
+			case NOT:
 				text1.setText("");
 				text2.setText("");
 				label3.setText("Wrong username ");
 				label4.setText("or password!");
-			} else if (result == 1) {
-				// user - start the test with standard configuration
+				break;
+			case USER:
 				main.nextModule();
-			} else if (result == 2) {
-				// admin - launch the admin panel
+				break;
+			case ADMIN:
 				main.startAdminPanel();
+				break;
+
 			}
+
 		}
 
 		/**
@@ -120,7 +127,7 @@ public class Login {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		/**
@@ -131,13 +138,13 @@ public class Login {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				login(text1.getText(), text2.getText());
 			}
-			
+
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }
