@@ -40,7 +40,11 @@ public class Login {
 
 		private static final long serialVersionUID = 1L;
 		private JButton submit;
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> master
 		private JLabel headerLabel;
 		private JLabel usernameLabel;
 		private JLabel passwordLabel;
@@ -48,7 +52,11 @@ public class Login {
 		private JLabel middleLabel;
 		private JLabel copyLabel;
 		private JLabel teamLabel;
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> master
 		private JTextField usernameText;
 		private JTextField passwordText;
 
@@ -57,7 +65,11 @@ public class Login {
 		}
 
 		private void init() {
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> master
 			usernameLabel = new JLabel("Username:");
 			usernameText = new JTextField(10);
 			passwordLabel = new JLabel("Password:");
@@ -67,6 +79,7 @@ public class Login {
 			headerLabel = new JLabel("StressYourself");
 			middleLabel = new JLabel("Informatikertest");
 			copyLabel = new JLabel("\u00A9StressYourself 2012");
+<<<<<<< HEAD
 			teamLabel = new JLabel("Christoph Schollmeyer, Florian Albert, Lukas Buchert, Moritz Herbert, Philipp Willems, Tobias Ršding");
 			
 			
@@ -84,6 +97,25 @@ public class Login {
 			
 			GroupLayout groupLayout = new GroupLayout(this);
 			
+=======
+			teamLabel = new JLabel("Christoph Schollmeyer, Florian Albert, Lukas Buchert, Moritz Herbert, Philipp Willems, Tobias Roeding");
+
+
+			headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			headerLabel.setFont(new Font("Zapfino", Font.BOLD | Font.ITALIC, 47));
+
+			middleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			middleLabel.setFont(new Font("Zapfino", Font.PLAIN, 23));
+
+			teamLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+			copyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+			errorLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
+			GroupLayout groupLayout = new GroupLayout(this);
+
+>>>>>>> master
 			groupLayout.setHorizontalGroup(
 				groupLayout.createParallelGroup(Alignment.LEADING)
 					.addGroup(groupLayout.createSequentialGroup()
@@ -141,7 +173,11 @@ public class Login {
 						.addGap(36))
 			);
 			setLayout(groupLayout);
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> master
 			usernameText.addKeyListener(this);
 			passwordText.addKeyListener(this);
 
@@ -192,8 +228,6 @@ public class Login {
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 
 		/**
@@ -209,8 +243,6 @@ public class Login {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 }
