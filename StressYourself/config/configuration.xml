@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration><difficulty>2</difficulty></configuration>
+<configuration>
+  <difficulty>1</difficulty>
+  <module>
+    <name>PopupModule</name>
+    <time>60</time>
+  </module>
+</configuration>

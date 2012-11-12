@@ -22,8 +22,8 @@ public class PopupModule extends ModuleClass {
 
 		private final String moduleName = "PopupModule";
 		private final String moduleArea = "Reaction";
-		private final String moduleDescription = "This module generates a button on a random" +
-				"location of the window. You have to click on the button as fast as you can to solve" +
+		private final String moduleDescription = "This module generates a button on a random " +
+				"location of the window. You have to click on the button as fast as you can to solve " +
 				"this module.";
 		private int timePerButton;
 		private int numberOfButtons;
