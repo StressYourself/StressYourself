@@ -119,7 +119,7 @@ public class PopupModule extends ModuleClass {
 		}
 		
 		public int myRandom(int low, int high) {
-			return (int) (Math.random() * (high - low) + low);
+			return (int) (Math.random() * (high - low));
 		}
 		
 		/**
