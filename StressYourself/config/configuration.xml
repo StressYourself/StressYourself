@@ -2,15 +2,7 @@
 <configuration>
   <difficulty>1</difficulty>
   <module>
-<<<<<<< HEAD
-    <name>KeyPress</name>
-=======
-    <name>Continue Sequence Module</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCharSequenceModule</name>
->>>>>>> master
+    <name>PopupModule</name>
     <time>60</time>
   </module>
 </configuration>

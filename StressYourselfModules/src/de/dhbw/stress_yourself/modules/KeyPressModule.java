@@ -103,8 +103,9 @@ public class KeyPressModule extends ModuleClass {
 			thisPanel.requestFocusInWindow();
 			keyField.setBounds(415, 315, 50, 50);
 			keyField.setFont(new Font("Arial", Font.PLAIN, 30));
-			thisPanel.addKeyListener(this);
-			thisPanel.add(keyField);
+			this.addKeyListener(this);
+			this.add(keyField);
+			this.requestFocus();
 			setNextModuleTimer(getTime(), new NextModule());
 		}
 
