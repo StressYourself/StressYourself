@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.dhbw.stress_yourself.annoyance.Annoyance;
 import de.dhbw.stress_yourself.outcome.Outcome;
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
@@ -27,6 +28,8 @@ public class MainApplication {
 	private Outcome outcome;
 	private Parameter params;
 	private UserData users;
+	private Annoyance annoyance;
+	private Thread aThread;
 
 	private JFrame frame;
 
@@ -40,11 +43,12 @@ public class MainApplication {
 	int index = 0;
 
 	public MainApplication() {
+		annoyance = new Annoyance();
 		params = new Parameter();
 		users = new UserData();
 		admin = new Admin(this, users, params);
 		login = new Login(this, users);
-		outcome = new Outcome(params,users);
+		outcome = new Outcome(this, params, users);
 
 		initialize();
 	}
@@ -54,7 +58,7 @@ public class MainApplication {
 			public void run() {
 				try {
 					MainApplication window = new MainApplication();
-					
+
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +68,7 @@ public class MainApplication {
 	}
 
 	/**
-	 *  Initialize the frame and add the login
+	 * Initialize the frame and add the login
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -73,24 +77,50 @@ public class MainApplication {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getAvaiableModules();
 		getConfiguration();
-		
+
 		startLoginPanel();
 	}
-	
+
 	/**
-	 *  Removes all other panels and loads LoginPanel
+	 * Discards all Objects and creates new ones to restart the test
 	 */
-	public void startLoginPanel(){
+	public void restartStressYourself() {
+		annoyance = new Annoyance();
+		params = new Parameter();
+		users = new UserData();
+		admin = new Admin(this, users, params);
+		login = new Login(this, users);
+		outcome = new Outcome(this, params, users);
+
+		runningModuleClass = null;
+		runningModuleObject = null;
+		runningModuleMethodsMap = null;
+		url = null;
+		configuration = null;
+		panel = null;
+
+		index = 0;
+
+		getAvaiableModules();
+		getConfiguration();
+
+		startLoginPanel();
+	}
+
+	/**
+	 * Removes all other panels and loads LoginPanel
+	 */
+	public void startLoginPanel() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(login.getLoginPanel());
 		frame.getContentPane().revalidate();
 	}
-	
+
 	/**
-	 *  Removes all other panels and loads AdminPanel
+	 * Removes all other panels and loads AdminPanel
 	 */
-	public void startAdminPanel(){
+	public void startAdminPanel() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().invalidate();
 		frame.getContentPane().add(admin.getAdminPanel());
@@ -98,12 +128,30 @@ public class MainApplication {
 	}
 
 	/**
-	 *  The the actual configuration
+	 * Starts the Annoyance Thread
+	 */
+	public void startAnnoyance() {
+		if (aThread == null && params.getAnnoyanceSetting()) {
+			aThread = new Thread(annoyance);
+			aThread.start();
+		}
+	}
+
+	/**
+	 * Stops the Annoyance Thread
+	 */
+	public void stopAnnoyance() {
+		annoyance.running = false;
+	}
+
+	/**
+	 * The the actual configuration
 	 */
 	public void getConfiguration() {
 		configuration = params.getConfiguration();
-		for(int i = 0; i< configuration.size(); i++){
-			System.out.println("configuration  " + configuration.get(i).getClassName());
+		for (int i = 0; i < configuration.size(); i++) {
+			System.out.println("configuration  "
+					+ configuration.get(i).getClassName());
 		}
 	}
 
@@ -121,7 +169,8 @@ public class MainApplication {
 	public boolean startModule(Class<?> clazz, Integer difficulty, Integer time) {
 		runningModuleMethodsMap = Reflection.getClassMethods(clazz);
 
-		runningModuleObject = Reflection.createClassInstance(clazz, new Object[] {this, difficulty, time});
+		runningModuleObject = Reflection.createClassInstance(clazz,
+				new Object[] { this, difficulty, time });
 
 		if (runningModuleMethodsMap.containsKey("getModuleJPanel")) {
 			panel = (JPanel) Reflection.runMethod(
@@ -169,7 +218,8 @@ public class MainApplication {
 				.getClassMethods(runningModuleClass);
 
 		runningModuleObject = Reflection.createClassInstance(
-				runningModuleClass, new Object[] {this, new Integer(0), new Integer(0)});
+				runningModuleClass, new Object[] { this, new Integer(0),
+						new Integer(0) });
 
 		if (runningModuleMethodsMap.containsKey("getModuleName")) {
 			name = (String) Reflection.runMethod(
@@ -188,7 +238,7 @@ public class MainApplication {
 					runningModuleMethodsMap.get("getModuleDescription"),
 					runningModuleObject, (Object[]) null);
 		}
-		
+
 		System.out.println(name);
 
 		return new ModuleInformation(classname, name, area, description);
@@ -205,19 +255,23 @@ public class MainApplication {
 			System.out.println(configuration.get(index).getName());
 			runningModuleClass = Reflection.getClass(url,
 					configuration.get(index).getClassName());
-			startModule(runningModuleClass, params.getDifficultyOrdinal(), new Integer(configuration.get(index).getTime()*1000));
+			startModule(runningModuleClass, params.getDifficultyOrdinal(),
+					new Integer(configuration.get(index).getTime() * 1000));
 			index++;
-			} else {
-			// Test finished, time to call the evaluation!
+		} else {
+			// Test finished
+			stopAnnoyance();
+			// Time to call the evaluation!
 			createOutcomeGUI();
 		}
 	}
-	
+
 	/**
 	 * Function to get the result from the modules and save it to the config
 	 */
-	public void sendModuleResult(String moduleName, Integer points){
-		System.out.println("sendModuleResult called " + moduleName + "  " + points);
+	public void sendModuleResult(String moduleName, Integer points) {
+		System.out.println("sendModuleResult called " + moduleName + "  "
+				+ points);
 		params.addResult(moduleName, points.intValue());
 	}
 

@@ -244,6 +244,7 @@ public class Admin {
 			
 			//Click on button "Quit Admin Area And Save All Changes"
 			}else if(e.getSource().equals(btnBack)) {
+				params.setAnnoyanceSetting(chkbAnnoyance.isSelected());
 				saveConfTmp();
 				params.saveChangesInXML();
 				users.saveChangesInXML();
@@ -505,7 +506,7 @@ public class Admin {
 		pnlTestManagement.add(btnShuffleModules);
 		
 		chkbAnnoyance.setBounds(215, 285, BUTTONWIDTH, COMPONENTHEIGHT);
-		chkbAnnoyance.setSelected(false);
+		chkbAnnoyance.setSelected(params.getAnnoyanceSetting());
 		pnlTestManagement.add(chkbAnnoyance);
 		
 		//Select the radiobutton depending on the configuration
@@ -736,9 +737,11 @@ public class Admin {
 				}
 			}
 		}
+		// @flo you have to set it somewhere, i didn't know where exactly
+		params.setAnnoyanceSetting(chkbAnnoyance.isSelected());
+		
 		 if (newConfig){
-			 // TODO add annoyanceSetting here
-			params.overwriteConfiguration(llConfig, difficulty, false);
+			 params.overwriteConfiguration(llConfig, difficulty, false);
 		}
 	}
 	

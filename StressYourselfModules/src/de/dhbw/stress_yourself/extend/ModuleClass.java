@@ -10,6 +10,8 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 /**
  * The ModuleClass is an abstract class to predefine some functions and vars for
@@ -99,12 +101,12 @@ public abstract class ModuleClass {
 		JPanel introductionPanel = new JPanel();
 		JLabel moduleName = new JLabel(getModuleName());
 		JLabel moduleDescriptionLabel1 = new JLabel("Description:");
-		JLabel moduleDescriptionLabel2 = new JLabel(getModuleDescription());
+		JMultilineLabel moduleDescriptionLabel2 = new JMultilineLabel(getModuleDescription());
 		JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
 				+ String.valueOf(getTime() / 1000) + " seconds");
 		JLabel moduleDesIntervallLabel = new JLabel("Estimated time per Task: "
 				+ String.valueOf(timePerTask / 1000) + " seconds");
-		JLabel taskCountLabel = new JLabel("Estimated tasks which can be solved:" + taskcount);
+		JLabel taskCountLabel = new JLabel("Estimated tasks which can be solved: " + taskcount);
 		JButton startTasksButton = new JButton("Start");
 		introductionPanel.setLayout(null);
 		introductionPanel.setBounds(0, 0, 900, 700);
@@ -117,28 +119,42 @@ public abstract class ModuleClass {
 		moduleDescriptionLabel1.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(moduleDescriptionLabel1);
 		
-		moduleDescriptionLabel2.setBounds(300, 250, 300, 25);
+		moduleDescriptionLabel2.setBounds(300, 250, 300, 50);
 		moduleDescriptionLabel2.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(moduleDescriptionLabel2);
 
-		moduleTimeLabel.setBounds(280, 280, 300, 25);
+		moduleTimeLabel.setBounds(280, 310, 300, 25);
 		moduleTimeLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(moduleTimeLabel);
 
-		moduleDesIntervallLabel.setBounds(280, 310, 300, 25);
+		moduleDesIntervallLabel.setBounds(280, 340, 300, 25);
 		moduleDesIntervallLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(moduleDesIntervallLabel);
 
-		taskCountLabel.setBounds(280, 340, 300, 25);
+		taskCountLabel.setBounds(280, 370, 300, 25);
 		taskCountLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(taskCountLabel);
 
-		startTasksButton.setBounds(380, 390, 75, 25);
+		startTasksButton.setBounds(380, 420, 75, 25);
 		introductionPanel.add(startTasksButton);
 		startTasksButton.addActionListener(al);
 
 		return introductionPanel;
 	}
+	
+	public class JMultilineLabel extends JTextArea{
+	    private static final long serialVersionUID = 1L;
+	    public JMultilineLabel(String text){
+	        super(text);
+	        setEditable(false);  
+	        setCursor(null);  
+	        setOpaque(false);  
+	        setFocusable(false);  
+	        setFont(UIManager.getFont("Label.font"));      
+	        setWrapStyleWord(true);  
+	        setLineWrap(true);
+	    }
+	} 
 
 	/**
 	 * Function to send the result of the module to the MainClass

@@ -110,15 +110,15 @@ public class PopupModule extends ModuleClass {
 			int y = -1;
 			do {
 				x = myRandom( 0, FRAMEWIDTH-20);
-				y = myRandom( 0, FRAMEHEIGHT-20);
-			}while(y > FRAMEHEIGHT-20 || x > FRAMEWIDTH-20);
+				y = myRandom( 0, FRAMEHEIGHT-50);
+			}while(y > FRAMEHEIGHT-50 || x > FRAMEWIDTH-20);
 			
 			Point loc = new Point(x,y);
 			return loc;
 		}
 		
 		public int myRandom(int low, int high) {
-			return (int) (Math.random() * (high - low));
+			return (int) (Math.random() * (high - low)+low);
 		}
 		
 		/**
