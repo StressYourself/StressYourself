@@ -30,7 +30,6 @@ public class OperandModule extends ModuleClass {
 	private final String[] arithmeticOperators = { "+", "-", "*", "/", "%" };
 	private final String[] compareOperators = { "==", "!=", "<", ">", "<=",
 			">=" };
-	private final String[] incdecOperators = { "++", "--" };
 	private final String[] logicalOperators = { "&&", "&", "||", "|", "^" };
 
 	private int timePerOperandTest = 0;
@@ -78,20 +77,6 @@ public class OperandModule extends ModuleClass {
 	@Override
 	public String getModuleDescription() {
 		return moduleDescription;
-	}
-
-	private String generateNumberWithIncDec(int high, int low, int incdec) {
-		String number = String.valueOf(randomNumber(high, low));
-		if (incdec == 1) {
-			return incdecOperators[randomNumber(incdecOperators.length - 1, 0)]
-					+ number;
-		} else if (incdec == 2) {
-			return number
-					+ incdecOperators[randomNumber(incdecOperators.length - 1,
-							0)];
-		} else {
-			return number;
-		}
 	}
 
 	private int randomNumber(int high, int low) {
