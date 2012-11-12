@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-<<<<<<< HEAD
   <difficulty>2</difficulty>
   <module>
     <name>PopupModule</name>
@@ -8,19 +7,6 @@
   </module>
   <module>
     <name>KeyPress</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCirclesModule</name>
-=======
-  <difficulty>1</difficulty>
-  <module>
-    <name>Continue Sequence Module</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCharSequenceModule</name>
->>>>>>> master
     <time>60</time>
   </module>
 </configuration>
