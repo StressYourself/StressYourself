@@ -2,15 +2,19 @@
 <configuration>
   <difficulty>0</difficulty>
   <module>
-    <name>MathEquationSystemsModule</name>
+    <name>CaptchaCharSequenceModule</name>
     <time>60</time>
   </module>
   <module>
-    <name>MathPotenciesModule</name>
+    <name>CaptchaCirclesModule</name>
     <time>60</time>
   </module>
   <module>
-    <name>MathSizeUnitsModule</name>
+    <name>KeyPress</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathSystemsModule</name>
     <time>60</time>
   </module>
   <module>
@@ -22,26 +26,6 @@
     <time>60</time>
   </module>
   <module>
-    <name>KeyPress</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCirclesModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCharSequenceModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathPotenciesModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathRuleOfThreeModule</name>
-    <time>60</time>
-  </module>
-  <module>
     <name>MathEquationSystemsModule</name>
     <time>60</time>
   </module>
@@ -50,7 +34,15 @@
     <time>60</time>
   </module>
   <module>
-    <name>MathSystemsModule</name>
+    <name>MathPotenciesModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>PopupModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathRuleOfThreeModule</name>
     <time>60</time>
   </module>
 </configuration>

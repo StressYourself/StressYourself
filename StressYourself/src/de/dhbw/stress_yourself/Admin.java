@@ -47,6 +47,7 @@ public class Admin {
 	private JPanel pnlTestManagement;
 	private JPanel pnlStatus;
 	private JPanel pnlUsers;
+
 	
 	//Color
 	private Color backgroundColor; 
@@ -72,6 +73,9 @@ public class Admin {
 	private JButton btnTimeUp = new JButton("+");
 	private JButton btnTimeDown = new JButton("-");
 	private JButton btnBack = new JButton("Quit Admin Area And Save All Changes");
+	private JButton btnActivateAll = new JButton("Activate All");
+	private JButton btnDeactivateAll = new JButton("Deactivate All");
+	private JButton btnShuffleModules = new JButton("Shuffle Modules");
 	
 	//Textfields
 	private JPasswordField pfPassword = new JPasswordField();
@@ -128,6 +132,7 @@ public class Admin {
 	private boolean exists;
 	private String tmpUsername;
 	private boolean del;
+	private DefaultListModel<String> tmpDLM  = new DefaultListModel<String>();
 	
 	/**
 	 * Actionlistener for all buttons
@@ -160,10 +165,9 @@ public class Admin {
 			} else if(e.getSource().equals(btnDeactivateModule)) {
 				if(!lActiveModules.isSelectionEmpty()) {
 					dlAvailableModules.addElement(lActiveModules.getSelectedValue().substring(
-														0, lActiveModules.getSelectedValue().indexOf(" ;")));
+														0, lActiveModules.getSelectedValue().indexOf(" ; ")));
 					
 					index = lActiveModules.getSelectedIndex();
-					
 					dlActiveModules.remove(index);
 		
 					lAvailableModules.revalidate();
@@ -244,10 +248,54 @@ public class Admin {
 				main.startLoginPanel();
 				//getConfiguratiob
 				main.getConfiguration();
+			
+			//Click on button "Deactivate All"
+			} else if(e.getSource().equals(btnDeactivateAll)) {
+				for(int i = 0; i < dlActiveModules.getSize(); i++) {
+					dlAvailableModules.addElement(dlActiveModules.get(i).substring(
+							0, dlActiveModules.get(i).indexOf(" ; ")));
+				}
+				dlActiveModules.removeAllElements();
+				lAvailableModules.revalidate();
+				spAvailableModules.revalidate();
+				
+				lActiveModules.revalidate();
+				spActiveModules.revalidate();
+				
+			//Click on button "Activate All"
+			} else if(e.getSource().equals(btnActivateAll)) {
+				for(int i = 0; i < dlAvailableModules.getSize(); i++) {
+					dlActiveModules.addElement(dlAvailableModules.get(i)+" ; "+tfTime.getText());
+				}
+				dlAvailableModules.removeAllElements();
+				lAvailableModules.revalidate();
+				spAvailableModules.revalidate();
+				
+				lActiveModules.revalidate();
+				spActiveModules.revalidate();
+				
+			//Click on button "Shuffle Modules"
+			} else if(e.getSource().equals(btnShuffleModules)) {
+				
+				for (int i = 0; i < dlActiveModules.getSize(); i++) {
+					tmpDLM.addElement(dlActiveModules.get(i));
+				}
+				dlActiveModules.removeAllElements();
+				lActiveModules.revalidate();
+				while(tmpDLM.size()>0) {
+					index = myRandom(0, tmpDLM.size());
+					dlActiveModules.addElement(tmpDLM.get(index));
+					tmpDLM.removeElementAt(index);
+				}
+				lActiveModules.revalidate();
+				spActiveModules.revalidate();
 			}
 		}
-		
 	};
+	
+	public static int myRandom(int low, int high) {
+		return (int) (Math.random() * (high - low) + low);
+	}
 		
 	/**
 	 * Constructor - creates an object of the class Admin
@@ -406,37 +454,37 @@ public class Admin {
 		pnlTestManagement.setBounds(PANELX, 230, 580, 350);
 		pnlTestManagement.setBackground(backgroundColor);
 		
-		btnActivateModule.setBounds(215, 40, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnActivateModule.setBounds(215, 30, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnActivateModule.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnActivateModule);
 		
-		lblSetTime.setBounds(215, 80, BUTTONWIDTH, COMPONENTHEIGHT);
+		lblSetTime.setBounds(215, 60, BUTTONWIDTH, COMPONENTHEIGHT);
 		pnlTestManagement.add(lblSetTime);
 		
-		btnTimeDown.setBounds(235, 100, 20, 20);
+		btnTimeDown.setBounds(235, 80, 20, 20);
 		btnTimeDown.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnTimeDown);
 		
-		tfTime.setBounds(260, 100, 45, 20);
+		tfTime.setBounds(260, 80, 45, 20);
 		tfTime.setDocument(new SetMaxText(3));
 		tfTime.setEnabled(false);
 		tfTime.setText("60");
 		
-		btnTimeUp.setBounds(310, 100, 20, 20);
+		btnTimeUp.setBounds(310, 80, 20, 20);
 		btnTimeUp.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnTimeUp);
 		
 		pnlTestManagement.add(tfTime);
 		
-		btnDeactivateModule.setBounds(215, 130, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnDeactivateModule.setBounds(215, 110, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnDeactivateModule.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnDeactivateModule);
 		
-		btnModuleUp.setBounds(215, 170, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnModuleUp.setBounds(215, 140, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnModuleUp.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnModuleUp);
 		
-		btnModuleDown.setBounds(215, 210, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnModuleDown.setBounds(215, 170, BUTTONWIDTH, COMPONENTHEIGHT);
 		btnModuleDown.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnModuleDown);
 		
@@ -444,9 +492,13 @@ public class Admin {
 		bgDifficulty.add(rbEasy);
 		bgDifficulty.add(rbMedium);
 		bgDifficulty.add(rbHard);
-		rbEasy.setBounds(215, 250, 70, COMPONENTHEIGHT);
-		rbMedium.setBounds(215, 275, 90, COMPONENTHEIGHT);
-		rbHard.setBounds(280, 250, 70, COMPONENTHEIGHT);
+		rbEasy.setBounds(215, 200, 70, COMPONENTHEIGHT);
+		rbMedium.setBounds(215, 225, 90, COMPONENTHEIGHT);
+		rbHard.setBounds(280, 200, 70, COMPONENTHEIGHT);
+		
+		btnShuffleModules.setBounds(215, 255, BUTTONWIDTH, COMPONENTHEIGHT);
+		btnShuffleModules.addActionListener(selectBtnFunction);
+		pnlTestManagement.add(btnShuffleModules);
 		
 		//Select the radiobutton depending on the configuration
 		switch(params.getDifficulty()) {
@@ -497,16 +549,24 @@ public class Admin {
 		
 		lActiveModules = new JList<String>(dlActiveModules);
 		spActiveModules = new JScrollPane(lActiveModules);
-		spActiveModules.setBounds(375, 30, 200, 300);
+		spActiveModules.setBounds(375, 30, 200, 265);
 		pnlTestManagement.add(spActiveModules);
+		
+		btnDeactivateAll.addActionListener(selectBtnFunction);
+		btnDeactivateAll.setBounds(390, 305, BUTTONWIDTH, COMPONENTHEIGHT);
+		pnlTestManagement.add(btnDeactivateAll);
 		
 		lblAvailableModules.setBounds(5, 5, 200, COMPONENTHEIGHT);
 		pnlTestManagement.add(lblAvailableModules);
 		
 		lAvailableModules = new JList<String>(dlAvailableModules);
 		spAvailableModules = new JScrollPane(lAvailableModules);
-		spAvailableModules.setBounds(5, 30, 200, 300);
+		spAvailableModules.setBounds(5, 30, 200, 265);
 		pnlTestManagement.add(spAvailableModules);
+		
+		btnActivateAll.addActionListener(selectBtnFunction);
+		btnActivateAll.setBounds(20, 305, BUTTONWIDTH, COMPONENTHEIGHT);
+		pnlTestManagement.add(btnActivateAll);
 	}
 	
 	/**
@@ -634,11 +694,11 @@ public class Admin {
 				
 				//Fills a LinkedList with configuration
 				if(dlActiveModules.getElementAt(i).substring(
-											0, dlActiveModules.getElementAt(i).indexOf(" ;")).equals(
+											0, dlActiveModules.getElementAt(i).indexOf(" ; ")).equals(
 											params.getAvailableModules().get(x).getName())) {
 					params.getAvailableModules().get(x).setTime(
 										Integer.parseInt(dlActiveModules.getElementAt(i).substring(
-										dlActiveModules.getElementAt(i).indexOf("; ")+2,
+										dlActiveModules.getElementAt(i).indexOf(" ; ")+3,
 										dlActiveModules.getElementAt(i).length())));
 					llConfig.add(params.getAvailableModules().get(x));
 				}
