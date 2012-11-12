@@ -1,4 +1,4 @@
-package de.dhbw.stress_yourself;
+package de.dhbw.stress_yourself.annoyance;
 
 import java.awt.Color;
 import java.awt.Dimension;
