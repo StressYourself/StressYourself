@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 import java.util.TimerTask;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -18,12 +17,13 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * press the keys on the keyboard as fast as he can.
  * 
  * @author Christoph Schollmeyer <chr.schollmeyer@web.de>
+ * @author Moritz Herbert <moritz.herbert@gmx.de>
  */
 public class KeyPressModule extends ModuleClass {
 
 	private final String moduleName = "KeyPress";
 	private final String moduleArea = "Reaction";
-	private final String moduleDescription = "Example Description";
+	private final String moduleDescription = "Repeat the key displyed on the screen as fast as possible.";
 
 	private int testCounter;
 	private int numberOfTests;
@@ -99,6 +99,8 @@ public class KeyPressModule extends ModuleClass {
 		}
 
 		public void startTask() {
+			thisPanel.setFocusable(true);
+			thisPanel.requestFocusInWindow();
 			keyField.setBounds(415, 315, 50, 50);
 			keyField.setFont(new Font("Arial", Font.PLAIN, 30));
 			this.addKeyListener(this);
@@ -123,10 +125,14 @@ public class KeyPressModule extends ModuleClass {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyField.getText())) {
+				System.out.println("heyy");
 				if (testCounter >= 1) {
 					solvedCorrectly++;
 					System.out.println(solvedCorrectly);
 					getNewRandomKey();
+					this.revalidate();
+					this.repaint();
+					
 					testCounter--;
 				} else {
 					result = calculateResult(numberOfTests, solvedCorrectly);
@@ -141,6 +147,7 @@ public class KeyPressModule extends ModuleClass {
 			thisPanel.removeAll();
 			startTask();
 			getNewRandomKey();
+			thisPanel.revalidate();
 			thisPanel.repaint();
 		}
 		

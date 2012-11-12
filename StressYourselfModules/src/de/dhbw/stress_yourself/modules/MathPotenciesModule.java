@@ -29,6 +29,7 @@ public class MathPotenciesModule extends ModuleClass {
 	private static final int TIMEFOREXERCISE = 10000;
 	private static int maxExercises;
 	private int exercisesMade = 0;
+	private int solvedCorrectly = 0;
 
 	public MathPotenciesModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
@@ -96,6 +97,8 @@ public class MathPotenciesModule extends ModuleClass {
 		private JLabel givenLabel = new JLabel();
 		private JLabel solutionLabel = new JLabel("Calculated:");
 		private JButton nextExerciseButton = new JButton("Next exercise");
+		private JPanel introductionPanel = null;
+		private JPanel thisPanel = this;
 
 		public moduleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -115,6 +118,12 @@ public class MathPotenciesModule extends ModuleClass {
 		}
 		
 		public void init() {
+			introductionPanel = getIntroductionPanel(TIMEFOREXERCISE,
+					maxExercises, this);
+			thisPanel.add(introductionPanel);
+		}
+		
+		public void startExercise() {
 			initExercise();
 			
 			givenLabel.setBounds(20, 20, 200, 20);
@@ -143,25 +152,30 @@ public class MathPotenciesModule extends ModuleClass {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
-				exercisesMade++;
-				
-				// increment result when the solution given by the user was right
-				if (solutionPane.getText().equals(exercise[1])) {
-					result += (int) 100/maxExercises;
-				}				
-				
-				if (exercisesMade <= maxExercises) {
-					initExercise();
-					this.revalidate();
+			if (buttons.contains(e.getSource())) {
+				switch (buttons.indexOf(e.getSource())) {
+				case 0:
+					exercisesMade++;
+					// increment result when the solution given by the user was
+					// right
+					if (solutionPane.getText().equals(exercise[1])) {
+						solvedCorrectly++;
+					}
+
+					if (exercisesMade < maxExercises) {
+						initExercise();
+						this.revalidate();
+					} else {
+						result = calculateResult(maxExercises, solvedCorrectly);
+						sendResult(result);
+						tellFinished();
+					}
+					break;
 				}
-				else {
-					sendResult(result);
-					tellFinished();
-				}
-				
-				break;
+			} else {
+				thisPanel.removeAll();
+				startExercise();
+				thisPanel.repaint();
 			}
 		}
 
