@@ -38,10 +38,10 @@ public class PopupModule extends ModuleClass {
 		public void initTestValues() {
 			switch (getDifficulty()) {
 			case 0:
-				timePerButton = 3000;
+				timePerButton = 2000;
 				break;
 			case 1:
-				timePerButton = 2000;
+				timePerButton = 1500;
 				break;
 			case 2:
 				timePerButton = 1000;
@@ -74,7 +74,10 @@ public class PopupModule extends ModuleClass {
 			
 			JButton testButton = new JButton("X");
 			
-			testButton.setBackground(Color.ORANGE);
+			testButton.setBackground(Color.RED);
+			testButton.setForeground(Color.WHITE);
+			testButton.setBorder(null);
+			testButton.setOpaque(true);
 			testButton.setSize(BUTTONWIDTH, BUTTONHEIGHT);
 			testButton.setLocation(generateButtonLocation());
 			buttonCounter++;
@@ -89,8 +92,6 @@ public class PopupModule extends ModuleClass {
 				x = myRandom( 20, FRAMEWIDTH-20);
 				y = myRandom( 20, FRAMEHEIGHT-20);
 			}while(y > FRAMEHEIGHT-20 || x > FRAMEWIDTH-20);
-			
-			System.out.println( "X: "+x+" Y: "+y);
 			
 			Point loc = new Point(x,y);
 			return loc;
@@ -184,7 +185,6 @@ public class PopupModule extends ModuleClass {
 			public void actionPerformed(ActionEvent e) {
 				if (buttons.contains(e.getSource())) {
 					buttonClicked++;
-					System.out.println("solvedCorrectly " + buttonClicked);
 					if (buttonCounter == numberOfButtons) {
 						result = calculateResult(numberOfButtons, buttonClicked);
 						sendResult(result);
