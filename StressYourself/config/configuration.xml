@@ -2,7 +2,15 @@
 <configuration>
   <difficulty>0</difficulty>
   <module>
-    <name>PopupModule</name>
+    <name>MathEquationSystemsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathPotenciesModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathSizeUnitsModule</name>
     <time>60</time>
   </module>
   <module>
