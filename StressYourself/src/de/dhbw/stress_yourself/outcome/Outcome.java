@@ -26,9 +26,13 @@ public class Outcome {
 
 	public JPanel getOutcomeGUI() {
 		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(0, 0, 900, 700);
 		JLabel label = new JLabel(
-				"You have completed the test! Thank you for your patience!");
+				"You have completed the test! Thank you for participating!");
+		label.setBounds(250, 250, 400, 25);
 		JButton back = new JButton("Back to Login");
+		back.setBounds(350, 300, 150, 25);
 		back.addActionListener(new ActionListener() {
 
 			@Override
