@@ -5,4 +5,7 @@
     <name>PopupModule</name>
     <time>60</time>
   </module>
+  <module>
+    <name>KeyPress</name><time>60</time>
+  </module>
 </configuration>
