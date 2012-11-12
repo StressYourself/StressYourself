@@ -38,13 +38,13 @@ public class PopupModule extends ModuleClass {
 		public void initTestValues() {
 			switch (getDifficulty()) {
 			case 0:
-				timePerButton = 3000;
-				break;
-			case 1:
 				timePerButton = 2000;
 				break;
+			case 1:
+				timePerButton = 1500;
+				break;
 			case 2:
-				timePerButton = 750;
+				timePerButton = 1000;
 				break;
 			}
 			numberOfButtons = (getTime() / timePerButton);
