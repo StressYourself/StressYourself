@@ -101,10 +101,10 @@ public class CaptchaCirclesModule extends ModuleClass {
 		y = clickedY - openCircleCoordinates.y;
 
 		if (((x * x) + (y * y)) <= (openCircleRadius * openCircleRadius)) {
-			System.out.println("drin");
+			// in
 			solvedCorrectly++;
 		} else {
-			System.out.println("draußen");
+			// out
 		}
 
 	}
@@ -353,7 +353,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 				}
 				x += incrementationStep;
 			}
-			System.out.println("captcha fertig");
 		}
 	}
 }

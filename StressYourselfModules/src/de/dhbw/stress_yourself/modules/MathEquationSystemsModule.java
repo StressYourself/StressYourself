@@ -11,7 +11,7 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
+import javax.swing.JTextField;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
@@ -72,7 +72,7 @@ public class MathEquationSystemsModule extends ModuleClass {
 	 * @author Philipp Willems
 	 */
 	public String[] createExercise() {
-		int range = 8 + 5 * getDifficulty();
+		int range = 6 + 5 * getDifficulty();
 		Random r = new Random();
 
 		String[] exercise = new String[4];
@@ -116,8 +116,8 @@ public class MathEquationSystemsModule extends ModuleClass {
 		private JLabel secondEquationLabel = new JLabel();
 		private JLabel xLabel = new JLabel("x:");
 		private JLabel yLabel = new JLabel("y:");
-		private JTextPane xPane = new JTextPane();
-		private JTextPane yPane = new JTextPane();
+		private JTextField xText = new JTextField();
+		private JTextField yText = new JTextField();
 		private JButton nextExerciseButton = new JButton("Next exercise");
 		private JPanel introductionPanel = null;
 		private JPanel thisPanel = this;
@@ -135,48 +135,38 @@ public class MathEquationSystemsModule extends ModuleClass {
 		public void initExercise() {
 			exercise = createExercise();
 
-			xPane.setText("");
-			xPane.addKeyListener(new KeyListener() {
-				
+			xText.setText("");
+			xText.addKeyListener(new KeyListener() {
+
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
-					if(e.getKeyCode() == (char)13) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextExerciseButton.doClick();
 					}
 				}
 			});
-			yPane.setText("");
-			yPane.addKeyListener(new KeyListener() {
-				
+			yText.setText("");
+			yText.addKeyListener(new KeyListener() {
+
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
-					if(e.getKeyCode() == (char)13) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextExerciseButton.doClick();
 					}
 				}
@@ -190,27 +180,27 @@ public class MathEquationSystemsModule extends ModuleClass {
 					maxExercises, this);
 			thisPanel.add(introductionPanel);
 		}
-		
+
 		public void startExercise() {
 			initExercise();
 
-			firstEquationLabel.setBounds(40, 20, 200, 20);
-			secondEquationLabel.setBounds(40, 45, 200, 20);
-			xLabel.setBounds(20, 75, 20, 20);
-			xPane.setBounds(130, 75, 100, 20);
-			yLabel.setBounds(20, 100, 20, 20);
-			yPane.setBounds(130, 100, 100, 20);
+			firstEquationLabel.setBounds(340, 220, 200, 20);
+			secondEquationLabel.setBounds(340, 245, 200, 20);
+			xLabel.setBounds(320, 275, 20, 20);
+			xText.setBounds(430, 275, 100, 20);
+			yLabel.setBounds(320, 300, 20, 20);
+			yText.setBounds(430, 300, 100, 20);
 
 			this.add(firstEquationLabel);
 			this.add(secondEquationLabel);
 			this.add(xLabel);
-			this.add(xPane);
+			this.add(xText);
 			this.add(yLabel);
-			this.add(yPane);
+			this.add(yText);
 
 			registerButton(nextExerciseButton);
 			nextExerciseButton.addActionListener(this);
-			nextExerciseButton.setBounds(20, 125, 140, 30);
+			nextExerciseButton.setBounds(320, 325, 140, 30);
 			this.add(nextExerciseButton);
 
 			setNextModuleTimer(getTime(), new NextModule());
@@ -233,8 +223,8 @@ public class MathEquationSystemsModule extends ModuleClass {
 
 					// increment result when the solution given by the user was
 					// right
-					if (xPane.getText().equals(exercise[0])
-							&& xPane.getText().equals(exercise[1])) {
+					if (xText.getText().equals(exercise[0])
+							&& xText.getText().equals(exercise[1])) {
 						solvedCorrectly++;
 					}
 

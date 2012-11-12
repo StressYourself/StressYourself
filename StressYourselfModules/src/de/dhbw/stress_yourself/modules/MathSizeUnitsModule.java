@@ -11,7 +11,7 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
+import javax.swing.JTextField;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
@@ -142,7 +142,7 @@ public class MathSizeUnitsModule extends ModuleClass {
 		private static final long serialVersionUID = 1L;
 		private ArrayList<JButton> buttons = null;
 		private String[] exercise = null;
-		private JTextPane solutionPane = new JTextPane();
+		private JTextField solutionText = new JTextField();
 		private JLabel givenLabel = new JLabel();
 		private JLabel solutionLabel = new JLabel();
 		private JButton nextExerciseButton = new JButton("Next exercise");
@@ -162,25 +162,20 @@ public class MathSizeUnitsModule extends ModuleClass {
 		public void initExercise() {
 			exercise = createExercise();
 
-			solutionPane.setText("");
-			solutionPane.addKeyListener(new KeyListener() {
+			solutionText.setText("");
+			solutionText.addKeyListener(new KeyListener() {
 				
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
 				
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
 				}
 				
 				@Override
 				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
-					if(e.getKeyCode() == (char)13) {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextExerciseButton.doClick();
 					}
 				}
@@ -199,17 +194,17 @@ public class MathSizeUnitsModule extends ModuleClass {
 		public void startExercise() {
 			initExercise();
 
-			givenLabel.setBounds(20, 20, 200, 20);
-			solutionLabel.setBounds(20, 45, 100, 20);
-			solutionPane.setBounds(130, 45, 100, 20);
+			givenLabel.setBounds(320, 220, 200, 20);
+			solutionLabel.setBounds(320, 245, 100, 20);
+			solutionText.setBounds(430, 245, 100, 20);
 
 			this.add(givenLabel);
 			this.add(solutionLabel);
-			this.add(solutionPane);
+			this.add(solutionText);
 
 			registerButton(nextExerciseButton);
 			nextExerciseButton.addActionListener(this);
-			nextExerciseButton.setBounds(20, 70, 140, 30);
+			nextExerciseButton.setBounds(320, 270, 140, 30);
 			this.add(nextExerciseButton);
 
 			setNextModuleTimer(getTime(), new NextModule());
@@ -231,7 +226,7 @@ public class MathSizeUnitsModule extends ModuleClass {
 					exercisesMade++;
 					// increment result when the solution given by the user was
 					// right
-					if (solutionPane.getText().equals(exercise[2])) {
+					if (solutionText.getText().equals(exercise[2])) {
 						solvedCorrectly++;
 					}
 

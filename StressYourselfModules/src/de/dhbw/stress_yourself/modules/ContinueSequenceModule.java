@@ -73,9 +73,9 @@ public class ContinueSequenceModule extends ModuleClass {
 	 * @return max points
 	 */
 	private int calculateMaxPoints() {
-		
+
 		return getTime() / getTaskTime();
-		
+
 	}
 
 	private int getTaskTime() {
@@ -165,19 +165,14 @@ public class ContinueSequenceModule extends ModuleClass {
 
 				@Override
 				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-
 				}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-
 				}
 
 				@Override
 				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						submit.doClick();
 					}
@@ -243,7 +238,6 @@ public class ContinueSequenceModule extends ModuleClass {
 	}
 
 	// sequence producer
-
 	private char[] alphabet = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
 			'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
 			'W', 'X', 'Y', 'Z' };
