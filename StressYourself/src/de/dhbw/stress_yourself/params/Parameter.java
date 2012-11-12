@@ -34,8 +34,17 @@ public class Parameter {
 	private LinkedList<ModuleInformation> availableModules = new LinkedList<ModuleInformation>();
 
 	private difficultyType difficulty;
+	private boolean annoyanceSetting;
 
 	private boolean checkStatus = false;
+
+	public boolean getAnnoyanceSetting() {
+		return annoyanceSetting;
+	}
+
+	public void setAnnoyanceSetting(boolean annoyanceSetting) {
+		this.annoyanceSetting = annoyanceSetting;
+	}
 
 	public enum difficultyType {
 		EASY, MEDIUM, HARD
@@ -119,9 +128,11 @@ public class Parameter {
 	 *            new difficulty
 	 */
 	public void overwriteConfiguration(
-			LinkedList<ModuleInformation> configuration, difficultyType difficulty) {
+			LinkedList<ModuleInformation> configuration,
+			difficultyType difficulty, boolean annoyanceSetting) {
 		this.configuration = configuration;
 		this.difficulty = difficulty;
+		this.annoyanceSetting = annoyanceSetting;
 	}
 
 	/**
@@ -191,8 +202,15 @@ public class Parameter {
 			oldList.removeContent(0);
 			Element configElement = new Element("configuration");
 			Element diffElement = new Element("difficulty");
+			Element annoyanceElement = new Element("annoyance");
 			diffElement.addContent(Integer.toString(difficulty.ordinal()));
+			if (annoyanceSetting) {
+				annoyanceElement.addContent("1");
+			} else {
+				annoyanceElement.addContent("0");
+			}
 			configElement.addContent(diffElement);
+			configElement.addContent(annoyanceElement);
 			oldList.addContent(configElement);
 			XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 			xmlOutput.output(oldList, new FileWriter(filename));
@@ -248,9 +266,15 @@ public class Parameter {
 
 			List<Element> moduleList = list.getRootElement().getChildren();
 
-			difficulty = difficultyType.values()[Integer.valueOf(moduleList.get(0).getValue())];
+			difficulty = difficultyType.values()[Integer.valueOf(moduleList
+					.get(0).getValue())];
+			if (moduleList.get(1).getValue().equals("1")){
+				annoyanceSetting = true;
+			}else{
+				annoyanceSetting = false;
+			}
 
-			for (int i = 1; i < moduleList.size(); i++) {
+			for (int i = 2; i < moduleList.size(); i++) {
 
 				ModuleInformation tmp = new ModuleInformation(moduleList.get(i)
 						.getChild("name").getValue(),
