@@ -94,7 +94,7 @@ public abstract class ModuleClass {
 	 * @return
 	 * @author Moritz Herbert <moritz.herbert@gmx.de>
 	 */
-	public JPanel getIntroductionPanel(int timePerTask, int taskcount,
+	public JPanel getIntroductionPanel(double timePerTask, int taskcount,
 			ActionListener al) {
 		JPanel introductionPanel = new JPanel();
 		JLabel moduleName = new JLabel(getModuleName());
