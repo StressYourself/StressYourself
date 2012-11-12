@@ -28,42 +28,36 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
 
-	private int captchaCounter;
-	private int captchaCount;
-	private int nextTaskIntervall = 14000;
+	private int testCounter;
+	private int numberOfTests;
+	private int timePerTest;
 	private int solvedCorrectly = 0;
 	private int result;
 
 	public CaptchaCharSequenceModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setTimerIntervall();
+		initTestValues();
 	}
 
 	/**
-	 * This method set the timer intervall in dependency of the difficulty. It
+	 * This method set the time per task in dependency of the difficulty. It
 	 * also sets the amount of tasks that can be solved in the given time and
 	 * the counter which is responsible for counting down the remaining tasks.
 	 */
-	public void setTimerIntervall() {
+	public void initTestValues() {
 		switch (getDifficulty()) {
-		case (0):
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCounter += 1;
-			captchaCount = captchaCounter;
+		case 0:
+			timePerTest = 14000;
 			break;
-		case (1):
-			nextTaskIntervall = 12000;
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCounter += 1;
-			captchaCount = captchaCounter;
+		case 1:
+			timePerTest = 12000;
 			break;
-		case (2):
-			nextTaskIntervall = 10000;
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCounter += 1;
-			captchaCount = captchaCounter;
+		case 2:
+			timePerTest = 10000;
 			break;
 		}
+		numberOfTests = (getTime() / timePerTest);
+		testCounter = numberOfTests;
 	}
 
 	public JPanel getModuleJPanel() {
@@ -157,8 +151,8 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * starts the module and calls startTask()
 		 */
 		public void init() {
-			introductionPanel = getIntroductionPanel(nextTaskIntervall,
-					captchaCount, this);
+			introductionPanel = getIntroductionPanel(timePerTest,
+					numberOfTests, this);
 			thisPanel.add(introductionPanel);
 		}
 
@@ -181,26 +175,29 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
+			if (buttons.contains(e.getSource())) {
+				switch (buttons.indexOf(e.getSource())) {
+				case 0:
+					if (testCounter >= 1) {
+						isValidSequence(captchaText.getText(), c.getSequence());
+						thisPanel.remove(c);
+						c = createCaptcha();
+						captchaText.setText("");
+						captchaText.requestFocus();
+						thisPanel.revalidate();
+						testCounter--;
+					} else {
+						result = calculateResult(numberOfTests, solvedCorrectly);
+						System.out.println(result);
+						sendResult(result);
+						tellFinished();
+					}
+					break;
+				}
+			} else {
 				thisPanel.removeAll();
 				startTask();
 				thisPanel.repaint();
-				break;
-			case 1:// nextCaptchaButton
-				if (captchaCounter >= 1) {
-					isValidSequence(captchaText.getText(), c.getSequence());
-					thisPanel.remove(c);
-					c = createCaptcha();
-					thisPanel.revalidate();
-					captchaCounter--;
-				} else {
-					result = (solvedCorrectly / captchaCount) * 100;
-					System.out.println(result);
-					sendResult(result);
-					tellFinished();
-				}
-				break;
 			}
 		}
 
@@ -211,7 +208,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
-				result = (solvedCorrectly / captchaCount) * 100;
+				result = calculateResult(numberOfTests, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}

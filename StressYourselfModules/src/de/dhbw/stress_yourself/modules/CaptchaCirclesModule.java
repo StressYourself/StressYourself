@@ -28,16 +28,16 @@ public class CaptchaCirclesModule extends ModuleClass {
 	private final String moduleName = "CaptchaCirclesModule";
 	private final String moduleArea = "Concentration";
 	private final String moduleDescription = "Example Description";
-	private int nextTaskIntervall = 5000;
 
-	private int captchaCounter;
-	private int captchaCount;
+	private int testCounter;
+	private int numberOfTests;
+	private int timePerTest;
 	private int solvedCorrectly = 0;
 	private int result;
 
 	public CaptchaCirclesModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setTimerIntervall();
+		initTestValues();
 	}
 
 	/**
@@ -46,26 +46,20 @@ public class CaptchaCirclesModule extends ModuleClass {
 	 * the counter which is responsible for counting down the remaining tasks.
 	 */
 
-	public void setTimerIntervall() {
+	public void initTestValues() {
 		switch (getDifficulty()) {
-		case (0):
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCounter += 1;
-			captchaCount = captchaCounter;
+		case 0:
+			timePerTest = 5000;
 			break;
-		case (1):
-			nextTaskIntervall = 4000;
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCounter += 1;
-			captchaCount = captchaCounter;
+		case 1:
+			timePerTest = 4000;
 			break;
-		case (2):
-			nextTaskIntervall = 3000;
-			captchaCounter = getTime() / nextTaskIntervall;
-			captchaCounter += 1;
-			captchaCount = captchaCounter;
+		case 2:
+			timePerTest = 3000;
 			break;
 		}
+		numberOfTests = (getTime() / timePerTest);
+		testCounter = numberOfTests;
 	}
 
 	public JPanel getModuleJPanel() {
@@ -166,8 +160,8 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 * starts the module and calls startTask()
 		 */
 		public void init() {
-			introductionPanel = getIntroductionPanel(nextTaskIntervall,
-					captchaCount, this);
+			introductionPanel = getIntroductionPanel(timePerTest,
+					numberOfTests, this);
 			thisPanel.add(introductionPanel);
 		}
 
@@ -185,12 +179,10 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
+			if (!buttons.contains(e.getSource())) {
+				thisPanel.removeAll();
 				startTask();
-				break;
-			default:
-				break;
+				thisPanel.repaint();
 			}
 
 		}
@@ -203,7 +195,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 */
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (captchaCounter >= 1) {
+			if (testCounter >= 1) {
 				isValidCircle(e.getX(), e.getY(),
 						captcha.getOpenCircleCoordinates(),
 						captcha.getOpenCircleRadius());
@@ -212,11 +204,9 @@ public class CaptchaCirclesModule extends ModuleClass {
 				thisPanel.add(captcha);
 				thisPanel.revalidate();
 				thisPanel.repaint();
-				captchaCounter--;
+				testCounter--;
 			} else {
-				result = (int) (solvedCorrectly / captchaCount) * 100;
-				System.out.println(result + "=" + solvedCorrectly + "/"
-						+ captchaCount);
+				result = calculateResult(numberOfTests, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}
@@ -246,17 +236,15 @@ public class CaptchaCirclesModule extends ModuleClass {
 		public class NextTask extends TimerTask {
 			@Override
 			public void run() {
-				if (captchaCounter >= 1) {
+				if (testCounter >= 1) {
 					thisPanel.removeAll();
 					captcha = createCaptcha();
 					thisPanel.add(captcha);
 					thisPanel.revalidate();
 					thisPanel.repaint();
-					captchaCounter--;
+					testCounter--;
 				} else {
-					result = (int) (solvedCorrectly / captchaCount) * 100;
-					System.out.println(result + "=" + solvedCorrectly + "/"
-							+ captchaCount);
+					result = calculateResult(numberOfTests, solvedCorrectly);
 					sendResult(result);
 					tellFinished();
 				}
@@ -271,9 +259,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
-				result = (solvedCorrectly / captchaCount) * 100;
-				System.out.println(result + "+" + solvedCorrectly + "/"
-						+ captchaCount);
+				result = calculateResult(numberOfTests, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}
