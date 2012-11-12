@@ -2,6 +2,8 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
@@ -161,6 +163,28 @@ public class MathSizeUnitsModule extends ModuleClass {
 			exercise = createExercise();
 
 			solutionPane.setText("");
+			solutionPane.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					if(e.getKeyCode() == (char)13) {
+						nextExerciseButton.doClick();
+					}
+				}
+			});
 
 			givenLabel.setText(exercise[0]);
 			solutionLabel.setText(exercise[1]);
