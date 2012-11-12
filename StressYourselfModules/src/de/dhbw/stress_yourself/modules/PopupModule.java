@@ -11,12 +11,20 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
-
+/**
+ * This class generates a reaction test. The aim is to click on a button as
+ * fast as you can
+ * 
+ * @author Florian Albert <florian-albert@gmx.de
+ *
+ */
 public class PopupModule extends ModuleClass {
 
 		private final String moduleName = "PopupModule";
 		private final String moduleArea = "Reaction";
-		private final String moduleDescription = "Example Description";
+		private final String moduleDescription = "This module generates a button on a random" +
+				"location of the window. You have to click on the button as fast as you can to solve" +
+				"this module.";
 		private int timePerButton;
 		private int numberOfButtons;
 		private int buttonCounter;
@@ -33,7 +41,8 @@ public class PopupModule extends ModuleClass {
 		}
 		
 		/**
-		 * 
+		 * Configurates the time per button and the number of buttons
+		 * which can be clicked depending on the difficulty
 		 */
 		public void initTestValues() {
 			switch (getDifficulty()) {
@@ -70,6 +79,12 @@ public class PopupModule extends ModuleClass {
 			return moduleDescription;
 		}
 		
+		/**
+		 * Generates the button for the test
+		 * 
+		 * @return
+		 * 			JButton for the test
+		 */
 		public JButton generateTest() {
 			
 			JButton testButton = new JButton("X");
@@ -85,6 +100,12 @@ public class PopupModule extends ModuleClass {
 			return testButton;
 		}
 		
+		/**
+		 * Generates the location for the actual button
+		 * 
+		 * @return	
+		 * 			Point for button location
+		 */
 		private Point generateButtonLocation() {
 			int x = -1;
 			int y = -1;
@@ -101,13 +122,14 @@ public class PopupModule extends ModuleClass {
 			return (int) (Math.random() * (high - low) + low);
 		}
 		
-
+		/**
+		 * 
+		 * Generates the panel for the test
+		 *
+		 */
 		class ModuleGUI extends JPanel implements ActionListener {
 			
 			private static final long serialVersionUID = 1L;
-			/**
-			 * 
-			 */
 			private final String moduleName = "PopupModule";
 			private final String moduleArea = "Reaction";
 			private final String moduleDescription = "Example Description";
@@ -117,7 +139,10 @@ public class PopupModule extends ModuleClass {
 			private JButton runningTest;
 
 			private int result;
-
+			
+			/**
+			 * Constructor
+			 */
 			public ModuleGUI() {
 				buttons = new ArrayList<JButton>();
 				setLayout(null);
@@ -126,6 +151,13 @@ public class PopupModule extends ModuleClass {
 						this));
 			}
 			
+			/**
+			 * 
+			 * @param al
+			 *  		ActionListener for the buttons
+			 * @return
+			 * 			JPanel with test
+			 */
 			public JPanel createTestPanel(ActionListener al) {
 				
 				runningTest = generateTest();
@@ -141,7 +173,7 @@ public class PopupModule extends ModuleClass {
 				testPanel.add(runningTest);
 				return testPanel;
 			}
-
+			
 			public void addTestPanel() {
 				this.removeAll();
 				this.invalidate();
@@ -172,6 +204,10 @@ public class PopupModule extends ModuleClass {
 				}
 			}
 			
+			/**
+			 * Calculates the result
+			 * Close the module
+			 */
 			public class NextModule extends TimerTask {
 				@Override
 				public void run() {
@@ -180,7 +216,12 @@ public class PopupModule extends ModuleClass {
 					tellFinished();
 				}
 			}
-
+			
+			/**
+			 * Actionlistener for the buttons.
+			 * Finishes the modules
+			 * Starts the test
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (buttons.contains(e.getSource())) {
