@@ -2,6 +2,7 @@
 <configuration>
   <difficulty>1</difficulty>
   <module>
+<<<<<<< HEAD
     <name>Continue Sequence Module</name>
     <time>60</time>
   </module>

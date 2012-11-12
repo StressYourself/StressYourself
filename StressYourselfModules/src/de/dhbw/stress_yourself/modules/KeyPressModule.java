@@ -1,16 +1,15 @@
 package de.dhbw.stress_yourself.modules;
 
-import java.awt.GridLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.TimerTask;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.border.EmptyBorder;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
@@ -26,10 +25,36 @@ public class KeyPressModule extends ModuleClass {
 	private final String moduleArea = "Reaction";
 	private final String moduleDescription = "Example Description";
 
-	private ArrayList<Boolean> results = new ArrayList<Boolean>();
+	private int testCounter;
+	private int numberOfTests;
+	private int timePerTest;
+	private int solvedCorrectly = 0;
+	private int result;
 
 	public KeyPressModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
+		initTestValues();
+	}
+
+	/**
+	 * This method set the time per task in dependency of the difficulty. It
+	 * also sets the amount of tasks that can be solved in the given time and
+	 * the counter which is responsible for counting down the remaining tasks.
+	 */
+	public void initTestValues() {
+		switch (getDifficulty()) {
+		case 0:
+			timePerTest = 4000;
+			break;
+		case 1:
+			timePerTest = 2500;
+			break;
+		case 2:
+			timePerTest = 1500;
+			break;
+		}
+		numberOfTests = (getTime() / timePerTest);
+		testCounter = numberOfTests;
 	}
 
 	@Override
@@ -52,41 +77,36 @@ public class KeyPressModule extends ModuleClass {
 		return new ModuleGUI();
 	}
 
-	class ModuleGUI extends JPanel implements KeyListener {
+	class ModuleGUI extends JPanel implements KeyListener, ActionListener {
 
 		private static final long serialVersionUID = 1L;
 		private final String character = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		private JTextField keyField;
-		private JLabel scoreLabel;
-		private int score;
+		private JTextField keyField = new JTextField();
+		private JPanel thisPanel = this;
+		private JPanel introductionPanel = null;
 
-		private JTextPane pane = new JTextPane();
-		
 		public ModuleGUI() {
-			setLayout(null);
-			setBounds(0, 0, 800, 600);
 			init();
-			setVisible(true);
-			keyGame();
+			setLayout(null);
+			setBounds(0, 0, 900, 700);
 		}
 
-		private void init() {
-			setBorder(new EmptyBorder(10, 10, 10, 10));
-			setLayout(new GridLayout(2, 1));
-			keyField = new JTextField();
-			keyField.setEditable(false);
-			keyField.setColumns(5);
-			scoreLabel = new JLabel();
-			keyField.addKeyListener(this);
-			add(keyField);
-			add(scoreLabel);
-			pane.setText("CaptchaCirclesModules");
-			pane.setBounds(50, 50, 175, 30);
-			this.add(pane);
-			// setTimer();
+		public void init() {
+			introductionPanel = getIntroductionPanel(timePerTest,
+					numberOfTests, this);
+			thisPanel.add(introductionPanel);
+
 		}
 
-		private void keyGame() {
+		public void startTask() {
+			keyField.setBounds(415, 315, 50, 50);
+			keyField.setFont(new Font("Arial", Font.PLAIN, 30));
+			this.addKeyListener(this);
+			this.add(keyField);
+			setNextModuleTimer(getTime(), new NextModule());
+		}
+
+		private void getNewRandomKey() {
 			int rnd = new Random().nextInt(35);
 			keyField.setText(character.substring(rnd, rnd + 1));
 		}
@@ -102,13 +122,34 @@ public class KeyPressModule extends ModuleClass {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyField.getText())) {
-				scoreLabel.setText("" + ++score);
-				keyGame();
-				results.add(true);
-			} else {
-				results.add(false);
+				if (testCounter >= 1) {
+					solvedCorrectly++;
+					System.out.println(solvedCorrectly);
+					getNewRandomKey();
+					testCounter--;
+				} else {
+					result = calculateResult(numberOfTests, solvedCorrectly);
+					sendResult(result);
+					tellFinished();
+				}
 			}
+		}
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			thisPanel.removeAll();
+			startTask();
+			getNewRandomKey();
+			thisPanel.repaint();
+		}
+		
+		public class NextModule extends TimerTask {
+			@Override
+			public void run() {
+				result = calculateResult(numberOfTests, solvedCorrectly);
+				sendResult(result);
+				tellFinished();
+			}
 		}
 
 	}
