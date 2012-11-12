@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -116,6 +117,9 @@ public class Admin {
 	//ButtonGroup
 	private ButtonGroup bgUserType = new ButtonGroup();
 	private ButtonGroup bgDifficulty = new ButtonGroup();
+	
+	//Checkbob
+	private JCheckBox chkbAnnoyance = new JCheckBox("Annoyance On");
 	
 	//Information about users and parameters
 	private MainApplication main;
@@ -500,6 +504,10 @@ public class Admin {
 		btnShuffleModules.addActionListener(selectBtnFunction);
 		pnlTestManagement.add(btnShuffleModules);
 		
+		chkbAnnoyance.setBounds(215, 285, BUTTONWIDTH, COMPONENTHEIGHT);
+		chkbAnnoyance.setSelected(false);
+		pnlTestManagement.add(chkbAnnoyance);
+		
 		//Select the radiobutton depending on the configuration
 		switch(params.getDifficulty()) {
 		case EASY :
@@ -569,6 +577,9 @@ public class Admin {
 		pnlTestManagement.add(btnActivateAll);
 	}
 	
+	public boolean getAnnoyanceStatus() {
+		return chkbAnnoyance.isSelected();
+	}
 	/**
 	 * Moves the selected module 1 place up or down depending
 	 * on the param direction
