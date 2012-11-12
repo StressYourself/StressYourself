@@ -26,7 +26,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 
 	private final String moduleName = "CaptchaCharSequenceModule";
 	private final String moduleArea = "Concentration";
-	private final String moduleDescription = "Example Description";
+	private final String moduleDescription = "Repeat the sequence of characters displayed in the picture.";
 
 	private int testCounter;
 	private int numberOfTests;
