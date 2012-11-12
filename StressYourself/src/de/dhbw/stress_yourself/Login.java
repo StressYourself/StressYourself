@@ -31,9 +31,7 @@ public class Login {
 	}
 
 	/**
-	 * 
 	 * defines the GUI for the Login
-	 * 
 	 */
 	private class LoginGUI extends JPanel implements ActionListener,
 			KeyListener {
