@@ -16,11 +16,6 @@
     <type>1</type>
   </user>
   <user>
-    <name>flo</name>
-    <password>98f6bcd4621d373cade4e832627b4f6</password>
-    <type>2</type>
-  </user>
-  <user>
     <name>tobias</name>
     <password>2b2731af96cc3d862395993a7ba1188d</password>
     <type>1</type>
@@ -28,6 +23,11 @@
   <user>
     <name>Lukas</name>
     <password>1d028378e12ca6bdafa3b8b21bc5a9ea</password>
+    <type>1</type>
+  </user>
+  <user>
+    <name>flo</name>
+    <password>98f6bcd4621d373cade4e832627b4f6</password>
     <type>1</type>
   </user>
 </list>

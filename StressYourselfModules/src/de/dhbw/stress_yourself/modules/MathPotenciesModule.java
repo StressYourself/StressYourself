@@ -2,6 +2,8 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
@@ -29,6 +31,7 @@ public class MathPotenciesModule extends ModuleClass {
 	private static final int TIMEFOREXERCISE = 10000;
 	private static int maxExercises;
 	private int exercisesMade = 0;
+	private int solvedCorrectly = 0;
 
 	public MathPotenciesModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
@@ -96,6 +99,8 @@ public class MathPotenciesModule extends ModuleClass {
 		private JLabel givenLabel = new JLabel();
 		private JLabel solutionLabel = new JLabel("Calculated:");
 		private JButton nextExerciseButton = new JButton("Next exercise");
+		private JPanel introductionPanel = null;
+		private JPanel thisPanel = this;
 
 		public moduleGUI() {
 			buttons = new ArrayList<JButton>();
@@ -110,11 +115,39 @@ public class MathPotenciesModule extends ModuleClass {
 		public void initExercise() {
 			exercise = createExercise();
 			
-			solutionPane.setText("");			
+			solutionPane.setText("");
+			solutionPane.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					if(e.getKeyCode() == (char)13) {
+						nextExerciseButton.doClick();
+					}
+				}
+			});
 			givenLabel.setText(exercise[0]);
 		}
 		
 		public void init() {
+			introductionPanel = getIntroductionPanel(TIMEFOREXERCISE,
+					maxExercises, this);
+			thisPanel.add(introductionPanel);
+		}
+		
+		public void startExercise() {
 			initExercise();
 			
 			givenLabel.setBounds(20, 20, 200, 20);
@@ -143,25 +176,30 @@ public class MathPotenciesModule extends ModuleClass {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (buttons.indexOf(e.getSource())) {
-			case 0:
-				exercisesMade++;
-				
-				// increment result when the solution given by the user was right
-				if (solutionPane.getText().equals(exercise[1])) {
-					result += (int) 100/maxExercises;
-				}				
-				
-				if (exercisesMade <= maxExercises) {
-					initExercise();
-					this.revalidate();
+			if (buttons.contains(e.getSource())) {
+				switch (buttons.indexOf(e.getSource())) {
+				case 0:
+					exercisesMade++;
+					// increment result when the solution given by the user was
+					// right
+					if (solutionPane.getText().equals(exercise[1])) {
+						solvedCorrectly++;
+					}
+
+					if (exercisesMade < maxExercises) {
+						initExercise();
+						this.revalidate();
+					} else {
+						result = calculateResult(maxExercises, solvedCorrectly);
+						sendResult(result);
+						tellFinished();
+					}
+					break;
 				}
-				else {
-					sendResult(result);
-					tellFinished();
-				}
-				
-				break;
+			} else {
+				thisPanel.removeAll();
+				startExercise();
+				thisPanel.repaint();
 			}
 		}
 

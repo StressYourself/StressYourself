@@ -27,7 +27,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 
 	private final String moduleName = "CaptchaCirclesModule";
 	private final String moduleArea = "Concentration";
-	private final String moduleDescription = "Example Description";
+	private final String moduleDescription = "Click in the open circle displayed in the picture.";
 
 	private int testCounter;
 	private int numberOfTests;
@@ -41,7 +41,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 	}
 
 	/**
-	 * This method set the timer intervall in dependency of the difficulty. It
+	 * This method set the timer interval in dependency of the difficulty. It
 	 * also sets the amount of tasks that can be solved in the given time and
 	 * the counter which is responsible for counting down the remaining tasks.
 	 */

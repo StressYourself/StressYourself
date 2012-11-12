@@ -2,6 +2,8 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
@@ -53,8 +55,8 @@ public class ContinueSequenceModule extends ModuleClass {
 	 */
 	private void calculateResult() {
 
-		float subres = ((float) points / (float) calculateMaxPoints()) * 100f;
-		int res = (int) subres;
+		//float subres = ((float) points / (float) calculateMaxPoints()) * 100f;
+		int res = calculateResult(calculateMaxPoints(),points);
 		if (res > 100) {
 			res = 100;
 
@@ -107,7 +109,16 @@ public class ContinueSequenceModule extends ModuleClass {
 		public ModuleGUI() {
 			setLayout(null);
 			setBounds(0, 0, 800, 600);
-			this.add(createIntroductionPanel());
+			this.add(getIntroductionPanel(0,calculateMaxPoints(),new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					removeIntroductionPanel();
+					setLayout(null);
+					init();
+					fill();
+					setNextModuleTimer(getTime(), new NextModule());
+				}
+			}));
 			setVisible(true);
 
 		}
@@ -144,6 +155,28 @@ public class ContinueSequenceModule extends ModuleClass {
 			this.add(x8);
 			xstart = xstart + diff;
 			x9.setBounds(xstart, ystart, 50, 20);
+			x9.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					if(e.getKeyCode() == (char)13) {
+						submit.doClick();
+					}
+				}
+			});
 			this.add(x9);
 			submit.setText("submit");
 			submit.addActionListener(new ActionListener() {
@@ -177,55 +210,7 @@ public class ContinueSequenceModule extends ModuleClass {
 			solution = tmp[8];
 		}
 
-		/**
-		 * Function to create the Introduction Panel
-		 * 
-		 * @return JPanel Returns the introduction JPanel
-		 * @author Tobias Roeding <tobias@roeding.eu>
-		 * @author Lukas Buchert <lukas.buchert@gmx.de>
-		 */
-		private JPanel createIntroductionPanel() {
-			JPanel introductionPanel = new JPanel();
-			introductionPanel.setLayout(null);
-			JLabel moduleDescriptionLabel = new JLabel(getModuleDescription());
-			JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
-					+ String.valueOf(getTime() / 1000) + "seconds");
-			JLabel moduleDesIntervallLabel = new JLabel(
-					"There is no maximum time per task");
-			JLabel taskCountLabel = new JLabel(calculateMaxPoints()
-					+ " tasks can be solved");
-			JButton startTestButton = new JButton("start");
-
-			introductionPanel.setLayout(null);
-			introductionPanel.setBounds(0, 0, 800, 600);
-
-			moduleDescriptionLabel.setBounds(300, 50, 300, 100);
-			introductionPanel.add(moduleDescriptionLabel);
-
-			moduleTimeLabel.setBounds(300, 155, 300, 30);
-			introductionPanel.add(moduleTimeLabel);
-
-			moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
-			introductionPanel.add(moduleDesIntervallLabel);
-
-			taskCountLabel.setBounds(300, 225, 300, 30);
-			introductionPanel.add(taskCountLabel);
-
-			startTestButton.setBounds(400, 260, 75, 30);
-			introductionPanel.add(startTestButton);
-			startTestButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					removeIntroductionPanel();
-					setLayout(null);
-					init();
-					fill();
-					setNextModuleTimer(getTime(), new NextModule());
-				}
-			});
-
-			return introductionPanel;
-		}
+		
 
 		private void removeIntroductionPanel() {
 			this.setVisible(false);

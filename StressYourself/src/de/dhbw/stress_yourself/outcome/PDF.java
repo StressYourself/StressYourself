@@ -15,7 +15,8 @@ import de.dhbw.stress_yourself.params.*;
 
 /**
  * creates the pdf outcome
- * @author  @author LukasBuchert <Lukas.Buchert@gmx.de>
+ * 
+ * @author @author LukasBuchert <Lukas.Buchert@gmx.de>
  * @author Tobias Roeding <tobias@roeding.eu>
  */
 public class PDF {
@@ -30,9 +31,13 @@ public class PDF {
 			Font.BOLD);
 
 	private static int concentration_points = 0;
+	private static int c_num = 0;
 	private static int reaction_points = 0;
+	private static int r_num = 0;
 	private static int logic_points = 0;
+	private static int l_num = 0;
 	private static int math_points = 0;
+	private static int m_num = 0;
 	private static int total_points = 0;
 
 	public PDF(Parameter params, UserData usr) {
@@ -58,7 +63,6 @@ public class PDF {
 		return true;
 	}
 
-	
 	private static void addMetaData(Document document) {
 		document.addTitle("StressYourself Outcome");
 		document.addSubject("User: " + usr.getCurrentUserName());
@@ -149,16 +153,21 @@ public class PDF {
 	private static void addModulePoints(String area, int points) {
 		switch (area) {
 		case "Concentration":
-			concentration_points = concentration_points + points;
+			concentration_points = (concentration_points * c_num + points)
+					/ (c_num + 1);
+			c_num++;
 			break;
 		case "Reaction":
-			reaction_points = reaction_points + points;
+			reaction_points = (reaction_points * r_num + points) / (r_num + 1);
+			r_num++;
 			break;
 		case "Logic":
-			logic_points = logic_points + points;
+			logic_points = (logic_points * l_num + points) / (l_num + 1);
+			l_num++;
 			break;
 		case "Math":
-			math_points = math_points + points;
+			math_points = (math_points * m_num + points) / (m_num + 1);
+			m_num++;
 			break;
 		}
 	}

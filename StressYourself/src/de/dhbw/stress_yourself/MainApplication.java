@@ -69,6 +69,7 @@ public class MainApplication {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(200, 0, 900, 700);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getAvaiableModules();
 		getConfiguration();
