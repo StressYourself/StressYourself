@@ -2,15 +2,23 @@
 <configuration>
   <difficulty>1</difficulty>
   <module>
-<<<<<<< HEAD
-    <name>KeyPress</name>
-=======
-    <name>Continue Sequence Module</name>
+    <name>MathPotenciesModule</name>
     <time>60</time>
   </module>
   <module>
-    <name>CaptchaCharSequenceModule</name>
->>>>>>> master
+    <name>MathEquationSystemsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathSizeUnitsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathSystemsModule</name>
+    <time>60</time>
+  </module>
+  <module>
+    <name>MathRuleOfThreeModule</name>
     <time>60</time>
   </module>
 </configuration>

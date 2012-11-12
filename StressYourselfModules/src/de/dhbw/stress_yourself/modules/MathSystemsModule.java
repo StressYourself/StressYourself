@@ -233,10 +233,4 @@ public class MathSystemsModule extends ModuleClass {
 			}
 		}
 	}
-
-
-	@Override
-	public void setTimerIntervall() {
-		
-	}
 }
