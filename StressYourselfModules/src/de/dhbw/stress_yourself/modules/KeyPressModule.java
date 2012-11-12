@@ -8,8 +8,8 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 import java.util.TimerTask;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
@@ -81,7 +81,7 @@ public class KeyPressModule extends ModuleClass {
 
 		private static final long serialVersionUID = 1L;
 		private final String character = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		private JTextField keyField = new JTextField();
+		private JLabel keyField = new JLabel();
 		private JPanel thisPanel = this;
 		private JPanel introductionPanel = null;
 
@@ -103,6 +103,7 @@ public class KeyPressModule extends ModuleClass {
 			keyField.setFont(new Font("Arial", Font.PLAIN, 30));
 			this.addKeyListener(this);
 			this.add(keyField);
+			this.requestFocus();
 			setNextModuleTimer(getTime(), new NextModule());
 		}
 
