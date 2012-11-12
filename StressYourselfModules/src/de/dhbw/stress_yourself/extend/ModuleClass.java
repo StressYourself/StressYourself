@@ -1,5 +1,6 @@
 package de.dhbw.stress_yourself.extend;
 
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -31,7 +32,7 @@ public abstract class ModuleClass {
 		this.diff = difficulty;
 		this.time = time;
 	}
-	
+
 	public abstract String getModuleName();
 
 	public abstract String getModuleArea();
@@ -47,7 +48,7 @@ public abstract class ModuleClass {
 	public int getTime() {
 		return time;
 	}
-	
+
 	abstract class NextTask extends TimerTask {
 	}
 
@@ -76,9 +77,9 @@ public abstract class ModuleClass {
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public int calculateResult(int numberOfTests, int solvedCorrectly) {
-		double pointsPerTest = (double)100 / (double)numberOfTests;
+		double pointsPerTest = (double) 100 / (double) numberOfTests;
 		double points = pointsPerTest * solvedCorrectly;
-		if(points > 100) {
+		if (points > 100) {
 			points = 100;
 		}
 		return (int) points;
@@ -96,29 +97,43 @@ public abstract class ModuleClass {
 	public JPanel getIntroductionPanel(int timePerTask, int taskcount,
 			ActionListener al) {
 		JPanel introductionPanel = new JPanel();
-		JLabel moduleDescriptionLabel = new JLabel(getModuleDescription());
+		JLabel moduleName = new JLabel(getModuleName());
+		JLabel moduleDescriptionLabel1 = new JLabel("Description:");
+		JLabel moduleDescriptionLabel2 = new JLabel(getModuleDescription());
 		JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
-				+ String.valueOf(getTime() / 1000) + "seconds");
-		JLabel moduleDesIntervallLabel = new JLabel("Maximum time per Task: "
-				+ String.valueOf(timePerTask / 1000) + "seconds");
-		JLabel taskCountLabel = new JLabel(taskcount + " tasks can be solved");
-		JButton startTasksButton = new JButton("start");
+				+ String.valueOf(getTime() / 1000) + " seconds");
+		JLabel moduleDesIntervallLabel = new JLabel("Estimated time per Task: "
+				+ String.valueOf(timePerTask / 1000) + " seconds");
+		JLabel taskCountLabel = new JLabel("Estimated tasks which can be solved:" + taskcount);
+		JButton startTasksButton = new JButton("Start");
 		introductionPanel.setLayout(null);
-		introductionPanel.setBounds(0, 0, 800, 600);
+		introductionPanel.setBounds(0, 0, 900, 700);
 
-		moduleDescriptionLabel.setBounds(300, 50, 300, 100);
-		introductionPanel.add(moduleDescriptionLabel);
+		moduleName.setBounds(280, 150, 400, 50);
+		moduleName.setFont(new Font("SansSerif", Font.PLAIN, 25));
+		introductionPanel.add(moduleName);
 
-		moduleTimeLabel.setBounds(300, 155, 300, 30);
+		moduleDescriptionLabel1.setBounds(280, 220, 300, 25);
+		moduleDescriptionLabel1.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		introductionPanel.add(moduleDescriptionLabel1);
+		
+		moduleDescriptionLabel2.setBounds(300, 250, 300, 25);
+		moduleDescriptionLabel2.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		introductionPanel.add(moduleDescriptionLabel2);
+
+		moduleTimeLabel.setBounds(280, 280, 300, 25);
+		moduleTimeLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(moduleTimeLabel);
 
-		moduleDesIntervallLabel.setBounds(300, 190, 300, 30);
+		moduleDesIntervallLabel.setBounds(280, 310, 300, 25);
+		moduleDesIntervallLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(moduleDesIntervallLabel);
 
-		taskCountLabel.setBounds(300, 225, 300, 30);
+		taskCountLabel.setBounds(280, 340, 300, 25);
+		taskCountLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(taskCountLabel);
 
-		startTasksButton.setBounds(400, 260, 75, 30);
+		startTasksButton.setBounds(380, 390, 75, 25);
 		introductionPanel.add(startTasksButton);
 		startTasksButton.addActionListener(al);
 
