@@ -180,10 +180,4 @@ public class MathPotenciesModule extends ModuleClass {
 			}
 		}
 	}
-
-
-	@Override
-	public void setTimerIntervall() {
-		
-	}
 }

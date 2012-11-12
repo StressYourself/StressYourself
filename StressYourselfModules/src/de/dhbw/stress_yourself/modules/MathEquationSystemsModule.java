@@ -209,10 +209,4 @@ public class MathEquationSystemsModule extends ModuleClass {
 			}
 		}
 	}
-
-
-	@Override
-	public void setTimerIntervall() {
-		
-	}
 }

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <difficulty>2</difficulty>
-  <module>
-    <name>PopupModule</name>
+  <module><name>PopupModule</name>
     <time>60</time>
   </module>
   <module>
-    <name>KeyPress</name>
-    <time>60</time>
+    <name>KeyPress</name><time>60</time>
   </module>
 </configuration>

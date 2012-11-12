@@ -197,10 +197,4 @@ public class MathRuleOfThreeModule extends ModuleClass {
 			}
 		}
 	}
-
-
-	@Override
-	public void setTimerIntervall() {
-		
-	}
 }

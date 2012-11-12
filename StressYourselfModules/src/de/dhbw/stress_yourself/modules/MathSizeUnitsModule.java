@@ -231,10 +231,4 @@ public class MathSizeUnitsModule extends ModuleClass {
 			}
 		}
 	}
-
-
-	@Override
-	public void setTimerIntervall() {
-		
-	}
 }
