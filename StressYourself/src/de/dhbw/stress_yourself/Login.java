@@ -41,6 +41,7 @@ public class Login {
 		private JLabel label1;
 		private JLabel label2;
 		private JLabel label3;
+		private JLabel label4;
 
 		private JTextField text1, text2;
 
@@ -49,7 +50,7 @@ public class Login {
 		}
 
 		private void init() {
-			setLayout(new GridLayout(4, 2));
+			setLayout(new GridLayout(5, 2));
 			setBorder(new EmptyBorder(280, 300, 280, 300));
 
 			label1 = new JLabel("Username:");
@@ -61,6 +62,7 @@ public class Login {
 			submit = new JButton("Submit");
 			
 			label3 = new JLabel("");
+			label4 = new JLabel("");
 
 			add(label1);
 			add(text1);
@@ -68,11 +70,13 @@ public class Login {
 			add(text2);
 			add(new JLabel());
 			add(submit);
+			add(new JLabel());
+			add(label3);
+			add(new JLabel());
+			add(label4);
 			
 			text1.addKeyListener(this);
 			text2.addKeyListener(this);
-			add(label3);
-			
 			submit.addActionListener(this);
 			
 		}
@@ -94,7 +98,8 @@ public class Login {
 			if (result == 0) {
 				text1.setText("");
 				text2.setText("");
-				label3.setText("Wrong username or password!");
+				label3.setText("Wrong username ");
+				label4.setText("or password!");
 			} else if (result == 1) {
 				// user - start the test with standard configuration
 				main.nextModule();

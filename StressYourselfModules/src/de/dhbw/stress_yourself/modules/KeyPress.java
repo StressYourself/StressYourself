@@ -93,9 +93,11 @@ public class KeyPress extends ModuleClass {
 			keyField.setColumns(5);
 			scoreLabel = new JLabel();
 			keyField.addKeyListener(this);
+			//keyField.setBackground(background);
 			add(keyField);
+			
 			add(scoreLabel);
-			pane.setText("CaptchaCirclesModules");
+			pane.setText("KeyPress");
 			pane.setBounds(50, 50, 175, 30);
 			this.add(pane);
 			//setTimer();
