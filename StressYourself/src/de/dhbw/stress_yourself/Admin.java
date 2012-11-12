@@ -578,7 +578,11 @@ public class Admin {
 	}
 	
 	public boolean getAnnoyanceStatus() {
-		return chkbAnnoyance.isSelected();
+		if(chkbAnnoyance.isSelected()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	/**
 	 * Moves the selected module 1 place up or down depending
@@ -736,13 +740,13 @@ public class Admin {
 				}
 			}
 		}
-		if(params.getAnnoyanceSetting() != chkbAnnoyance.isSelected()) {
-			params.setAnnoyanceSetting(chkbAnnoyance.isSelected());
+		if(params.getAnnoyanceSetting() != getAnnoyanceStatus()) {
+			params.setAnnoyanceSetting(getAnnoyanceStatus());
 			newConfig = true;
 		}
 		
 		 if (newConfig){
-			 params.overwriteConfiguration(llConfig, difficulty, false);
+			 params.overwriteConfiguration(llConfig, difficulty, getAnnoyanceStatus());
 		}
 	}
 	
