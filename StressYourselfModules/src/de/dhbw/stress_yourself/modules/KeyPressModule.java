@@ -128,7 +128,6 @@ public class KeyPressModule extends ModuleClass {
 				System.out.println("heyy");
 				if (testCounter >= 1) {
 					solvedCorrectly++;
-					System.out.println(solvedCorrectly);
 					getNewRandomKey();
 					this.revalidate();
 					this.repaint();
