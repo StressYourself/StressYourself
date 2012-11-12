@@ -736,9 +736,11 @@ public class Admin {
 				}
 			}
 		}
+		// @flo you have to set it somewhere, i didn't know where exactly
+		params.setAnnoyanceSetting(chkbAnnoyance.isSelected());
+		
 		 if (newConfig){
-			 // TODO add annoyanceSetting here
-			params.overwriteConfiguration(llConfig, difficulty, false);
+			 params.overwriteConfiguration(llConfig, difficulty, false);
 		}
 	}
 	

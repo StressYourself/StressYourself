@@ -172,6 +172,7 @@ public class Login {
 				break;
 			case USER:
 				main.nextModule();
+				main.startAnnoyance();
 				break;
 			case ADMIN:
 				main.startAdminPanel();
