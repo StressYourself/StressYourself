@@ -160,8 +160,10 @@ public class PopupModule extends ModuleClass {
 			 */
 			public JPanel createTestPanel(ActionListener al) {
 				
-				runningTest = generateTest();
 				JPanel testPanel = new JPanel();
+				
+				for(int i=0;i<5;i++) {
+				runningTest = generateTest();
 
 				testPanel.setLayout(null);
 				testPanel.setBounds(0, 0, 900, 700);
@@ -171,6 +173,7 @@ public class PopupModule extends ModuleClass {
 					runningTest.addActionListener(al);
 				}
 				testPanel.add(runningTest);
+				}
 				return testPanel;
 			}
 			
@@ -226,12 +229,18 @@ public class PopupModule extends ModuleClass {
 			public void actionPerformed(ActionEvent e) {
 				if (buttons.contains(e.getSource())) {
 					buttonClicked++;
+					System.out.println("BCL: "+buttonClicked+" BCO: "+buttonCounter);
 					if (buttonCounter == numberOfButtons) {
 						result = calculateResult(numberOfButtons, buttonClicked);
 						sendResult(result);
 						tellFinished();
 					}
-					addTestPanel();
+					if(buttonClicked == buttonCounter) {
+						addTestPanel();
+					} else {
+						
+					}
+					
 				} else {
 					startTest();
 					addTestPanel();
