@@ -3,11 +3,7 @@
   <difficulty>0</difficulty>
   <annoyance>1</annoyance>
   <module>
-    <name>KeyPress</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCirclesModule</name>
+    <name>MathPotenciesModule</name>
     <time>60</time>
   </module>
 </configuration>
