@@ -40,11 +40,7 @@ public class Login {
 
 		private static final long serialVersionUID = 1L;
 		private JButton submit;
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> master
 		private JLabel headerLabel;
 		private JLabel usernameLabel;
 		private JLabel passwordLabel;
@@ -52,11 +48,7 @@ public class Login {
 		private JLabel middleLabel;
 		private JLabel copyLabel;
 		private JLabel teamLabel;
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> master
 		private JTextField usernameText;
 		private JTextField passwordText;
 
@@ -65,11 +57,7 @@ public class Login {
 		}
 
 		private void init() {
-<<<<<<< HEAD
-			
-=======
 
->>>>>>> master
 			usernameLabel = new JLabel("Username:");
 			usernameText = new JTextField(10);
 			passwordLabel = new JLabel("Password:");
@@ -79,7 +67,7 @@ public class Login {
 			headerLabel = new JLabel("StressYourself");
 			middleLabel = new JLabel("Informatikertest");
 			copyLabel = new JLabel("\u00A9StressYourself 2012");
-<<<<<<< HEAD
+
 			teamLabel = new JLabel("Christoph Schollmeyer, Florian Albert, Lukas Buchert, Moritz Herbert, Philipp Willems, Tobias Ršding");
 			
 			
@@ -97,7 +85,7 @@ public class Login {
 			
 			GroupLayout groupLayout = new GroupLayout(this);
 			
-=======
+
 			teamLabel = new JLabel("Christoph Schollmeyer, Florian Albert, Lukas Buchert, Moritz Herbert, Philipp Willems, Tobias Roeding");
 
 
@@ -113,9 +101,7 @@ public class Login {
 
 			errorLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
-			GroupLayout groupLayout = new GroupLayout(this);
 
->>>>>>> master
 			groupLayout.setHorizontalGroup(
 				groupLayout.createParallelGroup(Alignment.LEADING)
 					.addGroup(groupLayout.createSequentialGroup()
@@ -173,11 +159,6 @@ public class Login {
 						.addGap(36))
 			);
 			setLayout(groupLayout);
-<<<<<<< HEAD
-			
-=======
-
->>>>>>> master
 			usernameText.addKeyListener(this);
 			passwordText.addKeyListener(this);
 
