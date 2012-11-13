@@ -6,18 +6,21 @@ import java.util.LinkedList;
 
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
+import de.dhbw.stress_yourself.params.UserData;
 
 public class CSV {
 	
 	private LinkedList<ModuleInformation> configuration;
+	private UserData users;
 
-	public CSV(Parameter params) {
+	public CSV(Parameter params, UserData users) {
 		configuration = params.getConfiguration();
+		this.users = users;
 	}
 
 	public boolean createCSV(String path) {
 		try {
-			FileWriter writer = new FileWriter(path + "outcome.csv");
+			FileWriter writer = new FileWriter(path + users.getCurrentUserName() + "_data.csv");
 
 			writer.append("ModuleName;ModuleArea;Points\n");
 

@@ -64,7 +64,7 @@ public class Login {
 			headerLabel = new JLabel("StressYourself");
 			middleLabel = new JLabel("Informatikertest");
 			copyLabel = new JLabel("\u00A9StressYourself 2012");
-
+			
 			teamLabel = new JLabel("Christoph Schollmeyer, Florian Albert, Lukas Buchert, Moritz Herbert, Philipp Willems, Tobias Roeding");
 			
 			
@@ -81,65 +81,169 @@ public class Login {
 			errorLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			
 			GroupLayout groupLayout = new GroupLayout(this);
+			
+			headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			headerLabel
+					.setFont(new Font("Zapfino", Font.BOLD | Font.ITALIC, 47));
 
-			groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
-					.addGroup(groupLayout.createSequentialGroup()
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGap(299)
-								.addComponent(middleLabel, GroupLayout.PREFERRED_SIZE, 306, GroupLayout.PREFERRED_SIZE))
-							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(headerLabel, GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGap(350)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(usernameLabel)
-									.addComponent(passwordLabel))
-								.addGap(18)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(errorLabel, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE)
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(passwordText, Alignment.LEADING)
-										.addComponent(submit, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
-									.addComponent(usernameText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGap(242))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(copyLabel, GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE))
-							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(teamLabel, GroupLayout.PREFERRED_SIZE, 893, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap())
-			);
-			groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
-					.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-						.addGap(40)
-						.addComponent(headerLabel, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addGap(53)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(usernameLabel)
-							.addComponent(usernameText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(passwordLabel)
-							.addComponent(passwordText, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(submit)
-						.addGap(48)
-						.addComponent(errorLabel)
-						.addGap(57)
-						.addComponent(middleLabel)
-						.addGap(60)
-						.addComponent(copyLabel)
-						.addGap(18)
-						.addComponent(teamLabel)
-						.addGap(36))
-			);
+			middleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			middleLabel.setFont(new Font("Zapfino", Font.PLAIN, 23));
+
+			teamLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+			copyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+			errorLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
+			groupLayout
+					.setHorizontalGroup(groupLayout
+							.createParallelGroup(Alignment.LEADING)
+							.addGroup(
+									groupLayout
+											.createSequentialGroup()
+											.addGroup(
+													groupLayout
+															.createParallelGroup(
+																	Alignment.LEADING)
+															.addGroup(
+																	groupLayout
+																			.createSequentialGroup()
+																			.addGap(299)
+																			.addComponent(
+																					middleLabel,
+																					GroupLayout.PREFERRED_SIZE,
+																					306,
+																					GroupLayout.PREFERRED_SIZE))
+															.addGroup(
+																	Alignment.TRAILING,
+																	groupLayout
+																			.createSequentialGroup()
+																			.addContainerGap()
+																			.addComponent(
+																					headerLabel,
+																					GroupLayout.DEFAULT_SIZE,
+																					893,
+																					Short.MAX_VALUE))
+															.addGroup(
+																	Alignment.CENTER,
+																	groupLayout
+																			.createSequentialGroup()
+																			.addGap(300)
+																			.addGroup(
+																					groupLayout
+																							.createParallelGroup(
+																									Alignment.LEADING)
+																							.addComponent(
+																									usernameLabel)
+																							.addComponent(
+																									passwordLabel))
+																			.addGap(18)
+																			.addGroup(
+																					groupLayout
+																							.createParallelGroup(
+																									Alignment.LEADING)
+																							.addComponent(
+																									usernameText,
+																									GroupLayout.DEFAULT_SIZE,
+																									200,
+																									Short.MAX_VALUE)
+																							.addComponent(
+																									passwordText,
+																									GroupLayout.DEFAULT_SIZE,
+																									200,
+																									Short.MAX_VALUE))
+																			.addGap(242))
+
+															.addGroup(
+																	Alignment.CENTER,
+																	groupLayout
+																			.createSequentialGroup()
+																			.addContainerGap()
+																			.addComponent(
+																					submit,
+																					GroupLayout.PREFERRED_SIZE,
+																					200,
+																					GroupLayout.PREFERRED_SIZE))
+															.addGroup(
+																	Alignment.CENTER,
+																	groupLayout
+																			.createSequentialGroup()
+																			.addContainerGap()
+																			.addComponent(
+																					errorLabel,
+																					GroupLayout.PREFERRED_SIZE,
+																					223,
+																					GroupLayout.PREFERRED_SIZE))
+															.addGroup(
+																	Alignment.CENTER,
+																	groupLayout
+																			.createSequentialGroup()
+																			.addContainerGap()
+																			.addComponent(
+																					copyLabel,
+																					GroupLayout.PREFERRED_SIZE,
+																					150,
+																					GroupLayout.PREFERRED_SIZE))
+															.addGroup(
+																	Alignment.TRAILING,
+																	groupLayout
+																			.createSequentialGroup()
+																			.addContainerGap(
+																					GroupLayout.DEFAULT_SIZE,
+																					Short.MAX_VALUE)
+																			.addComponent(
+																					teamLabel,
+																					GroupLayout.PREFERRED_SIZE,
+																					893,
+																					GroupLayout.PREFERRED_SIZE)))
+											.addContainerGap()));
+			groupLayout
+					.setVerticalGroup(groupLayout
+							.createParallelGroup(Alignment.LEADING)
+							.addGroup(
+									Alignment.TRAILING,
+									groupLayout
+											.createSequentialGroup()
+											.addGap(40)
+											.addComponent(headerLabel,
+													GroupLayout.DEFAULT_SIZE,
+													160, Short.MAX_VALUE)
+											.addGap(53)
+											.addGroup(
+													groupLayout
+															.createParallelGroup(
+																	Alignment.BASELINE)
+															.addComponent(
+																	usernameLabel)
+															.addComponent(
+																	usernameText,
+																	GroupLayout.PREFERRED_SIZE,
+																	GroupLayout.DEFAULT_SIZE,
+																	GroupLayout.PREFERRED_SIZE))
+											.addGap(18)
+											.addGroup(
+													groupLayout
+															.createParallelGroup(
+																	Alignment.BASELINE)
+															.addComponent(
+																	passwordLabel)
+															.addComponent(
+																	passwordText,
+																	GroupLayout.PREFERRED_SIZE,
+																	23,
+																	GroupLayout.PREFERRED_SIZE))
+											.addPreferredGap(
+													ComponentPlacement.UNRELATED)
+											.addComponent(submit).addGap(48)
+											.addComponent(errorLabel)
+											.addGap(57)
+											.addComponent(middleLabel)
+											.addGap(60).addComponent(copyLabel)
+											.addGap(18).addComponent(teamLabel)
+											.addGap(36)));
 			setLayout(groupLayout);
- 
+
+
 			usernameText.addKeyListener(this);
 			passwordText.addKeyListener(this);
 
