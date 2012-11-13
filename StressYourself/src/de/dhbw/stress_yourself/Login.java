@@ -64,10 +64,24 @@ public class Login {
 			headerLabel = new JLabel("StressYourself");
 			middleLabel = new JLabel("Informatikertest");
 			copyLabel = new JLabel("\u00A9StressYourself 2012");
-
-			teamLabel = new JLabel(
-					"Christoph Schollmeyer, Florian Albert, Lukas Buchert, Moritz Herbert, Philipp Willems, Tobias Roeding");
-
+			
+			teamLabel = new JLabel("Christoph Schollmeyer, Florian Albert, Lukas Buchert, Moritz Herbert, Philipp Willems, Tobias Roeding");
+			
+			
+			headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			headerLabel.setFont(new Font("Zapfino", Font.BOLD | Font.ITALIC, 47));
+			
+			middleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			middleLabel.setFont(new Font("Zapfino", Font.PLAIN, 23));
+			
+			teamLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			copyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			errorLabel.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			GroupLayout groupLayout = new GroupLayout(this);
+			
 			headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			headerLabel
 					.setFont(new Font("Zapfino", Font.BOLD | Font.ITALIC, 47));
@@ -80,8 +94,6 @@ public class Login {
 			copyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 			errorLabel.setHorizontalAlignment(SwingConstants.LEFT);
-
-			GroupLayout groupLayout = new GroupLayout(this);
 
 			groupLayout
 					.setHorizontalGroup(groupLayout
@@ -230,6 +242,7 @@ public class Login {
 											.addGap(18).addComponent(teamLabel)
 											.addGap(36)));
 			setLayout(groupLayout);
+
 
 			usernameText.addKeyListener(this);
 			passwordText.addKeyListener(this);
