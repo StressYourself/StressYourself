@@ -48,7 +48,7 @@ public class Outcome {
 
 	public boolean createOutcome() {
 		path = params.getOutcomePath();
-		CSV csv = new CSV(params);
+		CSV csv = new CSV(params, usr);
 		PDF pdf = new PDF(params, usr);
 		if (!csv.createCSV(path) || !pdf.createPDF(path)) {
 			return true;

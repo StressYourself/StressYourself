@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-  <difficulty>0</difficulty>
-  <annoyance>1</annoyance>
-  <module>
-    <name>Continue Sequence Module</name>
-    <time>60</time>
-  </module>
-</configuration>

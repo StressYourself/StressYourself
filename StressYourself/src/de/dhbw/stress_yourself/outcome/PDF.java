@@ -84,7 +84,7 @@ public class PDF {
 
 		addEmptyLine(preface, 1);
 
-		preface.add(new Paragraph("Testparameter", subFont));
+		preface.add(new Paragraph("Testing Parameters", subFont));
 		addEmptyLine(preface, 1);
 		preface.add(new Paragraph("Difficulty: "
 				+ params.getDifficulty().toString()));
