@@ -244,7 +244,6 @@ public class Admin {
 			
 			//Click on button "Quit Admin Area And Save All Changes"
 			}else if(e.getSource().equals(btnBack)) {
-				params.setAnnoyanceSetting(chkbAnnoyance.isSelected());
 				saveConfTmp();
 				params.saveChangesInXML();
 				users.saveChangesInXML();
@@ -579,7 +578,11 @@ public class Admin {
 	}
 	
 	public boolean getAnnoyanceStatus() {
-		return chkbAnnoyance.isSelected();
+		if(chkbAnnoyance.isSelected()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	/**
 	 * Moves the selected module 1 place up or down depending
@@ -737,11 +740,13 @@ public class Admin {
 				}
 			}
 		}
-		// @flo you have to set it somewhere, i didn't know where exactly
-		params.setAnnoyanceSetting(chkbAnnoyance.isSelected());
+		if(params.getAnnoyanceSetting() != getAnnoyanceStatus()) {
+			params.setAnnoyanceSetting(getAnnoyanceStatus());
+			newConfig = true;
+		}
 		
 		 if (newConfig){
-			 params.overwriteConfiguration(llConfig, difficulty, false);
+			 params.overwriteConfiguration(llConfig, difficulty, getAnnoyanceStatus());
 		}
 	}
 	
