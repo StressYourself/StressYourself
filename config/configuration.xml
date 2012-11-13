@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <difficulty>2</difficulty>
-  <annoyance>0</annoyance>
+  <difficulty>0</difficulty>
+  <annoyance>1</annoyance>
   <module>
-    <name>PopupModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>Continue Sequence Module</name>
-    <time>120</time>
+    <name>MathPotenciesModule</name>
+    <time>150</time>
   </module>
 </configuration>
