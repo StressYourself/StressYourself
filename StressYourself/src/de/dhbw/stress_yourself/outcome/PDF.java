@@ -2,6 +2,7 @@ package de.dhbw.stress_yourself.outcome;
 
 import java.io.FileOutputStream;
 import java.util.LinkedList;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -26,8 +27,10 @@ public class PDF {
 	private static Parameter params;
 
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-			Font.BOLD);
+			Font.BOLD|Font.UNDERLINE);
 	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
+			Font.BOLD|Font.UNDERLINE);
+	private static Font boldFont = new Font(Font.FontFamily.UNDEFINED, 12,
 			Font.BOLD);
 
 	private static int concentration_points = 0;
@@ -74,17 +77,27 @@ public class PDF {
 	private static void addContent(Document document) throws DocumentException {
 		Paragraph preface = new Paragraph();
 		addEmptyLine(preface, 1);
+	
 		preface.add(new Paragraph("Analysis      Proband: "
 				+ usr.getCurrentUserName(), catFont));
+		
 
 		addEmptyLine(preface, 1);
 
-		preface.add(new Paragraph("Testparameter", subFont));
+		preface.add(new Paragraph("Testing Parameters", subFont));
 		addEmptyLine(preface, 1);
 		preface.add(new Paragraph("Difficulty: "
 				+ params.getDifficulty().toString()));
+		if (params.getAnnoyanceSetting()) {
+			preface.add(new Paragraph("Annoyance: ON"));
+		} else {
+			preface.add(new Paragraph("Annoyance: OFF"));
+		}
 		addEmptyLine(preface, 1);
-		PdfPTable table = new PdfPTable(3);
+		
+		float[] colsWidth = {2f, 5f, 1f}; 
+		PdfPTable table = new PdfPTable(colsWidth);
+		table.setWidthPercentage(95);
 		addModulesToTable(table);
 		table.setHorizontalAlignment(Element.ALIGN_LEFT);
 		preface.add(table);
@@ -97,27 +110,57 @@ public class PDF {
 		calculateTotalPoints();
 
 		PdfPTable table2 = new PdfPTable(2);
+		table2.setWidthPercentage(50);
 
-		PdfPCell c12 = new PdfPCell(new Phrase("Area"));
-		c12.setHorizontalAlignment(Element.ALIGN_CENTER);
-		table2.addCell(c12);
+		PdfPCell c1 = new PdfPCell(new Phrase("Area"));
+		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table2.addCell(c1);
 
-		c12 = new PdfPCell(new Phrase("Reached Percent"));
-		c12.setHorizontalAlignment(Element.ALIGN_CENTER);
-		table2.addCell(c12);
+		c1 = new PdfPCell(new Phrase("Reached Percent"));
+		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table2.addCell(c1);
 
 		table2.setHeaderRows(1);
 
-		table2.addCell("Concentration");
-		table2.addCell(Integer.toString(concentration_points));
-		table2.addCell("Reaction");
-		table2.addCell(Integer.toString(reaction_points));
-		table2.addCell("Logic");
-		table2.addCell(Integer.toString(logic_points));
-		table2.addCell("Math");
-		table2.addCell(Integer.toString(math_points));
-		table2.addCell("Total");
-		table2.addCell(Integer.toString(total_points));
+		PdfPCell cc = new PdfPCell(new Phrase("Concentration"));
+		cc.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase(Integer.toString(concentration_points)));
+		cc.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase("Reaction"));
+		cc.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase(Integer.toString(reaction_points)));
+		cc.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase("Logic"));
+		cc.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase(Integer.toString(logic_points)));
+		cc.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase("Math"));
+		cc.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase(Integer.toString(math_points)));
+		cc.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase("Total",boldFont));
+		cc.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table2.addCell(cc);
+
+		cc = new PdfPCell(new Phrase(Integer.toString(total_points),boldFont));
+		cc.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table2.addCell(cc);
 
 		table2.setHorizontalAlignment(Element.ALIGN_LEFT);
 		preface.add(table2);
@@ -144,7 +187,12 @@ public class PDF {
 		for (int i = 0; i < configuration.size(); i++) {
 			table.addCell(configuration.get(i).getArea());
 			table.addCell(configuration.get(i).getName());
-			table.addCell(Integer.toString(configuration.get(i).getTime()));
+			
+			PdfPCell ct = new PdfPCell(new Phrase(Integer.toString(configuration.get(i).getTime())));
+			ct.setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(ct);
+			
+			
 			addModulePoints(configuration.get(i).getArea(), configuration
 					.get(i).getPoints());
 		}
