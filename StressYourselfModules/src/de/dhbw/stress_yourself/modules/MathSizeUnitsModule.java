@@ -29,18 +29,30 @@ public class MathSizeUnitsModule extends ModuleClass {
 	public static final String moduleArea = "Math";
 	public static final String moduleDescription = "Transform the given value to the given size unit!";
 
-	private static final int TIMEFOREXERCISE = 10000;
-	private static int maxExercises;
-	private int exercisesMade = 0;
+	private int timePerTest = 0;
+	private int testCounter;
+	private int numberOfTests;
 	private int solvedCorrectly = 0;
 
 	public MathSizeUnitsModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setMaxExercises(time);
+		initTestValues();
 	}
 
-	public void setMaxExercises(Integer time) {
-		maxExercises = time / TIMEFOREXERCISE;
+	public void initTestValues() {
+		switch (getDifficulty()) {
+		case 0:
+			timePerTest = 5000;
+			break;
+		case 1:
+			timePerTest = 7000;
+			break;
+		case 2:
+			timePerTest = 9000;
+			break;
+		}
+		numberOfTests = (getTime() / timePerTest);
+		testCounter = numberOfTests;
 	}
 
 	public JPanel getModuleJPanel() {
@@ -164,18 +176,18 @@ public class MathSizeUnitsModule extends ModuleClass {
 
 			solutionText.setText("");
 			solutionText.addKeyListener(new KeyListener() {
-				
+
 				@Override
 				public void keyTyped(KeyEvent e) {
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextExerciseButton.doClick();
 					}
 				}
@@ -186,8 +198,8 @@ public class MathSizeUnitsModule extends ModuleClass {
 		}
 
 		public void init() {
-			introductionPanel = getIntroductionPanel(TIMEFOREXERCISE,
-					maxExercises, this);
+			introductionPanel = getIntroductionPanel(timePerTest,
+					numberOfTests, this);
 			thisPanel.add(introductionPanel);
 		}
 
@@ -221,25 +233,20 @@ public class MathSizeUnitsModule extends ModuleClass {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (buttons.contains(e.getSource())) {
-				switch (buttons.indexOf(e.getSource())) {
-				case 0:
-					exercisesMade++;
-					// increment result when the solution given by the user was
-					// right
-					if (solutionText.getText().equals(exercise[2])) {
-						solvedCorrectly++;
-					}
-
-					if (exercisesMade < maxExercises) {
-						initExercise();
-						this.revalidate();
-					} else {
-						result = calculateResult(maxExercises, solvedCorrectly);
-						sendResult(result);
-						tellFinished();
-					}
-					break;
+				// increment result when the solution given by the user was
+				// right
+				if (solutionText.getText().equals(exercise[2])) {
+					solvedCorrectly++;
 				}
+
+				testCounter--;
+				if (testCounter == 0) {
+					result = calculateResult(numberOfTests, solvedCorrectly);
+					sendResult(result);
+					tellFinished();
+				}
+				initExercise();
+				this.revalidate();
 			} else {
 				thisPanel.removeAll();
 				startExercise();

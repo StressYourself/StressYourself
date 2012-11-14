@@ -80,7 +80,6 @@ public class KeyPressModule extends ModuleClass {
 	/**
 	 * defines the GUI for the Module
 	 */
-
 	class ModuleGUI extends JPanel implements KeyListener, ActionListener {
 
 		private static final long serialVersionUID = 1L;
@@ -117,7 +116,6 @@ public class KeyPressModule extends ModuleClass {
 		 *  gives a random number, which is used to find a random char. That random char is later shown
 		 *  on the panel.
 		 */
-		
 		private void getNewRandomKey() {
 			int rnd = new Random().nextInt(35);
 			keyField.setText(character.substring(rnd, rnd + 1));
@@ -138,7 +136,6 @@ public class KeyPressModule extends ModuleClass {
 		 * @param KeyEvent
 		 * 			e Event when the key is pressed
 		 */
-		
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if (KeyEvent.getKeyText(e.getKeyCode()).equals(keyField.getText())) {
@@ -164,8 +161,6 @@ public class KeyPressModule extends ModuleClass {
 		 *            e Event when button is pressed
 		 * 
 		 */
-		
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			thisPanel.removeAll();
@@ -181,7 +176,6 @@ public class KeyPressModule extends ModuleClass {
 		 * 
 		 *
 		 */
-		
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {

@@ -6,4 +6,8 @@
     <name>MathPotenciesModule</name>
     <time>60</time>
   </module>
+  <module>
+    <name>MathEquationSystemsModule</name>
+    <time>60</time>
+  </module>
 </configuration>
