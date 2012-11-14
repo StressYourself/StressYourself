@@ -51,9 +51,13 @@ public abstract class ModuleClass {
 		return time;
 	}
 
-	abstract class NextTask extends TimerTask {
-	}
-
+	
+	/**
+	 * Methods to handle the timer to call the next module.
+	 * 
+	 * @param time
+	 * @param timer
+	 */
 	public void setNextModuleTimer(int time, TimerTask timer) {
 		nextModuleTimer = new Timer();
 		nextModuleTimer.schedule(timer, time);

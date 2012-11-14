@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <difficulty>0</difficulty>
+  <difficulty>2</difficulty>
   <annoyance>0</annoyance>
-  <module>
-    <name>MathPotenciesModule</name>
-    <time>60</time>
+  <module><name>MathPotenciesModule</name><time>60</time>
   </module>
 </configuration>

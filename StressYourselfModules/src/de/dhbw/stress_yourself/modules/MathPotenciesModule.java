@@ -139,6 +139,7 @@ public class MathPotenciesModule extends ModuleClass {
 					}
 				}
 			});
+
 			init();
 			this.setLayout(null);
 		}
