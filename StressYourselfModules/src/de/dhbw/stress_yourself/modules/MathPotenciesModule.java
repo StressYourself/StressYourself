@@ -28,19 +28,29 @@ public class MathPotenciesModule extends ModuleClass {
 	public static final String moduleArea = "Math";
 	public static final String moduleDescription = "Calculate the potencies!";
 	
-	private static int TIMEFOREXERCISE = 15000;
+	private static int TIMEFOREXERCISE;
 	private static int maxExercises;
 	private int exercisesMade = 0;
 	private int solvedCorrectly = 0;
 
 	public MathPotenciesModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setMaxExercises(time);
+		initTestValues();
 	}
-
-	public void setMaxExercises(Integer time) {
-		TIMEFOREXERCISE/= (int) (1 + getDifficulty());
-		maxExercises = (int) time / TIMEFOREXERCISE * (1 + getDifficulty());
+	
+	public void initTestValues() {
+		switch (getDifficulty()) {
+		case 0:
+			TIMEFOREXERCISE = 5000;
+			break;
+		case 1:
+			TIMEFOREXERCISE = 7000;
+			break;
+		case 2:
+			TIMEFOREXERCISE = 9000;
+			break;
+		}
+		maxExercises = (getTime() / TIMEFOREXERCISE);
 	}
 	
 	public JPanel getModuleJPanel() {
@@ -105,18 +115,6 @@ public class MathPotenciesModule extends ModuleClass {
 
 		public moduleGUI() {
 			buttons = new ArrayList<JButton>();
-			init();
-			this.setLayout(null);
-		}
-
-		public void registerButton(JButton button) {
-			buttons.add(button);
-		}
-		
-		public void initExercise() {
-			exercise = createExercise();
-			
-			solutionText.setText("");
 			solutionText.addKeyListener(new KeyListener() {
 				
 				@Override
@@ -134,6 +132,22 @@ public class MathPotenciesModule extends ModuleClass {
 					}
 				}
 			});
+
+			init();
+			this.setLayout(null);
+		}
+
+		public void registerButton(JButton button) {
+			if(!buttons.contains(button)) {
+				buttons.add(button);
+			}
+		}
+		
+		public void initExercise() {
+			exercise = createExercise();
+			
+			solutionText.setText("");
+			
 			givenLabel.setText(exercise[0]);
 		}
 		
@@ -141,6 +155,11 @@ public class MathPotenciesModule extends ModuleClass {
 			introductionPanel = getIntroductionPanel(TIMEFOREXERCISE,
 					maxExercises, this);
 			thisPanel.add(introductionPanel);
+			
+			registerButton(nextExerciseButton);
+			nextExerciseButton.addActionListener(this);
+			nextExerciseButton.setBounds(320, 270, 140, 30);
+			
 		}
 		
 		public void startExercise() {
@@ -150,13 +169,12 @@ public class MathPotenciesModule extends ModuleClass {
 			solutionLabel.setBounds(320, 245, 100, 20);
 			solutionText.setBounds(430, 245, 100, 20);
 			
+			solutionText.requestFocus();
+			
 			this.add(givenLabel);
 			this.add(solutionLabel);
 			this.add(solutionText);
 			
-			registerButton(nextExerciseButton);
-			nextExerciseButton.addActionListener(this);
-			nextExerciseButton.setBounds(320, 270, 140, 30);
 			this.add(nextExerciseButton);
 			
 			setNextModuleTimer(getTime(), new NextModule());
@@ -172,43 +190,32 @@ public class MathPotenciesModule extends ModuleClass {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+				
 			if (buttons.contains(e.getSource())) {
-				switch (buttons.indexOf(e.getSource())) {
-				case 0:
-					exercisesMade++;
-					// increment result when the solution given by the user was
-					// right
-					if (solutionText.getText().equals(exercise[1])) {
-						solvedCorrectly++;
-					}
-
-					if (exercisesMade < maxExercises) {
-						initExercise();
-						this.revalidate();
-					} else {
-						result = calculateResult(maxExercises, solvedCorrectly);
-						sendResult(result);
-						tellFinished();
-					}
-					break;
+				exercisesMade++;
+				// increment result when the solution given by the user was
+				// right
+				if (solutionText.getText().equals(exercise[1])) {
+					solvedCorrectly++;
 				}
+				if (exercisesMade == maxExercises) {
+					result = calculateResult(maxExercises, solvedCorrectly);
+					sendResult(result);
+					tellFinished();
+				}
+				initExercise();	
+				this.revalidate();
 			} else {
 				thisPanel.removeAll();
 				startExercise();
 				thisPanel.repaint();
 			}
 		}
-
-		public class NextTask extends TimerTask {
-			@Override
-			public void run() {
-				
-			}
-		}
 		
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
+				result = calculateResult(maxExercises, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}

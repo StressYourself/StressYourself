@@ -20,6 +20,11 @@ public class Annoyance implements Runnable {
 
 	public boolean running = true;
 
+	/**
+	 * Main mathod of the class. 
+	 * Starts the annoyances and handles the delays between the annoyances. 
+	 */
+	
 	@Override
 	public void run() {
 		while (running) {
@@ -40,6 +45,14 @@ public class Annoyance implements Runnable {
 			}
 		}
 	}
+	
+	/**
+	 * Method to create a new annoyance with a given position 
+	 * and the time the annoyance is displayed(milliseconds) 
+	 * @param time
+	 * @param xPos
+	 * @param yPos
+	 */
 
 	public void createAnnoyance(int time, int xPos, int yPos) {
 		setNextBackgroundColorTimer(20, new NextBackgroundColor());
