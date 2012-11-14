@@ -2,8 +2,12 @@ package de.dhbw.stress_yourself.extend;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,9 +55,13 @@ public abstract class ModuleClass {
 		return time;
 	}
 
-	abstract class NextTask extends TimerTask {
-	}
-
+	
+	/**
+	 * Methods to handle the timer to call the next module.
+	 * 
+	 * @param time
+	 * @param timer
+	 */
 	public void setNextModuleTimer(int time, TimerTask timer) {
 		nextModuleTimer = new Timer();
 		nextModuleTimer.schedule(timer, time);
@@ -163,12 +171,22 @@ public abstract class ModuleClass {
 	 */
 	public void sendResult(int result) {
 		stopNextModuleTimer();
+		
+		URL url = null;
+		try {
+			url = new File("stress_yourself.jar").toURI().toURL();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+		URLClassLoader urlcl = null;
+		urlcl = URLClassLoader.newInstance(new URL[] { url });
+
 		Class<?> clazz = null;
 		try {
-			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
-
+			clazz = urlcl.loadClass("de.dhbw.stress_yourself.MainApplication");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("Class not found " + e);
 		}
 
 		Method nextModule = null;
@@ -180,10 +198,10 @@ public abstract class ModuleClass {
 		}
 
 		try {
-			nextModule.invoke(mainClass, new Object[] { getModuleName(),
+			nextModule.invoke(clazz.newInstance(), new Object[] { getModuleName(),
 					new Integer(result) });
 		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
+				| InvocationTargetException | InstantiationException e) {
 			e.printStackTrace();
 		}
 	}
@@ -195,12 +213,21 @@ public abstract class ModuleClass {
 	 * @author Tobias Roeding <tobias@roeding.eu>
 	 */
 	public void tellFinished() {
+		URL url = null;
+		try {
+			url = new File("stress_yourself.jar").toURI().toURL();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+		URLClassLoader urlcl = null;
+		urlcl = URLClassLoader.newInstance(new URL[] { url });
+
 		Class<?> clazz = null;
 		try {
-			clazz = Class.forName("de.dhbw.stress_yourself.MainApplication");
-
+			clazz = urlcl.loadClass("de.dhbw.stress_yourself.MainApplication");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("Class not found " + e);
 		}
 
 		Method nextModule = null;

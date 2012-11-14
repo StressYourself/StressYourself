@@ -158,25 +158,15 @@ public class MathSystemsModule extends ModuleClass {
 
 		public moduleGUI() {
 			buttons = new ArrayList<JButton>();
-			init();
-			this.setLayout(null);
-		}
-
-		public void registerButton(JButton button) {
-			buttons.add(button);
-		}
-
-		public void initExercise() {
-			exercise = createExercise();
-
-			solutionText.setText("");
 			solutionText.addKeyListener(new KeyListener() {
 				
 				@Override
-				public void keyTyped(KeyEvent e) {}
+				public void keyTyped(KeyEvent e) {	
+				}
 				
 				@Override
-				public void keyReleased(KeyEvent e) {}
+				public void keyReleased(KeyEvent e) {
+				}
 				
 				@Override
 				public void keyPressed(KeyEvent e) {
@@ -185,6 +175,20 @@ public class MathSystemsModule extends ModuleClass {
 					}
 				}
 			});
+			init();
+			this.setLayout(null);
+		}
+
+		public void registerButton(JButton button) {
+			if(!buttons.contains(button)) {
+				buttons.add(button);
+			}
+		}
+
+		public void initExercise() {
+			exercise = createExercise();
+
+			solutionText.setText("");
 
 			givenLabel.setText(exercise[0]);
 			solutionLabel.setText(exercise[1]);
