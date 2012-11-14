@@ -3,19 +3,7 @@
   <difficulty>0</difficulty>
   <annoyance>0</annoyance>
   <module>
-    <name>MathPotenciesModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathSizeUnitsModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathRuleOfThreeModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathSystemsModule</name>
+    <name>Operand Module</name>
     <time>60</time>
   </module>
 </configuration>
