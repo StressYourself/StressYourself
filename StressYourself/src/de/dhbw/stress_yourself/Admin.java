@@ -26,9 +26,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import com.sun.j3d.utils.behaviors.mouse.MouseBehavior;
-import com.sun.j3d.utils.behaviors.mouse.MouseBehaviorCallback;
-
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.Parameter.difficultyType;

@@ -28,21 +28,15 @@ public class MathPotenciesModule extends ModuleClass {
 	public static final String moduleArea = "Math";
 	public static final String moduleDescription = "Calculate the potencies!";
 	
-	private static int TIMEFOREXERCISE = 15000;
+	private static int TIMEFOREXERCISE;
 	private static int maxExercises;
 	private int exercisesMade = 0;
 	private int solvedCorrectly = 0;
 
 	public MathPotenciesModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-//		setMaxExercises(time);
 		initTestValues();
 	}
-
-//	public void setMaxExercises(Integer time) {
-//		TIMEFOREXERCISE/= (int) (1 + getDifficulty());
-//		maxExercises = (int) time / TIMEFOREXERCISE * (1 + getDifficulty());
-//	}
 	
 	public void initTestValues() {
 		switch (getDifficulty()) {
@@ -57,7 +51,6 @@ public class MathPotenciesModule extends ModuleClass {
 			break;
 		}
 		maxExercises = (getTime() / TIMEFOREXERCISE);
-		exercisesMade = 0;
 	}
 	
 	public JPanel getModuleJPanel() {
@@ -145,7 +138,9 @@ public class MathPotenciesModule extends ModuleClass {
 		}
 
 		public void registerButton(JButton button) {
-			buttons.add(button);
+			if(!buttons.contains(button)) {
+				buttons.add(button);
+			}
 		}
 		
 		public void initExercise() {
@@ -160,6 +155,11 @@ public class MathPotenciesModule extends ModuleClass {
 			introductionPanel = getIntroductionPanel(TIMEFOREXERCISE,
 					maxExercises, this);
 			thisPanel.add(introductionPanel);
+			
+			registerButton(nextExerciseButton);
+			nextExerciseButton.addActionListener(this);
+			nextExerciseButton.setBounds(320, 270, 140, 30);
+			
 		}
 		
 		public void startExercise() {
@@ -175,9 +175,6 @@ public class MathPotenciesModule extends ModuleClass {
 			this.add(solutionLabel);
 			this.add(solutionText);
 			
-			registerButton(nextExerciseButton);
-			nextExerciseButton.addActionListener(this);
-			nextExerciseButton.setBounds(320, 270, 140, 30);
 			this.add(nextExerciseButton);
 			
 			setNextModuleTimer(getTime(), new NextModule());
@@ -193,34 +190,14 @@ public class MathPotenciesModule extends ModuleClass {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			if (buttons.contains(e.getSource())) {
-//				switch (buttons.indexOf(e.getSource())) {
-//				case 0:
-//					exercisesMade++;
-//					// increment result when the solution given by the user was
-//					// right
-//					if (solutionText.getText().equals(exercise[1])) {
-//						solvedCorrectly++;
-//					}
-//
-//					if (exercisesMade < maxExercises) {
-//						initExercise();
-//						this.revalidate();
-//					} else {
-//						result = calculateResult(maxExercises, solvedCorrectly);
-//						sendResult(result);
-//						tellFinished();
-//					}
-//					break;
-//				}
 				
 			if (buttons.contains(e.getSource())) {
+				exercisesMade++;
 				// increment result when the solution given by the user was
 				// right
 				if (solutionText.getText().equals(exercise[1])) {
 					solvedCorrectly++;
 				}
-				exercisesMade++;
 				if (exercisesMade == maxExercises) {
 					result = calculateResult(maxExercises, solvedCorrectly);
 					sendResult(result);
