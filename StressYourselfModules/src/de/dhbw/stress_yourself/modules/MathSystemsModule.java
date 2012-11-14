@@ -170,21 +170,6 @@ public class MathSystemsModule extends ModuleClass {
 			exercise = createExercise();
 
 			solutionText.setText("");
-			solutionText.addKeyListener(new KeyListener() {
-				
-				@Override
-				public void keyTyped(KeyEvent e) {}
-				
-				@Override
-				public void keyReleased(KeyEvent e) {}
-				
-				@Override
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-						nextExerciseButton.doClick();
-					}
-				}
-			});
 
 			givenLabel.setText(exercise[0]);
 			solutionLabel.setText(exercise[1]);

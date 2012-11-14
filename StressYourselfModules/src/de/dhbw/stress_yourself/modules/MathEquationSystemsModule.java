@@ -136,41 +136,9 @@ public class MathEquationSystemsModule extends ModuleClass {
 			exercise = createExercise();
 
 			xText.setText("");
-			xText.addKeyListener(new KeyListener() {
-
-				@Override
-				public void keyTyped(KeyEvent e) {
-				}
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-				}
-
-				@Override
-				public void keyPressed(KeyEvent e) {
-					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						nextExerciseButton.doClick();
-					}
-				}
-			});
+			
 			yText.setText("");
-			yText.addKeyListener(new KeyListener() {
-
-				@Override
-				public void keyTyped(KeyEvent e) {
-				}
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-				}
-
-				@Override
-				public void keyPressed(KeyEvent e) {
-					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						nextExerciseButton.doClick();
-					}
-				}
-			});
+			
 			firstEquationLabel.setText(exercise[2]);
 			secondEquationLabel.setText(exercise[3]);
 		}
