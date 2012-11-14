@@ -105,18 +105,6 @@ public class MathPotenciesModule extends ModuleClass {
 
 		public moduleGUI() {
 			buttons = new ArrayList<JButton>();
-			init();
-			this.setLayout(null);
-		}
-
-		public void registerButton(JButton button) {
-			buttons.add(button);
-		}
-		
-		public void initExercise() {
-			exercise = createExercise();
-			
-			solutionText.setText("");
 			solutionText.addKeyListener(new KeyListener() {
 				
 				@Override
@@ -134,6 +122,19 @@ public class MathPotenciesModule extends ModuleClass {
 					}
 				}
 			});
+			init();
+			this.setLayout(null);
+		}
+
+		public void registerButton(JButton button) {
+			buttons.add(button);
+		}
+		
+		public void initExercise() {
+			exercise = createExercise();
+			
+			solutionText.setText("");
+			
 			givenLabel.setText(exercise[0]);
 		}
 		
@@ -198,17 +199,11 @@ public class MathPotenciesModule extends ModuleClass {
 				thisPanel.repaint();
 			}
 		}
-
-		public class NextTask extends TimerTask {
-			@Override
-			public void run() {
-				
-			}
-		}
 		
 		public class NextModule extends TimerTask {
 			@Override
 			public void run() {
+				result = calculateResult(maxExercises, solvedCorrectly);
 				sendResult(result);
 				tellFinished();
 			}

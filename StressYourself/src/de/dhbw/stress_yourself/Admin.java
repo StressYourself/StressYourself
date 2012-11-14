@@ -5,7 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
+
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,9 +21,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
+
+import com.sun.j3d.utils.behaviors.mouse.MouseBehavior;
+import com.sun.j3d.utils.behaviors.mouse.MouseBehaviorCallback;
 
 import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
@@ -137,6 +145,7 @@ public class Admin {
 	private String tmpUsername;
 	private boolean del;
 	private DefaultListModel<String> tmpDLM  = new DefaultListModel<String>();
+	private Border defaultBorder;
 	
 	/**
 	 * Actionlistener for all buttons
@@ -187,6 +196,14 @@ public class Admin {
 				if(tfUsername.getText().length() != 0 && pfPassword.getPassword().length != 0) {
 					changePassword();
 				}
+				else {
+					if(tfUsername.getText().length() == 0) {
+						tfUsername.setBorder(BorderFactory.createLineBorder(Color.RED));
+					}
+					if(pfPassword.getPassword().length == 0) {
+						pfPassword.setBorder(BorderFactory.createLineBorder(Color.RED));
+					}
+				}
 				
 			//Click on button "Create User"
 			} else if(e.getSource().equals(btnCreateUser)) {
@@ -195,7 +212,15 @@ public class Admin {
 						dlUsers.addElement(tfUsername.getText());
 					}
 					
+				} else {
+					if(tfUsername.getText().length() == 0) {
+						tfUsername.setBorder(BorderFactory.createLineBorder(Color.RED));
+					}
+					if(pfPassword.getPassword().length == 0) {
+						pfPassword.setBorder(BorderFactory.createLineBorder(Color.RED));
+					}
 				}
+				
 			//Click on button "Delete User"	
 			} else if(e.getSource().equals(btnDeleteUser)) {
 				del = false;
@@ -207,6 +232,7 @@ public class Admin {
 					del = true;
 				} else if (lUsers.isSelectionEmpty() && tfUsername.getText().length() == 0) {
 					del = false;
+					tfUsername.setBorder(BorderFactory.createLineBorder(Color.RED));
 				}
 				if (del) {
 					if (deleteUser(tmpUsername)) {
@@ -333,6 +359,8 @@ public class Admin {
 		createStatusPanel();
 		createUsersPanel(); 
 		
+		defaultBorder = tfUsername.getBorder();
+		
 		aPanel.setLayout(null);
 		aPanel.setBounds(0,0,900, 700);
 		
@@ -416,6 +444,38 @@ public class Admin {
 		
 		tfUsername.setBounds(110, 5, TEXTFIELDWIDTH, COMPONENTHEIGHT);
 		tfUsername.addKeyListener(klLetters);
+		tfUsername.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				tfUsername.setBorder(defaultBorder);
+			}
+		});
 		pnlUserManagement.add(tfUsername);
 		
 		lblPassword.setBounds(5, 30, LABELWIDTH, COMPONENTHEIGHT);
@@ -424,6 +484,38 @@ public class Admin {
 		pfPassword.setBounds(110, 30, TEXTFIELDWIDTH, COMPONENTHEIGHT);
 		pfPassword.setDocument(new SetMaxText(8));
 		pfPassword.addKeyListener(klLetters);
+		pfPassword.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				pfPassword.setBorder(defaultBorder);
+			}
+		});
 		pnlUserManagement.add(pfPassword);
 		
 		bgUserType.add(rbUser);
