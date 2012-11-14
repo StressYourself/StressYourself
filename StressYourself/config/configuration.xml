@@ -3,15 +3,11 @@
   <difficulty>0</difficulty>
   <annoyance>0</annoyance>
   <module>
-    <name>MathSizeUnitsModule</name>
+    <name>MathPotenciesModule</name>
     <time>60</time>
   </module>
   <module>
-    <name>Operand Module</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>Continue Sequence Module</name>
+    <name>MathEquationSystemsModule</name>
     <time>60</time>
   </module>
 </configuration>
