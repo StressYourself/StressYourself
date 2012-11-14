@@ -2,8 +2,6 @@ package de.dhbw.stress_yourself.modules;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Random;
