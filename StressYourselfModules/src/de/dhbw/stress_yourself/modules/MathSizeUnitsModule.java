@@ -209,7 +209,7 @@ public class MathSizeUnitsModule extends ModuleClass {
 			givenLabel.setBounds(320, 220, 200, 20);
 			solutionLabel.setBounds(320, 245, 100, 20);
 			solutionText.setBounds(430, 245, 100, 20);
-
+			
 			this.add(givenLabel);
 			this.add(solutionLabel);
 			this.add(solutionText);

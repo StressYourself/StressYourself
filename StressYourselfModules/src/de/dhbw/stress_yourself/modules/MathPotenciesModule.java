@@ -35,12 +35,29 @@ public class MathPotenciesModule extends ModuleClass {
 
 	public MathPotenciesModule(Object o, Integer difficulty, Integer time) {
 		super(o, difficulty.intValue(), time.intValue());
-		setMaxExercises(time);
+//		setMaxExercises(time);
+		initTestValues();
 	}
 
-	public void setMaxExercises(Integer time) {
-		TIMEFOREXERCISE/= (int) (1 + getDifficulty());
-		maxExercises = (int) time / TIMEFOREXERCISE * (1 + getDifficulty());
+//	public void setMaxExercises(Integer time) {
+//		TIMEFOREXERCISE/= (int) (1 + getDifficulty());
+//		maxExercises = (int) time / TIMEFOREXERCISE * (1 + getDifficulty());
+//	}
+	
+	public void initTestValues() {
+		switch (getDifficulty()) {
+		case 0:
+			TIMEFOREXERCISE = 5000;
+			break;
+		case 1:
+			TIMEFOREXERCISE = 7000;
+			break;
+		case 2:
+			TIMEFOREXERCISE = 9000;
+			break;
+		}
+		maxExercises = (getTime() / TIMEFOREXERCISE);
+		exercisesMade = 0;
 	}
 	
 	public JPanel getModuleJPanel() {
@@ -151,6 +168,8 @@ public class MathPotenciesModule extends ModuleClass {
 			solutionLabel.setBounds(320, 245, 100, 20);
 			solutionText.setBounds(430, 245, 100, 20);
 			
+			solutionText.requestFocus();
+			
 			this.add(givenLabel);
 			this.add(solutionLabel);
 			this.add(solutionText);
@@ -173,26 +192,41 @@ public class MathPotenciesModule extends ModuleClass {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+//			if (buttons.contains(e.getSource())) {
+//				switch (buttons.indexOf(e.getSource())) {
+//				case 0:
+//					exercisesMade++;
+//					// increment result when the solution given by the user was
+//					// right
+//					if (solutionText.getText().equals(exercise[1])) {
+//						solvedCorrectly++;
+//					}
+//
+//					if (exercisesMade < maxExercises) {
+//						initExercise();
+//						this.revalidate();
+//					} else {
+//						result = calculateResult(maxExercises, solvedCorrectly);
+//						sendResult(result);
+//						tellFinished();
+//					}
+//					break;
+//				}
+				
 			if (buttons.contains(e.getSource())) {
-				switch (buttons.indexOf(e.getSource())) {
-				case 0:
-					exercisesMade++;
-					// increment result when the solution given by the user was
-					// right
-					if (solutionText.getText().equals(exercise[1])) {
-						solvedCorrectly++;
-					}
-
-					if (exercisesMade < maxExercises) {
-						initExercise();
-						this.revalidate();
-					} else {
-						result = calculateResult(maxExercises, solvedCorrectly);
-						sendResult(result);
-						tellFinished();
-					}
-					break;
+				// increment result when the solution given by the user was
+				// right
+				if (solutionText.getText().equals(exercise[1])) {
+					solvedCorrectly++;
 				}
+				exercisesMade++;
+				if (exercisesMade == maxExercises) {
+					result = calculateResult(maxExercises, solvedCorrectly);
+					sendResult(result);
+					tellFinished();
+				}
+				initExercise();	
+				this.revalidate();
 			} else {
 				thisPanel.removeAll();
 				startExercise();
