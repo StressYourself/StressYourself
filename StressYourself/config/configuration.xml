@@ -3,58 +3,11 @@
   <difficulty>0</difficulty>
   <annoyance>0</annoyance>
   <module>
-<<<<<<< HEAD
-=======
     <name>Operand Module</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathPotenciesModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathEquationSystemsModule</name>
-    <time>60</time>
-  </module>
-  <module>
->>>>>>> master
-    <name>Continue Sequence Module</name>
-    <time>60</time>
-  </module>
-  <module>
-<<<<<<< HEAD
-    <name>Operand Module</name>
-    <time>60</time>
-  </module>
-</configuration>
-
-=======
-    <name>MathSizeUnitsModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathSystemsModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>MathRuleOfThreeModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCharSequenceModule</name>
     <time>60</time>
   </module>
   <module>
     <name>KeyPress</name>
     <time>60</time>
   </module>
-  <module>
-    <name>PopupModule</name>
-    <time>60</time>
-  </module>
-  <module>
-    <name>CaptchaCirclesModule</name>
-    <time>60</time>
-  </module>
 </configuration>
->>>>>>> master
