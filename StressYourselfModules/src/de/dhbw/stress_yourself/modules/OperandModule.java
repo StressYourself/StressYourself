@@ -81,10 +81,27 @@ public class OperandModule extends ModuleClass {
 		return moduleDescription;
 	}
 
+	/**
+	 * Function to create a random number between high and low
+	 * 
+	 * @param high
+	 *            The maximal the number can be
+	 * @param low
+	 *            The minimal the number musst be
+	 * @return int Returns the random number
+	 */
 	private int randomNumber(int high, int low) {
 		return (int) (Math.random() * (high - low) + low);
 	}
 
+	/**
+	 * Generates a calculation with an random arithmetic operator and with a
+	 * given number of numbers
+	 * 
+	 * @param number
+	 *            Count of numbers in the calculation
+	 * @return String Returns the calculation as string
+	 */
 	private String generateCalculation(int number) {
 		String result = "";
 		for (int i = 1; i <= number; i++) {
@@ -96,6 +113,14 @@ public class OperandModule extends ModuleClass {
 		return result;
 	}
 
+	/**
+	 * Generates a number of calculations with an random compare operator
+	 * between them
+	 * 
+	 * @param number
+	 *            Count of calculations compared
+	 * @return String Returns the calculation as string
+	 */
 	private String generateCalculationComparison(int number) {
 		String result = "";
 		result += generateCalculation(number);
@@ -104,10 +129,20 @@ public class OperandModule extends ModuleClass {
 		return result;
 	}
 
+	/**
+	 * Generate a calculation on level easy
+	 * 
+	 * @return String Returns the calculation
+	 */
 	private String generateEasyCalculation() {
 		return generateCalculationComparison(2);
 	}
 
+	/**
+	 * Generate a calculation on level medium
+	 * 
+	 * @return String Returns the calculation
+	 */
 	private String generateMediumCalculation() {
 		String result = "";
 		result += generateCalculationComparison(1);
@@ -116,6 +151,11 @@ public class OperandModule extends ModuleClass {
 		return result;
 	}
 
+	/**
+	 * Generate a calculation on level hard
+	 * 
+	 * @return String Returns the calculation
+	 */
 	private String generateHardCalculation() {
 		String result = "";
 		result += generateCalculationComparison(2);
@@ -124,6 +164,14 @@ public class OperandModule extends ModuleClass {
 		return result;
 	}
 
+	/**
+	 * This function is called by the panel to create a new test with the
+	 * outcome true or false
+	 * 
+	 * @param difficulty
+	 *            The specified difficulty of the test 0-easy,1-medium,2-hard
+	 * @return String Returns the generated calculation as string
+	 */
 	public String generateTest(int difficulty) {
 		String result = "";
 		String solution = "";
@@ -144,6 +192,14 @@ public class OperandModule extends ModuleClass {
 		return result;
 	}
 
+	/**
+	 * This function evaluates the calculation given as string and returns the
+	 * result
+	 * 
+	 * @param test
+	 *            The specified calculation
+	 * @return Object Returns an object, which is true or false
+	 */
 	public Object evaluateTest(String test) {
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
@@ -212,7 +268,6 @@ public class OperandModule extends ModuleClass {
 		/**
 		 * This method generates the GUI displaying the module tasks
 		 */
-
 		public void startTest() {
 			setNextModuleTimer(getTime(), new NextModule());
 		}
@@ -230,6 +285,9 @@ public class OperandModule extends ModuleClass {
 			}
 		}
 
+		/**
+		 * actionPeformed handles all Button Action
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(radioTrue)
