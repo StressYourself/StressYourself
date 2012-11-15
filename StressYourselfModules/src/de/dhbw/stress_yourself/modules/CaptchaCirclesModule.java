@@ -3,7 +3,9 @@ package de.dhbw.stress_yourself.modules;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -45,7 +47,6 @@ public class CaptchaCirclesModule extends ModuleClass {
 	 * also sets the amount of tasks that can be solved in the given time and
 	 * the counter which is responsible for counting down the remaining tasks.
 	 */
-
 	public void initTestValues() {
 		switch (getDifficulty()) {
 		case 0:
@@ -176,7 +177,10 @@ public class CaptchaCirclesModule extends ModuleClass {
 			thisPanel.revalidate();
 			thisPanel.repaint();
 		}
-
+		
+		/**
+		 * The event called when a button is clicked
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (!buttons.contains(e.getSource())) {
@@ -290,16 +294,23 @@ public class CaptchaCirclesModule extends ModuleClass {
 		 *            provides the upwards limit of the range
 		 * @return the random number
 		 */
-
 		public int randomNumber(int lowest, int highest) {
 			highest++;
 			return (int) (Math.random() * (highest - lowest) + lowest);
 		}
-
+		
+		/**
+		 * Returns the coordinates if the open circle
+		 * @return
+		 */
 		public Point getOpenCircleCoordinates() {
 			return openCircleCoordinates;
 		}
-
+		
+		/**
+		 * Returns the radius of the open circle
+		 * @return
+		 */
 		public int getOpenCircleRadius() {
 			return openCircleRadius;
 		}
@@ -313,6 +324,12 @@ public class CaptchaCirclesModule extends ModuleClass {
 			int circleCount = 9, radius = 30, arcAngle = 330, randX = 0, randY, randArcOpening, x = 0, incrementationStep, indexOfOpenCircle;
 			Random r = new Random();
 
+			//enable antialiasing
+			((Graphics2D)g).setRenderingHint
+			  (RenderingHints.KEY_ANTIALIASING,
+			   RenderingHints.VALUE_ANTIALIAS_ON);
+			
+			//set default values with regard to the difficulty
 			switch (difficulty) {
 			case (0):
 				break;
@@ -333,8 +350,11 @@ public class CaptchaCirclesModule extends ModuleClass {
 			indexOfOpenCircle = randomNumber(0, circleCount - 1);
 
 			for (int i = 0; i < circleCount; i++) {
+				//set x achsis position of current circle
 				randX = randomNumber(x - radius, x - radius - 2);
+				//set x achsis position of current circle
 				randY = randomNumber(radius + 2, 100 - radius - 2);
+				//set point where the open circle has his opening
 				randArcOpening = randomNumber(0, 360);
 				g.setColor(new Color(r.nextInt(255), r.nextInt(255), r
 						.nextInt(255)).brighter());
@@ -342,14 +362,12 @@ public class CaptchaCirclesModule extends ModuleClass {
 					// draw open circle
 					g.drawArc(randX, randY, radius, radius, randArcOpening,
 							arcAngle);
-					g.drawArc(randX, randY, radius - 1, radius - 1,
-							randArcOpening, arcAngle);
+
 					openCircleCoordinates = new Point(randX, randY);
 					openCircleRadius = radius;
 				} else {
 					// draw other circles
 					g.drawOval(randX, randY, radius, radius);
-					g.drawOval(randX, randY, radius - 1, radius - 1);
 				}
 				x += incrementationStep;
 			}

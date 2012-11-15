@@ -11,6 +11,11 @@ import de.dhbw.stress_yourself.MainApplication;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.UserData;
 
+/**
+ * The Outcome Class manages the creation of the test output.
+ * 
+ * @author Tobias Roeding <tobias@roeding.eu>
+ */
 public class Outcome {
 
 	private Parameter params;
@@ -24,6 +29,12 @@ public class Outcome {
 		this.usr = usr;
 	}
 
+	/**
+	 * Creates and return the outcome panel
+	 * 
+	 * @return JPanel Returns the outcome panel, which is shown at the end of
+	 *         the test
+	 */
 	public JPanel getOutcomeGUI() {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -46,6 +57,12 @@ public class Outcome {
 		return panel;
 	}
 
+	/**
+	 * Creates the pdf and the csv outcome
+	 * 
+	 * @return boolean Returns true if the creation of the pdf and the csv
+	 *         worked false if not
+	 */
 	public boolean createOutcome() {
 		path = params.getOutcomePath();
 		CSV csv = new CSV(params, usr);

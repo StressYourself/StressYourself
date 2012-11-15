@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import de.dhbw.stress_yourself.extend.ModuleClass;
 
 /**
- * module that creates random sequences that have to be continued
+ * Module that creates random sequences that have to be continued
  * 
  * @author LukasBuchert <Lukas.Buchert@gmx.de>
  */
@@ -55,7 +55,10 @@ public class ContinueSequenceModule extends ModuleClass {
 	 * calculates the result by using the max points and the reached points
 	 */
 	private void calculateResult() {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 479ed0f17a462b5769e20964fef7c3dcdb9ad2e9
 		int res = calculateResult(calculateMaxPoints(), points);
 		if (res > 100) {
 			res = 100;
@@ -96,9 +99,6 @@ public class ContinueSequenceModule extends ModuleClass {
 
 	/**
 	 * class is the GUI that's thrown back
-	 * 
-	 * @author Lukas Buchert <Lukas.Buchert@gmx.de>
-	 * 
 	 */
 	class ModuleGUI extends JPanel {
 		private static final long serialVersionUID = 1L;

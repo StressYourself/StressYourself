@@ -21,7 +21,6 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * 
  * @author Philipp Willems
  */
-
 public class MathEquationSystemsModule extends ModuleClass {
 	private int result = 0;
 
@@ -68,8 +67,6 @@ public class MathEquationSystemsModule extends ModuleClass {
 	 * @return String[] exercise exercise[0] is the x value exercise[1] is the y
 	 *         value exercise[2] is the first equation exercise[3] is the second
 	 *         equation
-	 * 
-	 * @author Philipp Willems
 	 */
 	public String[] createExercise() {
 		int range = 6 + 5 * getDifficulty();
@@ -105,8 +102,6 @@ public class MathEquationSystemsModule extends ModuleClass {
 	 * The moduleGUI class builds the user interface for the module. The
 	 * moduleGUI represents a JPanel in which other components like buttons are
 	 * added.
-	 * 
-	 * @author Philipp Willems
 	 */
 	class moduleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
@@ -215,8 +210,6 @@ public class MathEquationSystemsModule extends ModuleClass {
 		 * 
 		 * @param ActionEvent
 		 *            e Event when button is pressed
-		 * 
-		 * @author Philipp Willems
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
