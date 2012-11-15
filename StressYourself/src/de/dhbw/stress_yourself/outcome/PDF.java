@@ -27,9 +27,9 @@ public class PDF {
 	private static Parameter params;
 
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-			Font.BOLD|Font.UNDERLINE);
+			Font.BOLD | Font.UNDERLINE);
 	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-			Font.BOLD|Font.UNDERLINE);
+			Font.BOLD | Font.UNDERLINE);
 	private static Font boldFont = new Font(Font.FontFamily.UNDEFINED, 12,
 			Font.BOLD);
 
@@ -49,6 +49,12 @@ public class PDF {
 		configuration = PDF.params.getConfiguration();
 	}
 
+	/**
+	 * creates PDF at this path
+	 * 
+	 * @param path
+	 *            path where pdf is created
+	 */
 	public boolean createPDF(String path) {
 		try {
 			Document document = new Document();
@@ -66,6 +72,12 @@ public class PDF {
 		return true;
 	}
 
+	/**
+	 * Fills the meta data
+	 * 
+	 * @param document
+	 *            document metadata is added
+	 */
 	private static void addMetaData(Document document) {
 		document.addTitle("StressYourself Outcome");
 		document.addSubject("User: " + usr.getCurrentUserName());
@@ -74,13 +86,15 @@ public class PDF {
 		document.addCreator("StressYourself");
 	}
 
+	/**
+	 * adds the content to the pdf document
+	 */
 	private static void addContent(Document document) throws DocumentException {
 		Paragraph preface = new Paragraph();
 		addEmptyLine(preface, 1);
-	
+
 		preface.add(new Paragraph("Analysis      Proband: "
 				+ usr.getCurrentUserName(), catFont));
-		
 
 		addEmptyLine(preface, 1);
 
@@ -94,8 +108,9 @@ public class PDF {
 			preface.add(new Paragraph("Annoyance: OFF"));
 		}
 		addEmptyLine(preface, 1);
-		
-		float[] colsWidth = {2f, 5f, 1f}; 
+
+		// creates first table
+		float[] colsWidth = { 2f, 5f, 1f };
 		PdfPTable table = new PdfPTable(colsWidth);
 		table.setWidthPercentage(95);
 		addModulesToTable(table);
@@ -109,6 +124,7 @@ public class PDF {
 
 		calculateTotalPoints();
 
+		// creates second table
 		PdfPTable table2 = new PdfPTable(2);
 		table2.setWidthPercentage(50);
 
@@ -154,11 +170,11 @@ public class PDF {
 		cc.setHorizontalAlignment(Element.ALIGN_CENTER);
 		table2.addCell(cc);
 
-		cc = new PdfPCell(new Phrase("Total",boldFont));
+		cc = new PdfPCell(new Phrase("Total", boldFont));
 		cc.setHorizontalAlignment(Element.ALIGN_LEFT);
 		table2.addCell(cc);
 
-		cc = new PdfPCell(new Phrase(Integer.toString(total_points),boldFont));
+		cc = new PdfPCell(new Phrase(Integer.toString(total_points), boldFont));
 		cc.setHorizontalAlignment(Element.ALIGN_CENTER);
 		table2.addCell(cc);
 
@@ -168,7 +184,10 @@ public class PDF {
 		document.add(preface);
 
 	}
-
+	/**
+	 * creates the first table with area, name and time
+	 * @param table location of the table
+	 */
 	private static void addModulesToTable(PdfPTable table) {
 
 		PdfPCell c1 = new PdfPCell(new Phrase("Area"));
@@ -187,17 +206,21 @@ public class PDF {
 		for (int i = 0; i < configuration.size(); i++) {
 			table.addCell(configuration.get(i).getArea());
 			table.addCell(configuration.get(i).getName());
-			
-			PdfPCell ct = new PdfPCell(new Phrase(Integer.toString(configuration.get(i).getTime())));
+
+			PdfPCell ct = new PdfPCell(new Phrase(
+					Integer.toString(configuration.get(i).getTime())));
 			ct.setHorizontalAlignment(Element.ALIGN_CENTER);
 			table.addCell(ct);
-			
-			
+
 			addModulePoints(configuration.get(i).getArea(), configuration
 					.get(i).getPoints());
 		}
 	}
-
+	/**
+	 * calculates the sum of area count
+	 * @param area name of area
+	 * @param points points to add
+	 */
 	private static void addModulePoints(String area, int points) {
 		switch (area) {
 		case "Concentration":
@@ -219,7 +242,9 @@ public class PDF {
 			break;
 		}
 	}
-
+	/**
+	 * calculates the total points
+	 */
 	private static void calculateTotalPoints() {
 		int factor = 4;
 		if (concentration_points == 0) {
@@ -240,7 +265,11 @@ public class PDF {
 					/ factor;
 		}
 	}
-
+	/**
+	 * writes a number of empty lines in the document
+	 * @param paragraph name of paragraph
+	 * @param number of empty lines
+	 */
 	private static void addEmptyLine(Paragraph paragraph, int number) {
 		for (int i = 0; i < number; i++) {
 			paragraph.add(new Paragraph(" "));

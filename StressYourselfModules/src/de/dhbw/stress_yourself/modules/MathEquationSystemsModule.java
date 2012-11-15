@@ -124,12 +124,48 @@ public class MathEquationSystemsModule extends ModuleClass {
 
 		public moduleGUI() {
 			buttons = new ArrayList<JButton>();
+			xText.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {	
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+						nextExerciseButton.doClick();
+					}
+				}
+			});
+			yText.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {	
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+						nextExerciseButton.doClick();
+					}
+				}
+			});
 			init();
 			this.setLayout(null);
 		}
 
 		public void registerButton(JButton button) {
-			buttons.add(button);
+			if(!buttons.contains(button)) {
+				buttons.add(button);
+			}
 		}
 
 		public void initExercise() {

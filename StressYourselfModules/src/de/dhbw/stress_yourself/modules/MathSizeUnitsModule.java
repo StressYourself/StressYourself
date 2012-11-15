@@ -163,12 +163,31 @@ public class MathSizeUnitsModule extends ModuleClass {
 
 		public moduleGUI() {
 			buttons = new ArrayList<JButton>();
+			solutionText.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {	
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+						nextExerciseButton.doClick();
+					}
+				}
+			});
 			init();
 			this.setLayout(null);
 		}
 
 		public void registerButton(JButton button) {
-			buttons.add(button);
+			if(!buttons.contains(button)) {
+				buttons.add(button);
+			}
 		}
 
 		public void initExercise() {
@@ -192,7 +211,7 @@ public class MathSizeUnitsModule extends ModuleClass {
 			givenLabel.setBounds(320, 220, 200, 20);
 			solutionLabel.setBounds(320, 245, 100, 20);
 			solutionText.setBounds(430, 245, 100, 20);
-
+			
 			this.add(givenLabel);
 			this.add(solutionLabel);
 			this.add(solutionText);
