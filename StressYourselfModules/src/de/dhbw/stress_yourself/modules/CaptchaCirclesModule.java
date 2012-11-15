@@ -3,7 +3,9 @@ package de.dhbw.stress_yourself.modules;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -312,6 +314,11 @@ public class CaptchaCirclesModule extends ModuleClass {
 		public void paint(Graphics g) {
 			int circleCount = 9, radius = 30, arcAngle = 330, randX = 0, randY, randArcOpening, x = 0, incrementationStep, indexOfOpenCircle;
 			Random r = new Random();
+			
+			//enable antialiasing
+			((Graphics2D)g).setRenderingHint
+			  (RenderingHints.KEY_ANTIALIASING,
+			   RenderingHints.VALUE_ANTIALIAS_ON);
 
 			switch (difficulty) {
 			case (0):
@@ -342,14 +349,11 @@ public class CaptchaCirclesModule extends ModuleClass {
 					// draw open circle
 					g.drawArc(randX, randY, radius, radius, randArcOpening,
 							arcAngle);
-					g.drawArc(randX, randY, radius - 1, radius - 1,
-							randArcOpening, arcAngle);
 					openCircleCoordinates = new Point(randX, randY);
 					openCircleRadius = radius;
 				} else {
 					// draw other circles
 					g.drawOval(randX, randY, radius, radius);
-					g.drawOval(randX, randY, radius - 1, radius - 1);
 				}
 				x += incrementationStep;
 			}

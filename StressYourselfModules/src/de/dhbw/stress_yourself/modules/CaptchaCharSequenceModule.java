@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -290,6 +292,12 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		public void paint(Graphics g) {
 			int charCount = 6, incrementationStep, x;
 			char randomChar;
+			
+
+			//enable antialiasing
+			((Graphics2D)g).setRenderingHint
+			  (RenderingHints.KEY_ANTIALIASING,
+			   RenderingHints.VALUE_ANTIALIAS_ON);
 
 			switch (difficulty) {
 			case (0):
