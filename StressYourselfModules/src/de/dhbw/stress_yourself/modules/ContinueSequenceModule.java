@@ -56,8 +56,6 @@ public class ContinueSequenceModule extends ModuleClass {
 	 */
 	private void calculateResult() {
 
-		// float subres = ((float) points / (float) calculateMaxPoints()) *
-		// 100f;
 		int res = calculateResult(calculateMaxPoints(), points);
 		if (res > 100) {
 			res = 100;
@@ -78,6 +76,11 @@ public class ContinueSequenceModule extends ModuleClass {
 
 	}
 
+	/**
+	 * returns TaskTime depending on difficulty
+	 * 
+	 * @return TaskTime
+	 */
 	private int getTaskTime() {
 		switch (getDifficulty()) {
 		case 0:
@@ -218,6 +221,9 @@ public class ContinueSequenceModule extends ModuleClass {
 			solution = tmp[8];
 		}
 
+		/**
+		 * called while leaving the IntroductionPanal
+		 */
 		private void removeIntroductionPanel() {
 			this.setVisible(false);
 			this.removeAll();
@@ -408,7 +414,11 @@ public class ContinueSequenceModule extends ModuleClass {
 	}
 
 	// methods to create the different sequences
-
+	/**
+	 * a sequence where x[n] = f(x[n-1])
+	 * 
+	 * @return easy - numbers
+	 */
 	private int[] sequenceOneD0() {
 		int[] sequence = new int[9];
 
@@ -424,6 +434,11 @@ public class ContinueSequenceModule extends ModuleClass {
 		return sequence;
 	}
 
+	/**
+	 * a sequence of characters with one or two characters missing in between
+	 * 
+	 * @return easy - characters
+	 */
 	private int[] sequenceOneA0() {
 
 		int[] sequence = new int[9];
@@ -440,6 +455,11 @@ public class ContinueSequenceModule extends ModuleClass {
 		return sequence;
 	}
 
+	/**
+	 * a sequence where x[n] = f(x[n-1]) and x[n+1] = g(x[n])
+	 * 
+	 * @return medium - numbers
+	 */
 	private int[] sequenceOneD1() {
 		int[] sequence = new int[9];
 
@@ -464,6 +484,13 @@ public class ContinueSequenceModule extends ModuleClass {
 		return sequence;
 	}
 
+	/**
+	 * a sequence of characters with one or two characters missing in between
+	 * where the missing between x[n] - x[n+1] clould be different to x[n+1] -
+	 * x[n+2]
+	 * 
+	 * @return medium - characters
+	 */
 	private int[] sequenceOneA1() {
 
 		int[] sequence = new int[9];
@@ -488,6 +515,11 @@ public class ContinueSequenceModule extends ModuleClass {
 		return sequence;
 	}
 
+	/**
+	 * a sequence where x[n] = f(x[n-1] + x[n-2])
+	 * 
+	 * @return hard - numbers
+	 */
 	private int[] sequenceTwoD2() {
 		int[] sequence = new int[9];
 
@@ -505,6 +537,13 @@ public class ContinueSequenceModule extends ModuleClass {
 		return sequence;
 	}
 
+	/**
+	 * a sequence of characters with one or two characters missing in between
+	 * where the missing between x[n] - x[n+1] clould be different to x[n+1] -
+	 * x[n+2] and x[n+2] - x[n+3]
+	 * 
+	 * @return hard - characters
+	 */
 	private int[] sequenceOneA2() {
 
 		int[] sequence = new int[9];
