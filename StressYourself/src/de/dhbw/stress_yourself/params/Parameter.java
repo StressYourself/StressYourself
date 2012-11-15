@@ -268,9 +268,9 @@ public class Parameter {
 
 			difficulty = difficultyType.values()[Integer.valueOf(moduleList
 					.get(0).getValue())];
-			if (moduleList.get(1).getValue().equals("1")){
+			if (moduleList.get(1).getValue().equals("1")) {
 				annoyanceSetting = true;
-			}else{
+			} else {
 				annoyanceSetting = false;
 			}
 

@@ -8,8 +8,14 @@ import de.dhbw.stress_yourself.params.ModuleInformation;
 import de.dhbw.stress_yourself.params.Parameter;
 import de.dhbw.stress_yourself.params.UserData;
 
+/**
+ * The CSV Class is used to create the outcome csv which contains all collected
+ * data about the test.
+ * 
+ * @author Tobias Roeding <tobias@roeding.eu>
+ */
 public class CSV {
-	
+
 	private LinkedList<ModuleInformation> configuration;
 	private UserData users;
 
@@ -18,9 +24,18 @@ public class CSV {
 		this.users = users;
 	}
 
+	/**
+	 * Function to create the csv under the specified path
+	 * 
+	 * @param path
+	 * 			Path in which the csv should be created
+	 * @return boolean
+	 * 			Returns true if the creation worked and false if not
+	 */
 	public boolean createCSV(String path) {
 		try {
-			FileWriter writer = new FileWriter(path + users.getCurrentUserName() + "_data.csv");
+			FileWriter writer = new FileWriter(path
+					+ users.getCurrentUserName() + "_data.csv");
 
 			writer.append("ModuleName;ModuleArea;Points\n");
 

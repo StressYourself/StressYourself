@@ -323,7 +323,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 		public void paint(Graphics g) {
 			int circleCount = 9, radius = 30, arcAngle = 330, randX = 0, randY, randArcOpening, x = 0, incrementationStep, indexOfOpenCircle;
 			Random r = new Random();
-			
+
 			//enable antialiasing
 			((Graphics2D)g).setRenderingHint
 			  (RenderingHints.KEY_ANTIALIASING,
@@ -362,6 +362,7 @@ public class CaptchaCirclesModule extends ModuleClass {
 					// draw open circle
 					g.drawArc(randX, randY, radius, radius, randArcOpening,
 							arcAngle);
+
 					openCircleCoordinates = new Point(randX, randY);
 					openCircleRadius = radius;
 				} else {

@@ -21,7 +21,6 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * 
  * @author Philipp Willems
  */
-
 public class MathRuleOfThreeModule extends ModuleClass {
 	private int result = 0;
 
@@ -77,8 +76,6 @@ public class MathRuleOfThreeModule extends ModuleClass {
 	 * @return String[] exercise
 	 * 			exercise[0] is the given exercise
 	 * 			exercise[1] is the solution of the rule of three
-	 * 
-	 * @author Philipp Willems
 	 */	
 	public String[] createExercise() {
 		int range = 7 + 5 * getDifficulty();
@@ -103,8 +100,6 @@ public class MathRuleOfThreeModule extends ModuleClass {
 	/**
 	 * The moduleGUI class builds the user interface for the module.
 	 * The moduleGUI represents a JPanel in which other components like buttons are added.
-	 * 
-	 * @author Philipp Willems
 	 */
 	class moduleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
@@ -184,8 +179,6 @@ public class MathRuleOfThreeModule extends ModuleClass {
 		 * 
 		 * @param ActionEvent e
 		 *            Event when button is pressed
-		 *            
-		 * @author Philipp Willems
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {

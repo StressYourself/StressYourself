@@ -42,6 +42,10 @@ public class OperandModule extends ModuleClass {
 		initTestValues();
 	}
 
+	/**
+	 * Inits the Test variables, like time per operand, the number of tests and
+	 * the test counter
+	 */
 	public void initTestValues() {
 		switch (getDifficulty()) {
 		case 0:
