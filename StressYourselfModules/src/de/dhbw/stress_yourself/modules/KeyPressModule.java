@@ -76,7 +76,7 @@ public class KeyPressModule extends ModuleClass {
 	public JPanel getModuleJPanel() {
 		return new ModuleGUI();
 	}
-	
+
 	/**
 	 * defines the GUI for the Module
 	 */
@@ -111,10 +111,10 @@ public class KeyPressModule extends ModuleClass {
 			this.requestFocus();
 			setNextModuleTimer(getTime(), new NextModule());
 		}
-		
+
 		/**
-		 *  gives a random number, which is used to find a random char. That random char is later shown
-		 *  on the panel.
+		 * gives a random number, which is used to find a random char. That
+		 * random char is later shown on the panel.
 		 */
 		private void getNewRandomKey() {
 			int rnd = new Random().nextInt(35);
@@ -130,11 +130,11 @@ public class KeyPressModule extends ModuleClass {
 		}
 
 		/**
-		 * Called when a Key is pressed. When the pressed Key equals to the shown one,
-		 * a new one is called and the solvedCorrectly is add + 1.
+		 * Called when a Key is pressed. When the pressed Key equals to the
+		 * shown one, a new one is called and the solvedCorrectly is add + 1.
 		 * 
 		 * @param KeyEvent
-		 * 			e Event when the key is pressed
+		 *            e Event when the key is pressed
 		 */
 		@Override
 		public void keyReleased(KeyEvent e) {
@@ -144,7 +144,7 @@ public class KeyPressModule extends ModuleClass {
 					getNewRandomKey();
 					this.revalidate();
 					this.repaint();
-					
+
 					testCounter--;
 				} else {
 					result = calculateResult(numberOfTests, solvedCorrectly);
@@ -153,7 +153,7 @@ public class KeyPressModule extends ModuleClass {
 				}
 			}
 		}
-		
+
 		/**
 		 * Called when a button is pressed
 		 * 
@@ -169,12 +169,12 @@ public class KeyPressModule extends ModuleClass {
 			thisPanel.revalidate();
 			thisPanel.repaint();
 		}
-		
+
 		/**
-		 * calculates the result and give it back.
-		 * After that he tells that the modul is finished
+		 * calculates the result and give it back. After that he tells that the
+		 * modul is finished
 		 * 
-		 *
+		 * 
 		 */
 		public class NextModule extends TimerTask {
 			@Override

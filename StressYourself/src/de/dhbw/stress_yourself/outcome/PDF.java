@@ -15,9 +15,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import de.dhbw.stress_yourself.params.*;
 
 /**
- * creates the pdf outcome
+ * The PDf class manages the pdf outcome
  * 
- * @author @author LukasBuchert <Lukas.Buchert@gmx.de>
+ * @author LukasBuchert <Lukas.Buchert@gmx.de>
  * @author Tobias Roeding <tobias@roeding.eu>
  */
 public class PDF {
@@ -184,9 +184,12 @@ public class PDF {
 		document.add(preface);
 
 	}
+
 	/**
 	 * creates the first table with area, name and time
-	 * @param table location of the table
+	 * 
+	 * @param table
+	 *            location of the table
 	 */
 	private static void addModulesToTable(PdfPTable table) {
 
@@ -216,10 +219,14 @@ public class PDF {
 					.get(i).getPoints());
 		}
 	}
+
 	/**
 	 * calculates the sum of area count
-	 * @param area name of area
-	 * @param points points to add
+	 * 
+	 * @param area
+	 *            name of area
+	 * @param points
+	 *            points to add
 	 */
 	private static void addModulePoints(String area, int points) {
 		switch (area) {
@@ -242,6 +249,7 @@ public class PDF {
 			break;
 		}
 	}
+
 	/**
 	 * calculates the total points
 	 */
@@ -265,10 +273,14 @@ public class PDF {
 					/ factor;
 		}
 	}
+
 	/**
 	 * writes a number of empty lines in the document
-	 * @param paragraph name of paragraph
-	 * @param number of empty lines
+	 * 
+	 * @param paragraph
+	 *            name of paragraph
+	 * @param number
+	 *            of empty lines
 	 */
 	private static void addEmptyLine(Paragraph paragraph, int number) {
 		for (int i = 0; i < number; i++) {
