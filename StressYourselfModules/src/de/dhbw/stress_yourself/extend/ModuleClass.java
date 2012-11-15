@@ -189,6 +189,18 @@ public abstract class ModuleClass {
 			System.err.println("Class not found " + e);
 		}
 
+		/*
+		Object o = null;
+		try {
+			o = clazz.getConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		*/
+		
 		Method nextModule = null;
 		try {
 			nextModule = clazz.getMethod("sendModuleResult", new Class[] {
@@ -198,10 +210,10 @@ public abstract class ModuleClass {
 		}
 
 		try {
-			nextModule.invoke(clazz.newInstance(), new Object[] { getModuleName(),
+			nextModule.invoke(mainClass, new Object[] { getModuleName(),
 					new Integer(result) });
 		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | InstantiationException e) {
+				| InvocationTargetException e) {
 			e.printStackTrace();
 		}
 	}
