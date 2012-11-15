@@ -92,7 +92,7 @@ public class Reflection {
 
 		Class<?> clazz = null;
 		try {
-			//System.out.println(name);
+			// System.out.println(name);
 			clazz = urlcl.loadClass(name);
 		} catch (ClassNotFoundException e) {
 			System.err.println("Class not found " + e);
@@ -100,7 +100,7 @@ public class Reflection {
 
 		return clazz;
 	}
-	
+
 	/**
 	 * Create and return an instance of the module class
 	 * 
@@ -112,7 +112,8 @@ public class Reflection {
 		Object classObject = null;
 		Constructor<?> cons = null;
 		try {
-			cons = clazz.getConstructor(new Class[] {Object.class, Integer.class, Integer.class});
+			cons = clazz.getConstructor(new Class[] { Object.class,
+					Integer.class, Integer.class });
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.err.println("Couldn't get the Constructor " + e);
 		}

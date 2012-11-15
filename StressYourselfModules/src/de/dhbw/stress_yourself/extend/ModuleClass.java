@@ -55,7 +55,6 @@ public abstract class ModuleClass {
 		return time;
 	}
 
-	
 	/**
 	 * Methods to handle the timer to call the next module.
 	 * 
@@ -109,12 +108,14 @@ public abstract class ModuleClass {
 		JPanel introductionPanel = new JPanel();
 		JLabel moduleName = new JLabel(getModuleName());
 		JLabel moduleDescriptionLabel1 = new JLabel("Description:");
-		JMultilineLabel moduleDescriptionLabel2 = new JMultilineLabel(getModuleDescription());
+		JMultilineLabel moduleDescriptionLabel2 = new JMultilineLabel(
+				getModuleDescription());
 		JLabel moduleTimeLabel = new JLabel("Maximum time for module: "
 				+ String.valueOf(getTime() / 1000) + " seconds");
 		JLabel moduleDesIntervallLabel = new JLabel("Estimated time per Task: "
 				+ String.valueOf(timePerTask / 1000) + " seconds");
-		JLabel taskCountLabel = new JLabel("Estimated tasks which can be solved: " + taskcount);
+		JLabel taskCountLabel = new JLabel(
+				"Estimated tasks which can be solved: " + taskcount);
 		JButton startTasksButton = new JButton("Start");
 		introductionPanel.setLayout(null);
 		introductionPanel.setBounds(0, 0, 900, 700);
@@ -126,7 +127,7 @@ public abstract class ModuleClass {
 		moduleDescriptionLabel1.setBounds(280, 220, 300, 25);
 		moduleDescriptionLabel1.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(moduleDescriptionLabel1);
-		
+
 		moduleDescriptionLabel2.setBounds(300, 250, 300, 50);
 		moduleDescriptionLabel2.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		introductionPanel.add(moduleDescriptionLabel2);
@@ -149,20 +150,26 @@ public abstract class ModuleClass {
 
 		return introductionPanel;
 	}
-	
-	public class JMultilineLabel extends JTextArea{
-	    private static final long serialVersionUID = 1L;
-	    public JMultilineLabel(String text){
-	        super(text);
-	        setEditable(false);  
-	        setCursor(null);  
-	        setOpaque(false);  
-	        setFocusable(false);  
-	        setFont(UIManager.getFont("Label.font"));      
-	        setWrapStyleWord(true);  
-	        setLineWrap(true);
-	    }
-	} 
+
+	/**
+	 * The JMultilineLabel class allows to create Labels which have a line break
+	 * 
+	 * @author Tobias Roeding <tobias@roeding.eu>
+	 */
+	public class JMultilineLabel extends JTextArea {
+		private static final long serialVersionUID = 1L;
+
+		public JMultilineLabel(String text) {
+			super(text);
+			setEditable(false);
+			setCursor(null);
+			setOpaque(false);
+			setFocusable(false);
+			setFont(UIManager.getFont("Label.font"));
+			setWrapStyleWord(true);
+			setLineWrap(true);
+		}
+	}
 
 	/**
 	 * Function to send the result of the module to the MainClass
@@ -171,14 +178,14 @@ public abstract class ModuleClass {
 	 */
 	public void sendResult(int result) {
 		stopNextModuleTimer();
-		
+
 		URL url = null;
 		try {
 			url = new File("stress_yourself.jar").toURI().toURL();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
+
 		URLClassLoader urlcl = null;
 		urlcl = URLClassLoader.newInstance(new URL[] { url });
 
@@ -198,10 +205,10 @@ public abstract class ModuleClass {
 		}
 
 		try {
-			nextModule.invoke(clazz.newInstance(), new Object[] { getModuleName(),
+			nextModule.invoke(mainClass, new Object[] { getModuleName(),
 					new Integer(result) });
 		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | InstantiationException e) {
+				| InvocationTargetException e) {
 			e.printStackTrace();
 		}
 	}
@@ -219,7 +226,7 @@ public abstract class ModuleClass {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
+
 		URLClassLoader urlcl = null;
 		urlcl = URLClassLoader.newInstance(new URL[] { url });
 

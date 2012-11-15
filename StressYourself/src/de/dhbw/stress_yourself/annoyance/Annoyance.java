@@ -9,7 +9,6 @@ import java.util.TimerTask;
 import javax.swing.JWindow;
 
 public class Annoyance implements Runnable {
-	private Timer nextAnnoyanceTimer = new Timer();
 	private Timer closeAnnoyanceTimer = new Timer();
 	private Timer nextBackgroundColor = new Timer();
 	private int randX, randY;
@@ -24,7 +23,6 @@ public class Annoyance implements Runnable {
 	 * Main mathod of the class. 
 	 * Starts the annoyances and handles the delays between the annoyances. 
 	 */
-	
 	@Override
 	public void run() {
 		while (running) {
@@ -53,7 +51,6 @@ public class Annoyance implements Runnable {
 	 * @param xPos
 	 * @param yPos
 	 */
-
 	public void createAnnoyance(int time, int xPos, int yPos) {
 		setNextBackgroundColorTimer(20, new NextBackgroundColor());
 		annoyanceFrame.setBounds(xPos, yPos, annoyanceWindowSizeX,
@@ -62,37 +59,61 @@ public class Annoyance implements Runnable {
 		annoyanceFrame.toBack();
 		closeAnnoyanceTimer.schedule(new CloseAnnoyance(), time);
 	}
-
+	
+	/**
+	 * Returns the width of the current screen size
+	 * @return
+	 */
 	public int getScreenSizeX() {
 		Dimension scrnsize = toolkit.getScreenSize();
 		return scrnsize.width;
 	}
 
+	/**
+	 * Returns the height of the current screen size
+	 * @return
+	 */
 	public int getScreenSizeY() {
 		Dimension scrnsize = toolkit.getScreenSize();
 		return scrnsize.height;
 	}
 
+	/**
+	 * Returns a random number of a given range
+	 * @return
+	 */
 	public int randomNumber(int lowest, int highest) {
 		highest++;
 		return (int) (Math.random() * (highest - lowest) + lowest);
 	}
-
-	public void setNextAnnoyanceTimer(int time, TimerTask timer) {
-		nextAnnoyanceTimer = new Timer();
-		nextAnnoyanceTimer.schedule(timer, time);
-	}
-
+	
+	/**
+	 * Sets a timer changing the background color of the annoyance 
+	 * after a given time
+	 *  
+	 * @param time
+	 * @param timer
+	 */
 	public void setNextBackgroundColorTimer(int time, TimerTask timer) {
 		nextBackgroundColor = new Timer();
 		nextBackgroundColor.schedule(timer, time, time);
 	}
 	
+	/**
+	 * Stops the timer changing the background color of the annoyance 
+	 * after a given time when the annoyance gets hidden 
+	 *  
+	 * @param time
+	 * @param timer
+	 */
 	public void stopNextBackgroundColor() {
 		nextBackgroundColor.cancel();
 		nextBackgroundColor.purge();
 	}
 	
+	/**
+	 * Timer event to change the background color of the annoyance 
+	 */
 	public class NextBackgroundColor extends TimerTask {
 		@Override
 		public void run() {
@@ -104,6 +125,9 @@ public class Annoyance implements Runnable {
 		}
 	}
 
+	/**
+	 * Timer event to close the annoyance window
+	 */
 	public class CloseAnnoyance extends TimerTask {
 		@Override
 		public void run() {

@@ -21,7 +21,6 @@ import de.dhbw.stress_yourself.extend.ModuleClass;
  * 
  * @author Philipp Willems
  */
-
 public class MathSizeUnitsModule extends ModuleClass {
 	private int result = 0;
 
@@ -80,8 +79,6 @@ public class MathSizeUnitsModule extends ModuleClass {
 	 * @return String[] exercise exercise[0] is the number with the size unit
 	 *         exercise[1] is the size unit to which the user should convert the
 	 *         given number exercise[2] is the result of the conversion
-	 * 
-	 * @author Philipp Willems
 	 */
 	public String[] createExercise() {
 		int range = 3;
@@ -147,8 +144,6 @@ public class MathSizeUnitsModule extends ModuleClass {
 	 * The moduleGUI class builds the user interface for the module. The
 	 * moduleGUI represents a JPanel in which other components like buttons are
 	 * added.
-	 * 
-	 * @author Philipp Willems
 	 */
 	class moduleGUI extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
@@ -164,18 +159,18 @@ public class MathSizeUnitsModule extends ModuleClass {
 		public moduleGUI() {
 			buttons = new ArrayList<JButton>();
 			solutionText.addKeyListener(new KeyListener() {
-				
+
 				@Override
-				public void keyTyped(KeyEvent e) {	
+				public void keyTyped(KeyEvent e) {
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						nextExerciseButton.doClick();
 					}
 				}
@@ -185,7 +180,7 @@ public class MathSizeUnitsModule extends ModuleClass {
 		}
 
 		public void registerButton(JButton button) {
-			if(!buttons.contains(button)) {
+			if (!buttons.contains(button)) {
 				buttons.add(button);
 			}
 		}
@@ -211,7 +206,7 @@ public class MathSizeUnitsModule extends ModuleClass {
 			givenLabel.setBounds(320, 220, 200, 20);
 			solutionLabel.setBounds(320, 245, 100, 20);
 			solutionText.setBounds(430, 245, 100, 20);
-			
+
 			this.add(givenLabel);
 			this.add(solutionLabel);
 			this.add(solutionText);
@@ -229,8 +224,6 @@ public class MathSizeUnitsModule extends ModuleClass {
 		 * 
 		 * @param ActionEvent
 		 *            e Event when button is pressed
-		 * 
-		 * @author Philipp Willems
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
