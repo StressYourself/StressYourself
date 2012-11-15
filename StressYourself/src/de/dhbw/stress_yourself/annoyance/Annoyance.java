@@ -23,7 +23,6 @@ public class Annoyance implements Runnable {
 	 * Main mathod of the class. 
 	 * Starts the annoyances and handles the delays between the annoyances. 
 	 */
-	
 	@Override
 	public void run() {
 		while (running) {
@@ -52,7 +51,6 @@ public class Annoyance implements Runnable {
 	 * @param xPos
 	 * @param yPos
 	 */
-
 	public void createAnnoyance(int time, int xPos, int yPos) {
 		setNextBackgroundColorTimer(20, new NextBackgroundColor());
 		annoyanceFrame.setBounds(xPos, yPos, annoyanceWindowSizeX,

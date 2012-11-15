@@ -193,13 +193,20 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 
 			setNextModuleTimer(getTime(), new NextModule());
 		}
-
+		
+		/**
+		 * Event called when a button is clicked
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			/*check whether the clicked button is part of the buttons list
+			 *(if not, it is the button of the init panel)
+			 */
 			if (buttons.contains(e.getSource())) {
 				switch (buttons.indexOf(e.getSource())) {
 				case 0:
 					if (testCounter >= 1) {
+						//current task is validated and new task is displayed
 						isValidSequence(captchaText.getText(), c.getSequence());
 						thisPanel.remove(c);
 						c = createCaptcha();
@@ -208,6 +215,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 						thisPanel.revalidate();
 						testCounter--;
 					} else {
+						//Module is finished. result is sent and module tells that it is ready.
 						result = calculateResult(numberOfTests, solvedCorrectly);
 						sendResult(result);
 						tellFinished();
@@ -215,6 +223,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 					break;
 				}
 			} else {
+				//remove init panel, load task panel and repaint.
 				thisPanel.removeAll();
 				startTask();
 				thisPanel.repaint();
@@ -256,7 +265,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * 
 		 * @return a random chosen char of the String validChars
 		 */
-
 		public char getRandomChar() {
 			String validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 			char rand = validChars.charAt(r.nextInt(validChars.length()));
@@ -273,12 +281,15 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 *            provides the upwards limit of the range
 		 * @return the random number
 		 */
-
 		public int randomNumber(int lowest, int highest) {
 			highest++;
 			return (int) (Math.random() * (highest - lowest) + lowest);
 		}
 
+		/**
+		 * Returns the sequence displayed in the picture
+		 * @return
+		 */
 		public String getSequence() {
 			return sequence;
 		}
@@ -288,7 +299,6 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 		 * class is created. It draws the random alphanumeric sequence into the
 		 * canvas.
 		 */
-
 		public void paint(Graphics g) {
 			int charCount = 6, incrementationStep, x;
 			char randomChar;
@@ -299,6 +309,7 @@ public class CaptchaCharSequenceModule extends ModuleClass {
 			  (RenderingHints.KEY_ANTIALIASING,
 			   RenderingHints.VALUE_ANTIALIAS_ON);
 
+			//sets default values with regard to the difficulty
 			switch (difficulty) {
 			case (0):
 				break;
